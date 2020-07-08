@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.rasyidabdulhalim.aquaza.models.User"/>
+
+        <variable
+            name="callback"
+            type="com.rasyidabdulhalim.aquaza.callbacks.EmployeCallBack"/>
+
+        <variable
+            name="time"
+            type="String"/>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginBottom="2dp"
+        android:background="@android:color/white">
+
+        <com.rasyidabdulhalim.aquaza.utils.SquareLayout
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/image_layout">
+
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:imageUrl="@{data.avatar}"
+                android:scaleType="centerCrop"
+                android:onClick="@{(v) -> callback.onClick(v, data)}"
+                tools:srcCompat="@tools:sample/avatars" />
+
+        </com.rasyidabdulhalim.aquaza.utils.SquareLayout>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/username"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_toEndOf="@id/image_layout"
+            tools:text="Diego Dragnel"
+            android:text="@{data.name}"
+            />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/image_layout"
+            android:layout_below="@id/name"
+            android:layout_marginTop="3dp"
+            android:drawablePadding="5dp"
+            android:textColor="@color/secondaryText"
+            tools:text="rasyid@gmail.com"
+            android:text="@{data.status}"
+            />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/image_layout"
+            android:layout_below="@id/status"
+            android:layout_marginTop="3dp"
+            android:drawablePadding="5dp"
+            android:textColor="@color/secondaryText"
+            android:text="@{data.dateCreated}"
+            tools:text="Thursday 28, 9:00am"/>
+
+        <TextView
+            android:id="@+id/mydepot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/image_layout"
+            android:layout_below="@id/date"
+            android:layout_marginTop="3dp"
+            android:drawablePadding="5dp"
+            android:textColor="@color/secondaryText"
+            android:text="@{data.mydepot + ` ` + data.myshift}"
+            tools:text="Di Tempatkan diCabang 1"/>
+
+        <Button
+            android:id="@+id/editEmp"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="101dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginEnd="4dp"
+            android:text="Edit"
+            android:onClick="@{(v) -> callback.onClick(v, data)}"
+            />
+
+        <Button
+            android:id="@+id/PecatEmp"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_below="@+id/editEmp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="5dp"
+            android:text="Pecat"
+            android:onClick="@{(v) -> callback.onClick(v, data)}"
+            />
+
+    </RelativeLayout>
+
+</layout>

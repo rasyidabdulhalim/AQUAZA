@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AddEmployeActivity"
+    android:background="@color/light_background">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        style="?android:actionBarStyle"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_below="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:clipToPadding="false">
+            <com.github.captain_miao.optroundcardview.OptRoundCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optRoundCardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:clipToPadding="false">
+
+                <TextView
+                    android:id="@+id/registerTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_below="@id/loginIcon"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="20sp"
+                    android:text="DATA KARYAWAN"
+                    android:textColor="@color/textGray"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/registerFirstname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/wire_drawable"
+                    android:drawablePadding="10dp"
+                    android:hint="Name"
+                    android:inputType="text"
+                    android:padding="15dp"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/registerPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/wire_drawable"
+                    android:drawablePadding="10dp"
+                    android:hint="@string/phone"
+                    android:inputType="phone"
+                    android:padding="15dp"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/wire_drawable"
+                    android:drawablePadding="10dp"
+                    android:hint="@string/addressEmployee"
+                    android:inputType="text"
+                    android:padding="15dp"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/registerEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/wire_drawable"
+                    android:drawablePadding="10dp"
+                    android:hint="@string/email_address"
+                    android:inputType="textEmailAddress"
+                    android:padding="15dp"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/registerPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/wire_drawable"
+                    android:drawablePadding="10dp"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:padding="15dp"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/registerConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/wire_drawable"
+                    android:drawablePadding="10dp"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:padding="15dp"
+                    android:textSize="13sp" />
+
+
+
+            </LinearLayout>
+            </com.github.captain_miao.optroundcardview.OptRoundCardView>
+            <com.github.captain_miao.optroundcardview.OptRoundCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:optRoundCardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:clipToPadding="false">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primaryText"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Employe Information" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="10dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/secondaryText"
+                            android:text="Status"/>
+
+                        <Spinner
+                            android:id="@+id/statusType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="15sp"
+                            android:textColor="@color/primaryText"
+                            android:entries="@array/status"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="10dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/secondaryText"
+                            android:text="Depot"/>
+
+                        <Spinner
+                            android:id="@+id/depotType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="15sp"
+                            android:textColor="@color/primaryText"
+                            android:entries="@array/depot"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="10dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/secondaryText"
+                            android:text="Shift Kerja"/>
+
+                        <Spinner
+                            android:id="@+id/shiftType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="15sp"
+                            android:textColor="@color/primaryText"
+                            android:entries="@array/shift"/>
+
+                    </LinearLayout>
+
+                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                        android:id="@+id/registerButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/button_solid"
+                        android:text="Add New Employee"
+                        android:textColor="@color/white"
+                        app:spinning_bar_color="@color/white"
+                        app:spinning_bar_padding="2dp"
+                        app:spinning_bar_width="4dp" />
+                </LinearLayout>
+
+            </com.github.captain_miao.optroundcardview.OptRoundCardView>
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

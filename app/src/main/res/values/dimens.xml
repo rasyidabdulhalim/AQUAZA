@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    // Texts
+    <dimen name="username">15sp</dimen>
+    <dimen name="time">11sp</dimen>
+    <dimen name="location">12sp</dimen>
+    <dimen name="message_hint">14sp</dimen>
+
+    // Views
+
+    <dimen name="settings_padding">20dp</dimen>
+    <dimen name="settings_header_padding">15dp</dimen>
+    <dimen name="grid_expected_size">120dp</dimen>
+
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Fonts -->
+    <dimen name="font_body_size">14sp</dimen>
+    <dimen name="font_body_s_size">12sp</dimen>
+
+    <!-- Utils -->
+    <dimen name="space_4">4dp</dimen>
+    <dimen name="space_8">8dp</dimen>
+    <dimen name="space_12">12dp</dimen>
+    <dimen name="space_24">24dp</dimen>
+    <dimen name="space_40">40dp</dimen>
+    <dimen name="space_72">72dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+
+
+</resources>

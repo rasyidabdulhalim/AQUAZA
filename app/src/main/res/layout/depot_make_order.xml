@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/qtytext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvlocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/location"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderQuantity" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:text="="
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/orderQuantity"
+            app:layout_constraintTop_toTopOf="@+id/orderQuantity" />
+
+        <TextView
+            android:id="@+id/tvnote"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Note"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderLocation" />
+
+        <EditText
+            android:id="@+id/orderQuantity"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/et_background_plain"
+            android:editable="false"
+            android:gravity="top|start"
+            android:hint="qty"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="@color/primaryText"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qtytext" />
+
+        <TextView
+            android:id="@+id/priceOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:gravity="top|start"
+            android:hint="Price"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/orderQuantity"
+            app:layout_constraintStart_toStartOf="@+id/textView9"
+            app:layout_constraintTop_toTopOf="@+id/orderQuantity" />
+
+        <EditText
+            android:id="@+id/orderLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/et_background_plain"
+            android:gravity="top|start"
+
+            android:hint="Location"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="@color/primaryText"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvlocation" />
+
+        <EditText
+            android:id="@+id/noteOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/et_background_plain"
+            android:hint="Note"
+            android:gravity="top|start"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="@color/primaryText"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvnote" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</LinearLayout>

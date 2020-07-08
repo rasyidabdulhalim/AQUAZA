@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">AQUAZA</string>
+
+    <string name="token" translatable="false">pk.eyJ1IjoicmFzeWlkYWJkdWxoYWxpbSIsImEiOiJjazdhbmF6a3IxMXo5M2ZwZnp2a2NxMG1rIn0.fNBs-gdzBQ-JtcxFUSazKg</string>
+    <string name="navigation_guidance_day" translatable="false">mapbox://styles/mapbox/navigation-guidance-day-v4</string>
+    <string name="user_location_permission_explanation">user_location_permission_explanation</string>
+    <string name="user_location_permission_not_granted">"user_location_permission_not_granted</string>
+    <string name="offline">Offline</string>
+    <string name="online_driver">Online</string>
+
+    <string name="sample_features">2004 \u2022 48000km \u2022 Manual</string>
+
+    <string name="play_store_link">https://play.google.com/store/apps/details?id=</string>
+    <string name="notifications">Notifications</string>
+    <string name="news_and_updates">News &amp; updates</string>
+    <string name="general">General</string>
+    <string name="about">About</string>
+    <string name="terms_of_use">Terms of use</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="rate_app">Rate app</string>
+    <string name="send_feedback">Send Feedback</string>
+
+    <string name="image">image</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="email_address">Email address</string>
+    <string name="phone">Phone</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="terms">Terms and Conditions</string>
+    <string name="agree_to_terms">I accept the</string>
+    <string name="not_a_member_yet">Not a member yet?</string>
+    <string name="sign_up">SIGN UP</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
+    <string name="logout">Log out</string>
+    <string name="upload_photos">Upload photos</string>
+    <string name="add_atleast_2_photos">(Add atleast 2 photos)</string>
+    <string name="choose_photos">Choose photos</string>
+    <string name="desc">Description</string>
+    <string name="add_part_desc">Add a description about the part...</string>
+    <string name="asking_price">Asking price</string>
+    <string name="location">Location</string>
+    <string name="no_cars_uploaded_yet">No cars added yet</string>
+    <string name="no_cars_posted_yet">No cars posted yet</string>
+    <string name="quantity">Quantity</string>
+    <string name="no_chats">No chats added yet</string>
+    <string name="no_messages_added_yet">No messages added yet</string>
+    <string name="firstname">First name</string>
+    <string name="addressEmployee">Address</string>
+    <string name="no_orders">Belum Ada Pesanan</string>
+    <string name="total_online_drivers">Total Online Drivers : </string>
+    <string name="need_location">Enable GPS SERVICE</string>
+    <string name="location_content">This app wants to change your device settings use GPS,Wi-Fi and cell networks for your location</string>
+
+    <string-array name="status">
+        <item name="driver">Driver</item>
+        <item name="admin">Administrator</item>
+    </string-array>
+
+    <string-array name="depot">
+        <item name="depot1">Depot 1</item>
+        <item name="depot2">Depot 2</item>
+    </string-array>
+
+    <string-array name="shift">
+        <item name="shift1">Shift I</item>
+        <item name="shift2">Shift II</item>
+    </string-array>
+
+</resources>

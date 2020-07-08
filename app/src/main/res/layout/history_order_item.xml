@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="data"
+            type="com.rasyidabdulhalim.aquaza.models.Order"/>
+
+        <variable
+            name="time"
+            type="String"/>
+        <variable
+            name="callback"
+            type="com.rasyidabdulhalim.aquaza.callbacks.OrderCallBack"/>
+
+        <variable
+            name="isMine"
+            type="Boolean"/>
+
+        <variable
+            name="qty"
+            type="String"/>
+
+        <variable
+            name="price"
+            type="String"/>
+
+    </data>
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="5dp"
+        android:onClick="@{(v) -> callback.onClick(v, data)}">
+
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/transCardView1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/transNoImageView3"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:tint="@color/colorTextLight"
+                    app:layout_constraintBottom_toBottomOf="@+id/lineView3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/baseline_history_24" />
+
+                <TextView
+                    android:id="@+id/transactionNoTextView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Order Id : "
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/transNoImageView3"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/placeOrderIdTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@{data.id}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintStart_toEndOf="@+id/transactionNoTextView1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="1" />
+
+                <View
+                    android:id="@+id/lineView3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/md_grey_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/transactionNoTextView1" />
+
+                <ImageView
+                    android:id="@+id/copyImageView1"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:contentDescription="No Image"
+                    android:onClick="@{(v) -> callback.onClick(v, data)}"
+                    android:tint="@color/colorTextLight"
+                    app:layout_constraintBottom_toBottomOf="@+id/lineView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/baseline_copy_24" />
+
+                <TextView
+                    android:id="@+id/placePriceTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="@{price}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.996"
+                    app:layout_constraintTop_toBottomOf="@+id/lineView3"
+                    tools:text="$ 40.50" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Total Harga"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lineView3" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Jumlah :"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+                <TextView
+                    android:id="@+id/placeJumlahGalonTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="@{qty}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/md_light_blue_A700"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintTop_toBottomOf="@+id/placePriceTextView"
+                    tools:text="Pending" />
+
+                <TextView
+                    android:id="@+id/textView163"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Status :"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                <TextView
+                    android:id="@+id/placeStatusTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="@{data.status}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/md_red_600"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.992"
+                    app:layout_constraintTop_toBottomOf="@+id/placeJumlahGalonTextView"
+                    tools:text="Pending" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Order Date :"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView163"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/placeOrderDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="@{time}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintTop_toBottomOf="@+id/placeStatusTextView"
+                    tools:text="01/01/2018" />
+
+                <TextView
+                    android:id="@+id/driverName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Driver Name :"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+
+                <TextView
+                    android:id="@+id/driver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="@{data.driverName}"
+                    tools:text="Diego"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.987"
+                    app:layout_constraintTop_toBottomOf="@+id/placeOrderDateTextView" />
+
+                <TextView
+                    android:id="@+id/itemNameTextView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:paddingBottom="8dp"
+                    android:text="Received Date"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/driverName" />
+
+                <TextView
+                    android:id="@+id/receiveddatetv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="1 jam yang lalu"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="@dimen/font_body_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/driver" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
+
