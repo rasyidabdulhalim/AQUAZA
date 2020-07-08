@@ -145,27 +145,35 @@ class OrderFragment : BaseFragment(),OrderCallBack{
     }
     private fun loadOrdersDriver() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo("buyerId", getUid())
-            .whereEqualTo("status",K.ONPROSES)
             .orderBy("time",com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
-                    noOrders()
                 }
                 if (querySnapshot == null || querySnapshot.isEmpty) {
-                    noOrders()
+
                 } else {
-                    hasOrders()
                     for (docChange in querySnapshot.documentChanges) {
                         when(docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                orderAdapter.addItem(order)
+                                if((order.status!="Received"&&order.driverId==null)||(order.status!="Received"&&order.driverId==getUid())) {
+                                    orderAdapter.addItem(order)
+                                }
                             }
                             DocumentChange.Type.MODIFIED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                orderAdapter.updateItem(order)
+                                if((order.status!="Received"&&order.driverId==null)||(order.status!="Received"&&order.driverId==getUid())) {
+                                    orderAdapter.updateItem(order)
+                                }else if(order.status==K.RECEIVED&&order.driverId==getUid()){
+                                    orderAdapter.removeItem(order)
+                                    orderAdapter.notifyDataSetChanged()
+                                }else if(order.status==K.ONPROSES&&order.driverId!=getUid()){
+                                    orderAdapter.removeItem(order)
+                                    orderAdapter.notifyDataSetChanged()
+                                }else{
+
+                                }
                             }
 
                             DocumentChange.Type.REMOVED -> {
@@ -174,12 +182,11 @@ class OrderFragment : BaseFragment(),OrderCallBack{
                             }
 
                         }
-
                     }
-
+                    checkOrder()
                 }
             }
-
+        checkOrder()
     }
     private fun checkOrder(){
         if(orderAdapter.itemCount>0){

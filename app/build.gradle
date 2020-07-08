@@ -10,7 +10,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '29.0.3'
+    buildToolsVersion '30.0.0'
     defaultConfig {
         applicationId "com.rasyidabdulhalim.aquaza"
         minSdkVersion 17
@@ -30,10 +30,6 @@ android {
     buildFeatures {
         dataBinding = true
     }
-/*
-    dataBinding {
-        enabled = true
-    }*/
 }
 
 dependencies {

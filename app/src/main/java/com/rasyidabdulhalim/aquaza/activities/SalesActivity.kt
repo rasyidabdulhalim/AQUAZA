@@ -1,8 +1,10 @@
 package com.rasyidabdulhalim.aquaza.activities
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
+import android.view.View
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
@@ -18,6 +20,9 @@ import com.rasyidabdulhalim.aquaza.commoners.ChartLabelsFormatter
 import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.Depot
 import com.rasyidabdulhalim.aquaza.models.Order
+import com.rasyidabdulhalim.aquaza.models.User
+import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
+import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
 import com.rasyidabdulhalim.aquaza.utils.TimeFormatter
 import com.rasyidabdulhalim.aquaza.utils.hideView
 import com.rasyidabdulhalim.aquaza.utils.random
@@ -30,6 +35,9 @@ import java.util.*
 
 class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeSetListener {
     private lateinit var dateRangePicker: SmoothDateRangePickerFragment
+    private lateinit var prefs: SharedPreferences
+
+
     private var startMonth = 0
     private var endMonth = 0
     var carmonth = emptyArray<String>()
@@ -45,17 +53,30 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sales)
-
+        prefs = PreferenceHelper.defaultPrefs(this)
         initViews()
 
         showLoading("Loading records...")
-        Handler().postDelayed({hideLoading()}, 2000)
+        Handler().postDelayed({hideLoading()}, 1000)
 
-        loadOrderSummary()
-        entriesBarCabang.add(BarEntry(0f, 1000.toFloat()))
-        entriesBarCabang.add(BarEntry(1f, 2000.toFloat()))
-        carSalesBar(entriesBarCabang)
-        partSales(entriesBarCabang)
+        if(prefs[K.STATUS, ""]=="Owner"){
+            loadOrderSummary()
+            entriesBarCabang.add(BarEntry(0f, 1000.toFloat()))
+            entriesBarCabang.add(BarEntry(1f, 2000.toFloat()))
+            carSalesBar(entriesBarCabang)
+            partSales(entriesBarCabang)
+        }else if (prefs[K.STATUS, ""]=="Driver"){
+            loadOrderSummary()
+            entriesBarCabang.add(BarEntry(0f, 1000.toFloat()))
+            entriesBarCabang.add(BarEntry(1f, 2000.toFloat()))
+            carSalesBar(entriesBarCabang)
+            partSales(entriesBarCabang)
+        }else{
+            loadOrderSummaryUser()
+            grafikTotalOrder.setVisibility(View.GONE)
+            grafikPemesanan.setVisibility(View.GONE)
+        }
+
     }
 
     private fun initViews() {
@@ -75,6 +96,30 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
     }
     private fun loadOrderSummary(){
         getFirestore().collection(K.ORDERS)
+            .whereEqualTo(K.STATUS,K.RECEIVED)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if (firebaseFirestoreException != null) {
+                    Timber.e("Error fetching orders $firebaseFirestoreException")
+                }
+                if (querySnapshot == null || querySnapshot.isEmpty) {
+                    priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
+                    totalOrderSummary.text=totalOrder.toString()
+                } else {
+                    for (docChange in querySnapshot.documentChanges) {
+                        val order = docChange.document.toObject(Order::class.java)
+                        totalPriceOrder+=order.price!!.toInt()
+                        totalOrder +=order.quantity!!
+                    }
+                    priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
+                    totalOrderSummary.text=totalOrder.toString()
+
+                    totalSales()
+                }
+            }
+    }
+    private fun loadOrderSummaryUser(){
+        getFirestore().collection(K.ORDERS)
+            .whereEqualTo("buyerId",getUid())
             .whereEqualTo(K.STATUS,K.RECEIVED)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {

@@ -284,7 +284,6 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1.3"
-
                         android:onClick="@{(v) -> callback.onClick(v, data)}"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
@@ -297,13 +296,11 @@
                         android:layout_height="35dp"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1.3"
-                        android:background="@{isMine ? @drawable/rounded_orange_button : @drawable/rounded_button}"
                         android:onClick="@{(v) -> callback.onClick(v, data)}"
-                        android:text="@{isMine ? `Track` : `Confirm`}"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         tools:background="@drawable/rounded_button"
-                        tools:text="TRACKING" />
+                        tools:text="Track" />
 
                     <Button
                         android:id="@+id/contact"

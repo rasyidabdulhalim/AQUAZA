@@ -84,24 +84,43 @@ class OrdersAdapter(private val context: Context, private val callback: OrderCal
             binding.price = formatRupiah.format(order.price!!.toDouble())
             binding.isMine = (order.buyerId == FirebaseAuth.getInstance().currentUser?.uid)
             if (binding.isMine == true) {
+                binding.action.text="Track"
                 if (order.status == K.ONPROSES) {
                     binding.cancel.isEnabled = false
                     binding.cancel.isClickable = false
                     binding.cancel.text = "Please Wait"
                     binding.cancel.setBackgroundColor(R.drawable.button_tag_with_state)
+
+
+                    binding.action.setBackgroundColor(R.drawable.rounded_button)
                 } else {
                     binding.cancel.text = "Batalkan"
                     binding.cancel.setBackgroundColor(R.drawable.rounded_orange_button)
+
+                    binding.action.isEnabled = false
+                    binding.action.isClickable = false
+                    binding.action.setBackgroundColor(R.drawable.button_tag_with_state)
                 }
             } else {
+                binding.action.text="Confirm"
+
                 if (order.status == K.ONPROSES) {
                     binding.cancel.isEnabled = false
                     binding.cancel.isClickable = false
                     binding.cancel.text = "Taked"
                     binding.cancel.setBackgroundColor(R.drawable.button_round_cornet_grey)
+
+
+                    binding.action.setBackgroundColor(R.drawable.rounded_button)
+
                 } else {
                     binding.cancel.text = "Take Order"
                     binding.cancel.setBackgroundColor(Color.parseColor("#727BFA"))
+
+
+                    binding.action.isEnabled = false
+                    binding.action.isClickable = false
+                    binding.action.setBackgroundColor(R.drawable.button_round_cornet_grey)
                 }
             }
         }

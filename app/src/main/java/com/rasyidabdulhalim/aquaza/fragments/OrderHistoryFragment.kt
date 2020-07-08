@@ -75,7 +75,7 @@ class OrderHistoryFragment : BaseFragment(), OrderCallBack {
     private fun loadOrdersUser() {
         getFirestore().collection(K.ORDERS)
             .whereEqualTo("buyerId",getUid())
-            //.whereEqualTo("status", "Received")
+            .whereEqualTo("status", "Received")
             .orderBy("time", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
@@ -150,16 +150,16 @@ class OrderHistoryFragment : BaseFragment(), OrderCallBack {
 
     private fun loadOrdersDriver() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo("buyerId", getUid())
-            .whereEqualTo("status", K.ONPROSES)
-            .orderBy("time", com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .whereEqualTo("driverId",getUid())
+            .whereEqualTo("status", "Received")
+            .orderBy("time", com.google.firebase.firestore.Query.Direction.ASCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
-
+                    noOrders()
                 }
                 if (querySnapshot == null || querySnapshot.isEmpty) {
-
+                    noOrders()
                 } else {
                     hasOrders()
                     for (docChange in querySnapshot.documentChanges) {
@@ -184,7 +184,7 @@ class OrderHistoryFragment : BaseFragment(), OrderCallBack {
 
                 }
             }
-
+        if (noOrder) noOrders()
     }
 
     private fun hasOrders() {
