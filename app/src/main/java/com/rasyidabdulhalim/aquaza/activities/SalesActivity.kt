@@ -66,11 +66,9 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
             carSalesBar(entriesBarCabang)
             partSales(entriesBarCabang)
         }else if (prefs[K.STATUS, ""]=="Driver"){
-            loadOrderSummary()
-            entriesBarCabang.add(BarEntry(0f, 1000.toFloat()))
-            entriesBarCabang.add(BarEntry(1f, 2000.toFloat()))
-            carSalesBar(entriesBarCabang)
-            partSales(entriesBarCabang)
+            loadOrderSummaryDriver()
+            grafikTotalOrder.setVisibility(View.GONE)
+            grafikPemesanan.setVisibility(View.GONE)
         }else{
             loadOrderSummaryUser()
             grafikTotalOrder.setVisibility(View.GONE)
@@ -109,6 +107,32 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
                         val order = docChange.document.toObject(Order::class.java)
                         totalPriceOrder+=order.price!!.toInt()
                         totalOrder +=order.quantity!!
+                    }
+                    priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
+                    totalOrderSummary.text=totalOrder.toString()
+
+                    totalSales()
+                }
+            }
+    }
+    private fun loadOrderSummaryDriver(){
+        getFirestore().collection(K.ORDERS)
+            .whereEqualTo("driverId",getUid())
+            .whereEqualTo(K.STATUS,K.RECEIVED)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if (firebaseFirestoreException != null) {
+                    Timber.e("Error fetching orders $firebaseFirestoreException")
+                }
+                if (querySnapshot == null || querySnapshot.isEmpty) {
+                    priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
+                    totalOrderSummary.text=totalOrder.toString()
+                } else {
+                    for (docChange in querySnapshot.documentChanges) {
+                        val order = docChange.document.toObject(Order::class.java)
+                        totalPriceOrder+=order.price!!.toInt()
+                        totalOrder +=order.quantity!!
+                        right_text.text="Received Money"
+                        left_text.text="Delivered Water"
                     }
                     priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
                     totalOrderSummary.text=totalOrder.toString()

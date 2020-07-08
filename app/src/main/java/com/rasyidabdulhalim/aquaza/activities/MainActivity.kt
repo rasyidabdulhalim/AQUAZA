@@ -204,8 +204,6 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
             .build()
 
         val default = SecondaryDrawerItem().withIdentifier(0).withName("Home").withIcon(Ionicons.Icon.ion_ios_home)
-        val myTakeOrders = SecondaryDrawerItem().withIdentifier(2).withName("My Take Order").withIcon(Ionicons.Icon.ion_ios_cart)
-        val historyTakeOrder = SecondaryDrawerItem().withIdentifier(1).withName("History Take Order").withIcon(Ionicons.Icon.ion_ios_cart)
         val boardEmployee = SecondaryDrawerItem().withIdentifier(4).withName("Board Employee").withIcon(Ionicons.Icon.ion_star)
         val driverReport = SecondaryDrawerItem().withIdentifier(5).withName("Driver Reports").withIcon(Ionicons.Icon.ion_android_list)
         val settings = SecondaryDrawerItem().withIdentifier(6).withName("Settings").withIcon(Ionicons.Icon.ion_ios_gear)
@@ -214,12 +212,10 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
         drawer = DrawerBuilder().withActivity(this)
             .withToolbar(toolbar)
             .withAccountHeader(accountHeader)
-            .addDrawerItems(default, DividerDrawerItem(), historyTakeOrder, myTakeOrders, driverReport, boardEmployee, DividerDrawerItem(), settings, exit)
+            .addDrawerItems(default, DividerDrawerItem(), driverReport, boardEmployee, DividerDrawerItem(), settings, exit)
             .withOnDrawerItemClickListener { _, _, drawerItem ->
                 when(drawerItem) {
-                    historyTakeOrder -> launchActivity(MapActivity::class.java)
-                    myTakeOrders -> launchActivity(MapActivity::class.java)
-                    driverReport -> launchActivity(MapActivity::class.java)
+                    driverReport -> launchActivity(SalesActivity::class.java)
                     boardEmployee -> launchActivity(MapActivity::class.java)
                     settings -> launchActivity(MapActivity::class.java)
                     exit -> logOut()

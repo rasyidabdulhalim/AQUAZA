@@ -24,6 +24,7 @@ import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.Depot
 import com.rasyidabdulhalim.aquaza.models.Order
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
+import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
 import com.rasyidabdulhalim.aquaza.utils.RecyclerFormatter
 import com.rasyidabdulhalim.aquaza.utils.hideView
 import com.rasyidabdulhalim.aquaza.utils.showView
@@ -56,8 +57,14 @@ class DepotFragment : BaseFragment(), DepotCallback {
         Glide.with(this *//* context *//*)
             .load(myUri)
             .into(userImageView)*/
-        loadCars()
-        loadOrderSummary()
+        if(prefs[K.STATUS, ""]=="Owner"){
+            loadOrderSummaryOwner()
+        }else if (prefs[K.STATUS, ""]=="Driver"){
+            loadOrdersSummaryDriver()
+        }else{
+            loadOrderSummary()
+        }
+        loadDepots()
     }
 
     private fun initViews(v: View) {
@@ -76,7 +83,7 @@ class DepotFragment : BaseFragment(), DepotCallback {
         }
     }
 
-    private fun loadCars() {
+    private fun loadDepots() {
         getFirestore().collection(K.DEPOTS)
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     if (firebaseFirestoreException != null) {
@@ -116,6 +123,71 @@ class DepotFragment : BaseFragment(), DepotCallback {
     private fun loadOrderSummary(){
         getFirestore().collection(K.ORDERS)
             .whereEqualTo("buyerId",getUid())
+            .whereEqualTo(K.STATUS,K.RECEIVED)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if (firebaseFirestoreException != null) {
+                    Timber.e("Error fetching orders $firebaseFirestoreException")
+                }
+                if (querySnapshot == null || querySnapshot.isEmpty) {
+
+                } else {
+                    for (docChange in querySnapshot.documentChanges) {
+                        when(docChange.type) {
+                            DocumentChange.Type.ADDED -> {
+                                val order = docChange.document.toObject(Order::class.java)
+                                totalPriceOrder+=order.price!!.toInt()
+                                totalOrderSummary +=order.quantity!!
+                                priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble()).toString()
+                                totalOrder.text=totalOrderSummary.toString()
+                            }
+                            DocumentChange.Type.REMOVED -> {
+                                val order = docChange.document.toObject(Order::class.java)
+                                totalPriceOrder-=order.price!!.toInt()
+                                totalOrderSummary -=order.quantity!!
+                                priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble()).toString()
+                                totalOrder.text=totalOrderSummary.toString()
+                            }
+                        }
+                    }
+                }
+            }
+    }
+    private fun loadOrdersSummaryDriver(){
+        getFirestore().collection(K.ORDERS)
+            .whereEqualTo("driverId",getUid())
+            .whereEqualTo(K.STATUS,K.RECEIVED)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if (firebaseFirestoreException != null) {
+                    Timber.e("Error fetching orders $firebaseFirestoreException")
+                }
+                if (querySnapshot == null || querySnapshot.isEmpty) {
+
+                } else {
+                    for (docChange in querySnapshot.documentChanges) {
+                        when(docChange.type) {
+                            DocumentChange.Type.ADDED -> {
+                                val order = docChange.document.toObject(Order::class.java)
+                                totalPriceOrder+=order.price!!.toInt()
+                                totalOrderSummary +=order.quantity!!
+                                priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble()).toString()
+                                totalOrder.text=totalOrderSummary.toString()
+                                right_text.text="Received Money"
+                                left_text.text="Delivered Water"
+                            }
+                            DocumentChange.Type.REMOVED -> {
+                                val order = docChange.document.toObject(Order::class.java)
+                                totalPriceOrder-=order.price!!.toInt()
+                                totalOrderSummary -=order.quantity!!
+                                priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble()).toString()
+                                totalOrder.text=totalOrderSummary.toString()
+                            }
+                        }
+                    }
+                }
+            }
+    }
+    private fun loadOrderSummaryOwner(){
+        getFirestore().collection(K.ORDERS)
             .whereEqualTo(K.STATUS,K.RECEIVED)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {

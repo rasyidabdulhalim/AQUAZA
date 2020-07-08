@@ -102,6 +102,7 @@
                             tools:text="37"/>
 
                         <TextView
+                            android:id="@+id/left_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
@@ -136,6 +137,7 @@
                             tools:text="212"/>
 
                         <TextView
+                            android:id="@+id/right_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
