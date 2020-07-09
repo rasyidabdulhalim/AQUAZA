@@ -25,8 +25,8 @@ import com.rasyidabdulhalim.aquaza.commoners.BaseActivity
 import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.fragments.ChatFragment
 import com.rasyidabdulhalim.aquaza.fragments.DepotFragment
-import com.rasyidabdulhalim.aquaza.fragments.OrderHistoryFragment
 import com.rasyidabdulhalim.aquaza.fragments.OrderFragment
+import com.rasyidabdulhalim.aquaza.fragments.OrderHistoryFragment
 import com.rasyidabdulhalim.aquaza.utils.PagerAdapter
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get

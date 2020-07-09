@@ -18,16 +18,13 @@ import com.rasyidabdulhalim.aquaza.commoners.AppUtils.setDrawable
 import com.rasyidabdulhalim.aquaza.commoners.BaseActivity
 import com.rasyidabdulhalim.aquaza.commoners.ChartLabelsFormatter
 import com.rasyidabdulhalim.aquaza.commoners.K
-import com.rasyidabdulhalim.aquaza.models.Depot
 import com.rasyidabdulhalim.aquaza.models.Order
-import com.rasyidabdulhalim.aquaza.models.User
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
 import com.rasyidabdulhalim.aquaza.utils.TimeFormatter
 import com.rasyidabdulhalim.aquaza.utils.hideView
 import com.rasyidabdulhalim.aquaza.utils.random
 import kotlinx.android.synthetic.main.activity_sales.*
-import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*

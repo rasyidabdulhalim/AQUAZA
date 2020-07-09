@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.view.MenuItem
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.ionicons_typeface_library.Ionicons
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils
 import com.rasyidabdulhalim.aquaza.commoners.BaseActivity
-import com.rasyidabdulhalim.aquaza.utils.PagerAdapter
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.ionicons_typeface_library.Ionicons
 import com.rasyidabdulhalim.aquaza.fragments.MyKonsumenFragment
 import com.rasyidabdulhalim.aquaza.fragments.MyKonsumenRequestFragment
+import com.rasyidabdulhalim.aquaza.utils.PagerAdapter
 import kotlinx.android.synthetic.main.activity_my_employee.*
 
 class MyKonsumenActivity : BaseActivity(), TabLayout.OnTabSelectedListener {

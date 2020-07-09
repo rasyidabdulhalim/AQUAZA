@@ -3,13 +3,13 @@ package com.rasyidabdulhalim.aquaza.adapters
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import com.google.firebase.auth.FirebaseAuth
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.callbacks.DepotCallback
+import com.rasyidabdulhalim.aquaza.databinding.DepotItemBinding
 import com.rasyidabdulhalim.aquaza.models.Depot
 import com.rasyidabdulhalim.aquaza.utils.TimeFormatter
 import com.rasyidabdulhalim.aquaza.utils.inflate
-import com.google.firebase.auth.FirebaseAuth
-import com.rasyidabdulhalim.aquaza.databinding.DepotItemBinding
 
 class DepotsAdapter(private val context: Context, private val callback: DepotCallback) : RecyclerView.Adapter<DepotsAdapter.DepotHolder>(){
     private val depots = mutableListOf<Depot>()

@@ -14,11 +14,7 @@ import com.rasyidabdulhalim.aquaza.models.Notification
 import com.rasyidabdulhalim.aquaza.models.User
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
-import kotlinx.android.synthetic.main.activity_add_employee.*
 import kotlinx.android.synthetic.main.activity_add_notifikasi.*
-import kotlinx.android.synthetic.main.activity_add_notifikasi.buttonNotification
-import kotlinx.android.synthetic.main.activity_add_notifikasi.toolbar
-import kotlinx.android.synthetic.main.depot_make_order.*
 import org.jetbrains.anko.toast
 import timber.log.Timber
 

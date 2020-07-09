@@ -3,10 +3,9 @@ package com.rasyidabdulhalim.aquaza.commoners
 import android.Manifest
 import android.app.ProgressDialog
 import android.content.pm.PackageManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import com.rasyidabdulhalim.aquaza.utils.Connectivity
+import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -23,6 +22,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import com.rasyidabdulhalim.aquaza.utils.Connectivity
 
 open class BaseActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog

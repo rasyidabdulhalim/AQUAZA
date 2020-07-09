@@ -17,7 +17,6 @@ import com.rasyidabdulhalim.aquaza.commoners.AppUtils
 import com.rasyidabdulhalim.aquaza.commoners.BaseFragment
 import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.Konsumen
-import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
 import com.rasyidabdulhalim.aquaza.utils.RecyclerFormatter
 import com.rasyidabdulhalim.aquaza.utils.hideView
 import com.rasyidabdulhalim.aquaza.utils.showView

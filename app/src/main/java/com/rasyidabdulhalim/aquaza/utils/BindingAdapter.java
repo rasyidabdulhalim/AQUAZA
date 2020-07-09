@@ -1,13 +1,9 @@
 package com.rasyidabdulhalim.aquaza.utils;
 
-import android.media.Image;
 import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.makeramen.roundedimageview.RoundedImageView;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BindingAdapter {
 

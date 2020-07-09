@@ -2,13 +2,13 @@ package com.rasyidabdulhalim.aquaza.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import com.google.firebase.auth.FirebaseAuth
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.commoners.K
-import com.rasyidabdulhalim.aquaza.models.Message
-import com.rasyidabdulhalim.aquaza.utils.inflate
-import com.google.firebase.auth.FirebaseAuth
 import com.rasyidabdulhalim.aquaza.databinding.ChatItemMessageBinding
 import com.rasyidabdulhalim.aquaza.databinding.ChatItemMessageMeBinding
+import com.rasyidabdulhalim.aquaza.models.Message
+import com.rasyidabdulhalim.aquaza.utils.inflate
 
 class MessagesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var messages = mutableListOf<Message>()

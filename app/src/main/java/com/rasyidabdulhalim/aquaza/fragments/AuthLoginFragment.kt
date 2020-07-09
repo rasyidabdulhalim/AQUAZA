@@ -10,8 +10,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.messaging.FirebaseMessaging
+import com.mikepenz.ionicons_typeface_library.Ionicons
 import com.rasyidabdulhalim.aquaza.R
+import com.rasyidabdulhalim.aquaza.activities.MainActivity
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils.drawableToBitmap
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils.setDrawable
@@ -19,19 +24,13 @@ import com.rasyidabdulhalim.aquaza.commoners.BaseFragment
 import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.User
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
+import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.set
 import com.rasyidabdulhalim.aquaza.utils.replaceFragment
 import com.rasyidabdulhalim.aquaza.utils.setDrawable
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.messaging.FirebaseMessaging
-import com.mikepenz.ionicons_typeface_library.Ionicons
-import com.rasyidabdulhalim.aquaza.activities.MainActivity
 import kotlinx.android.synthetic.main.auth_login_fragment.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import timber.log.Timber
-import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.set
 
 class AuthLoginFragment : BaseFragment() {
     private lateinit var signupSuccessful: Bitmap

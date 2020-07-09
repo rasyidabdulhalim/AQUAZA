@@ -5,11 +5,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.support.v4.app.ActivityCompat
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -20,7 +20,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.FirebaseDatabase
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.commoners.K
-import com.rasyidabdulhalim.aquaza.utils.MarkerCollection
 import com.rasyidabdulhalim.aquaza.helpers.FirebaseEventListenerHelper
 import com.rasyidabdulhalim.aquaza.helpers.GoogleMapHelper
 import com.rasyidabdulhalim.aquaza.helpers.MarkerAnimationHelper
@@ -30,6 +29,7 @@ import com.rasyidabdulhalim.aquaza.interfaces.IPositiveNegativeListener
 import com.rasyidabdulhalim.aquaza.interfaces.LatLngInterpolator
 import com.rasyidabdulhalim.aquaza.models.Driver
 import com.rasyidabdulhalim.aquaza.models.Order
+import com.rasyidabdulhalim.aquaza.utils.MarkerCollection
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
 import kotlinx.android.synthetic.main.activity_map.*

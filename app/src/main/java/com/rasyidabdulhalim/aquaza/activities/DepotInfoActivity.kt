@@ -7,10 +7,11 @@ import android.view.MenuItem
 import android.widget.ImageView
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.google.firebase.firestore.DocumentChange
 import com.leavjenn.smoothdaterangepicker.date.SmoothDateRangePickerFragment
 import com.mikepenz.ionicons_typeface_library.Ionicons
 import com.rasyidabdulhalim.aquaza.R
@@ -24,7 +25,6 @@ import com.rasyidabdulhalim.aquaza.models.Order
 import com.rasyidabdulhalim.aquaza.utils.*
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.activity_depot_info.*
-import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*

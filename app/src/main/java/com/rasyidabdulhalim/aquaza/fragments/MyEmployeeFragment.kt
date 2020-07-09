@@ -9,11 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.Query
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.activities.AddEmployeActivity
 import com.rasyidabdulhalim.aquaza.activities.AddNotificationActivity
-import com.rasyidabdulhalim.aquaza.activities.DepotActivity
 import com.rasyidabdulhalim.aquaza.adapters.EmployeeAdapter
 import com.rasyidabdulhalim.aquaza.callbacks.EmployeCallBack
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils
@@ -23,8 +21,7 @@ import com.rasyidabdulhalim.aquaza.models.User
 import com.rasyidabdulhalim.aquaza.utils.RecyclerFormatter
 import com.rasyidabdulhalim.aquaza.utils.hideView
 import com.rasyidabdulhalim.aquaza.utils.showView
-import kotlinx.android.synthetic.main.fragment_my_employee.empty
-import kotlinx.android.synthetic.main.fragment_my_employee.rv
+import kotlinx.android.synthetic.main.fragment_my_employee.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import timber.log.Timber

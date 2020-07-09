@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.firebase.firestore.DocumentChange
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.activities.*
@@ -22,11 +21,8 @@ import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.Depot
 import com.rasyidabdulhalim.aquaza.models.Konsumen
 import com.rasyidabdulhalim.aquaza.models.Order
-import com.rasyidabdulhalim.aquaza.models.User
 import com.rasyidabdulhalim.aquaza.utils.*
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
-import kotlinx.android.synthetic.main.activity_add_depot.*
-import kotlinx.android.synthetic.main.auth_register_fragment.*
 import kotlinx.android.synthetic.main.depot_fragment.*
 import org.jetbrains.anko.toast
 import timber.log.Timber

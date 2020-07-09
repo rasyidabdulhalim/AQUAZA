@@ -1,17 +1,12 @@
 package com.rasyidabdulhalim.aquaza.adapters
 
-import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.databinding.ItemNotifBinding
 import com.rasyidabdulhalim.aquaza.models.Notification
 import com.rasyidabdulhalim.aquaza.utils.TimeFormatter
 import com.rasyidabdulhalim.aquaza.utils.inflate
-import com.rasyidabdulhalim.aquaza.utils.loadUrl
-import kotlinx.android.synthetic.main.item_notif.view.*
 
 class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.NotificationHolder>() {
     private val notifs = mutableListOf<Notification>()

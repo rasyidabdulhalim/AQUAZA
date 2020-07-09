@@ -14,7 +14,6 @@ import com.rasyidabdulhalim.aquaza.utils.TimeFormatter
 import com.rasyidabdulhalim.aquaza.utils.inflate
 import java.text.NumberFormat
 import java.util.*
-import java.util.logging.Filter
 
 class OrdersAdapter(private val context: Context, private val callback: OrderCallBack) :
     RecyclerView.Adapter<OrdersAdapter.ItemHolder>() {

@@ -6,17 +6,14 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.view.MenuItem
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.messaging.FirebaseMessaging
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.ionicons_typeface_library.Ionicons
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils
 import com.rasyidabdulhalim.aquaza.commoners.BaseActivity
-import com.rasyidabdulhalim.aquaza.fragments.MyEmployeeFragment
 import com.rasyidabdulhalim.aquaza.fragments.MyEmployeeBoardFragment
+import com.rasyidabdulhalim.aquaza.fragments.MyEmployeeFragment
 import com.rasyidabdulhalim.aquaza.utils.PagerAdapter
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.ionicons_typeface_library.Ionicons
-import com.rasyidabdulhalim.aquaza.commoners.K
 import kotlinx.android.synthetic.main.activity_my_employee.*
 
 class MyEmployeActivity : BaseActivity(), TabLayout.OnTabSelectedListener {

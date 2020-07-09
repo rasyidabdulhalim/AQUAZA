@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.auth.FirebaseAuth
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.callbacks.KonsumenCallback
 import com.rasyidabdulhalim.aquaza.commoners.K

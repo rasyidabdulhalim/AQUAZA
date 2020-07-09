@@ -7,6 +7,8 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.Query
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.adapters.DepotsAdapter
 import com.rasyidabdulhalim.aquaza.callbacks.DepotCallback
@@ -17,10 +19,7 @@ import com.rasyidabdulhalim.aquaza.models.Depot
 import com.rasyidabdulhalim.aquaza.utils.RecyclerFormatter
 import com.rasyidabdulhalim.aquaza.utils.hideView
 import com.rasyidabdulhalim.aquaza.utils.showView
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_watchlist.*
-import kotlinx.android.synthetic.main.depot_item.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import timber.log.Timber

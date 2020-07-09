@@ -34,13 +34,11 @@ import com.rasyidabdulhalim.aquaza.commoners.AppUtils
 import com.rasyidabdulhalim.aquaza.commoners.BaseActivity
 import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.Depot
-import com.rasyidabdulhalim.aquaza.utils.*
 import com.rasyidabdulhalim.aquaza.models.Order
+import com.rasyidabdulhalim.aquaza.utils.*
+import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.depot_activity.*
-import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
-import kotlinx.android.synthetic.main.depot_activity.locationNewDepot
-import kotlinx.android.synthetic.main.depot_activity.toolbar
 import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.text.NumberFormat

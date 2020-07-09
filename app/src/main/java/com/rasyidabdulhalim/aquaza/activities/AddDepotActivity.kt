@@ -23,9 +23,6 @@ import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.filter.Filter
 import kotlinx.android.synthetic.main.activity_add_depot.*
-import kotlinx.android.synthetic.main.activity_add_depot.locationNewDepot
-import kotlinx.android.synthetic.main.activity_add_depot.buttonNotification
-import kotlinx.android.synthetic.main.activity_add_depot.toolbar
 import org.jetbrains.anko.toast
 import timber.log.Timber
 

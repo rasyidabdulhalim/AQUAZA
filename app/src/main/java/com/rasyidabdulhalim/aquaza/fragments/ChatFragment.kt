@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import com.google.firebase.database.*
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.activities.ChatActivity
 import com.rasyidabdulhalim.aquaza.adapters.ChatsAdapter
@@ -19,9 +19,7 @@ import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.Chat
 import com.rasyidabdulhalim.aquaza.utils.hideView
 import com.rasyidabdulhalim.aquaza.utils.showView
-import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.chat_fragment.*
-import org.jetbrains.anko.toast
 import timber.log.Timber
 
 

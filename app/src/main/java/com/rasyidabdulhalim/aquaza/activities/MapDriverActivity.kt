@@ -27,15 +27,12 @@ import com.rasyidabdulhalim.aquaza.helpers.FirebaseHelper
 import com.rasyidabdulhalim.aquaza.helpers.GoogleMapHelper
 import com.rasyidabdulhalim.aquaza.helpers.MarkerAnimationHelper
 import com.rasyidabdulhalim.aquaza.helpers.UiHelper
-import com.rasyidabdulhalim.aquaza.interfaces.FirebaseDriverListener
 import com.rasyidabdulhalim.aquaza.interfaces.IPositiveNegativeListener
 import com.rasyidabdulhalim.aquaza.interfaces.LatLngInterpolator
-import com.rasyidabdulhalim.aquaza.models.Depot
 import com.rasyidabdulhalim.aquaza.models.Driver
 import com.rasyidabdulhalim.aquaza.models.Order
 import com.rasyidabdulhalim.aquaza.utils.MarkerCollection
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
-import kotlinx.android.synthetic.main.activity_map.*
 
 class MapDriverActivity : AppCompatActivity() {
 

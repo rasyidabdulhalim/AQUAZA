@@ -8,12 +8,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.EditText
-import com.rasyidabdulhalim.aquaza.R
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
+import com.rasyidabdulhalim.aquaza.R
 import timber.log.Timber
 import java.util.*
 

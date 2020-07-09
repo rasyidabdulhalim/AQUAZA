@@ -26,16 +26,8 @@ import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.filter.Filter
 import kotlinx.android.synthetic.main.activity_add_employee.*
-import kotlinx.android.synthetic.main.activity_add_employee.locationNewDepot
-import kotlinx.android.synthetic.main.activity_add_employee.buttonNotification
-import kotlinx.android.synthetic.main.activity_add_employee.confirmPasswordEmployee
-import kotlinx.android.synthetic.main.activity_add_employee.emailEmployee
-import kotlinx.android.synthetic.main.activity_add_employee.nameEmployee
-import kotlinx.android.synthetic.main.activity_add_employee.phoneEmployee
 import org.jetbrains.anko.toast
 import timber.log.Timber
-import kotlin.collections.mutableListOf
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 
 class AddEmployeActivity : BaseActivity() {

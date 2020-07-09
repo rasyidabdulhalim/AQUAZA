@@ -1,9 +1,7 @@
 package com.rasyidabdulhalim.aquaza.adapters
 
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.callbacks.ChatListCallback
 import com.rasyidabdulhalim.aquaza.databinding.ChatItemBinding

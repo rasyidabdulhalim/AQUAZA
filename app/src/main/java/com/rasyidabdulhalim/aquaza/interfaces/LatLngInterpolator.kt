@@ -1,14 +1,7 @@
 package com.rasyidabdulhalim.aquaza.interfaces
 
 import com.google.android.gms.maps.model.LatLng
-import java.lang.Math.asin
-import java.lang.Math.atan2
-import java.lang.Math.cos
-import java.lang.Math.pow
-import java.lang.Math.sin
-import java.lang.Math.sqrt
-import java.lang.Math.toDegrees
-import java.lang.Math.toRadians
+import java.lang.Math.*
 
 interface LatLngInterpolator {
 
