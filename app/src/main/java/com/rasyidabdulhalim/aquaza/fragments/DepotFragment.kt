@@ -22,12 +22,13 @@ import com.rasyidabdulhalim.aquaza.commoners.AppUtils
 import com.rasyidabdulhalim.aquaza.commoners.BaseFragment
 import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.Depot
+import com.rasyidabdulhalim.aquaza.models.Konsumen
 import com.rasyidabdulhalim.aquaza.models.Order
-import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
+import com.rasyidabdulhalim.aquaza.models.User
+import com.rasyidabdulhalim.aquaza.utils.*
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
-import com.rasyidabdulhalim.aquaza.utils.RecyclerFormatter
-import com.rasyidabdulhalim.aquaza.utils.hideView
-import com.rasyidabdulhalim.aquaza.utils.showView
+import kotlinx.android.synthetic.main.activity_add_depot.*
+import kotlinx.android.synthetic.main.auth_register_fragment.*
 import kotlinx.android.synthetic.main.depot_fragment.*
 import org.jetbrains.anko.toast
 import timber.log.Timber
@@ -303,7 +304,7 @@ class DepotFragment : BaseFragment(), DepotCallback {
         val builder = AlertDialog.Builder(activity!!)
 
         if (depot.watchlist.containsKey(getUid())) {
-            val items = arrayOf<CharSequence>("Remove from watchlist")
+            val items = arrayOf<CharSequence>("Batalkan Berlangganan Pada Depot Ini?")
 
             builder.setItems(items) { _, item ->
                 when(item) {
@@ -314,7 +315,7 @@ class DepotFragment : BaseFragment(), DepotCallback {
             }
 
         } else {
-            val items = arrayOf<CharSequence>("Add to watchlist")
+            val items = arrayOf<CharSequence>("Berlangganan Pada Depot Ini?")
 
             builder.setItems(items) { _, item ->
                 when(item) {
@@ -347,6 +348,21 @@ class DepotFragment : BaseFragment(), DepotCallback {
             activity?.toast("${depot.depotName} added to watchlist")
 
             getFirestore().collection(K.WATCHLIST).document(getUid()).collection(K.DEPOTS).document(depot.id!!).set(depot)
+            val konsumen = Konsumen()
+            konsumen.id = getUid()
+            konsumen.name = prefs[K.NAME,""]
+            konsumen.email = prefs[K.EMAIL,""]
+            konsumen.dateCreated = TimeFormatter().getNormalYear(System.currentTimeMillis())
+            konsumen.dateModified= TimeFormatter().getNormalYear(System.currentTimeMillis())
+            konsumen.phone = prefs[K.PHONE,""]
+            konsumen.address = prefs[K.ADDRESS,""]
+            konsumen.status =K.REQUEST
+            konsumen.depotId = depot.id
+            konsumen.depotName = depot.depotName
+            konsumen.avatar= prefs[K.AVATAR,""]
+            konsumen.defaultlat=0.0
+            konsumen.defaultlng=0.0
+            getFirestore().collection(K.WATCHLIST).document(getUid()).set(konsumen)
         }.addOnFailureListener {
             Timber.e("Error adding ${depot.id} to watchlist: $it")
         }

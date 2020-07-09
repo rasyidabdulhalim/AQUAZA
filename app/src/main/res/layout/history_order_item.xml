@@ -125,7 +125,7 @@
                     app:srcCompat="@drawable/baseline_copy_24" />
 
                 <TextView
-                    android:id="@+id/placePriceTextView"
+                    android:id="@+id/nameRequest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -169,7 +169,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
                 <TextView
-                    android:id="@+id/placeJumlahGalonTextView"
+                    android:id="@+id/emailRequest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -181,7 +181,7 @@
                     android:textSize="@dimen/font_body_size"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintTop_toBottomOf="@+id/placePriceTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/nameRequest"
                     tools:text="Pending" />
 
                 <TextView
@@ -211,7 +211,7 @@
                     android:textSize="@dimen/font_body_size"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.992"
-                    app:layout_constraintTop_toBottomOf="@+id/placeJumlahGalonTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/emailRequest"
                     tools:text="Pending" />
 
                 <TextView

@@ -20,6 +20,7 @@ import com.rasyidabdulhalim.aquaza.utils.showView
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_watchlist.*
+import kotlinx.android.synthetic.main.depot_item.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import timber.log.Timber
@@ -123,11 +124,7 @@ class WatchlistActivity : BaseActivity(), DepotCallback {
             }
 
             R.id.moreOptions -> {
-                if (depot.sellerId == getUid()) {
-                    //sellerOptions(car)
-                } else {
-                    buyerOptions(depot)
-                }
+                buyerOptions(depot)
             }
 
             R.id.image -> {

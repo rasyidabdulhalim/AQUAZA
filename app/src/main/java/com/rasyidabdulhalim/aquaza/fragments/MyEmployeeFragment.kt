@@ -128,6 +128,7 @@ class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
     }
 
     private fun hasEmployees() {
+        noEmp=false
         rv?.hideShimmerAdapter()
         empty?.hideView()
         rv?.showView()

@@ -9,38 +9,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.Query
 import com.rasyidabdulhalim.aquaza.R
-import com.rasyidabdulhalim.aquaza.activities.AddEmployeActivity
-import com.rasyidabdulhalim.aquaza.activities.DepotActivity
-import com.rasyidabdulhalim.aquaza.adapters.EmployeeAdapter
-import com.rasyidabdulhalim.aquaza.callbacks.EmployeCallBack
+import com.rasyidabdulhalim.aquaza.activities.ChatActivity
+import com.rasyidabdulhalim.aquaza.adapters.KonsumenAdapter
+import com.rasyidabdulhalim.aquaza.callbacks.KonsumenCallback
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils
 import com.rasyidabdulhalim.aquaza.commoners.BaseFragment
 import com.rasyidabdulhalim.aquaza.commoners.K
-import com.rasyidabdulhalim.aquaza.models.User
+import com.rasyidabdulhalim.aquaza.models.Konsumen
+import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
 import com.rasyidabdulhalim.aquaza.utils.RecyclerFormatter
 import com.rasyidabdulhalim.aquaza.utils.hideView
 import com.rasyidabdulhalim.aquaza.utils.showView
-import kotlinx.android.synthetic.main.fragment_my_employee.empty
-import kotlinx.android.synthetic.main.fragment_my_employee.rv
+import kotlinx.android.synthetic.main.fragment_my_requestkonsumen.*
+import kotlinx.android.synthetic.main.konsumen_item.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import timber.log.Timber
 
-class MyKonsumenFragment : BaseFragment(), EmployeCallBack {
-    private lateinit var employeeAdapter: EmployeeAdapter
+class MyKonsumenFragment : BaseFragment(), KonsumenCallback {
+    private lateinit var konsumenAdapter: KonsumenAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_konsumen, container, false)
+        return inflater.inflate(R.layout.fragment_my_requestkonsumen, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
-        loadEmployees()
+        loadRequestKonsumen()
     }
 
     private fun initViews(v: View) {
@@ -50,38 +49,41 @@ class MyKonsumenFragment : BaseFragment(), EmployeCallBack {
         rv.addItemDecoration(RecyclerFormatter.DoubleDividerItemDecoration(activity!!))
         (rv.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
 
-        employeeAdapter = EmployeeAdapter(activity!!, this)
-        rv.adapter = employeeAdapter
+        konsumenAdapter = KonsumenAdapter(activity!!, this)
+        rv.adapter = konsumenAdapter
         rv.showShimmerAdapter()
     }
 
-    private fun loadEmployees() {
-        getFirestore().collection(K.USERS)
-            .whereEqualTo("status",K.KONSUMEN)
+    private fun loadRequestKonsumen() {
+        getFirestore().collection(K.WATCHLIST)
+            .whereEqualTo("status",K.SUBSCIBE)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
-                    Timber.e("Error fetching employee $firebaseFirestoreException")
+                    Timber.e("Error fetching Employee $firebaseFirestoreException")
                     noEmployees()
                 }
+
                 if (querySnapshot == null || querySnapshot.isEmpty) {
                     noEmployees()
                 } else {
                     hasEmployees()
+
                     for (docChange in querySnapshot.documentChanges) {
+
                         when(docChange.type) {
                             DocumentChange.Type.ADDED -> {
-                                val employee = docChange.document.toObject(User::class.java)
-                                employeeAdapter.addEmployee(employee)
+                                val konsumen = docChange.document.toObject(Konsumen::class.java)
+                                konsumenAdapter.addItem(konsumen)
                             }
 
                             DocumentChange.Type.MODIFIED -> {
-                                val employee = docChange.document.toObject(User::class.java)
-                                employeeAdapter.updateEmployee(employee)
+                                val konsumen = docChange.document.toObject(Konsumen::class.java)
+                                konsumenAdapter.updateItem(konsumen)
                             }
 
                             DocumentChange.Type.REMOVED -> {
-                                val employee = docChange.document.toObject(User::class.java)
-                                employeeAdapter.removeEmployee(employee)
+                                val konsumen = docChange.document.toObject(Konsumen::class.java)
+                                konsumenAdapter.removeItem(konsumen)
                             }
 
                         }
@@ -90,7 +92,6 @@ class MyKonsumenFragment : BaseFragment(), EmployeCallBack {
 
                 }
             }
-
     }
 
     private fun hasEmployees() {
@@ -104,36 +105,56 @@ class MyKonsumenFragment : BaseFragment(), EmployeCallBack {
         rv?.hideView()
         empty?.showView()
     }
-    override fun onClick(v: View, employee: User) {
+
+    override fun onClick(v: View, konsumen: Konsumen) {
         when(v.id){
-            R.id.editEmp->{
-                val i = Intent(activity, AddEmployeActivity::class.java)
-                i.putExtra(K.USERS, employee)
-                startActivity(i)
-                AppUtils.animateFadein(activity!!)
-            }
-            R.id.PecatEmp->{
-                activity?.alert("Pecat Karyawan?") {
+            R.id.cancel->{
+                activity?.alert("Hapus Permintaan Berlangganan Dari User Ini?") {
                     positiveButton("YES") {
-                        getFirestore().collection(K.USERS).document(employee.id!!).delete()
+                        if(konsumenAdapter.itemCount==1){
+                            konsumenAdapter.clear()
+                            noEmployees()
+                        }
+                        getFirestore().collection(K.WATCHLIST).document(konsumen.id!!).delete()
                             .addOnSuccessListener {
-                                activity?.toast("Karyawan Telah Dipecat")
-                                employeeAdapter.removeEmployee(employee)
+                                activity?.toast("Permintaan Berhasil Dibatalkan")
                             }
                             .addOnFailureListener {
-                                Timber.e("Error deleting ${employee.name}")
-                                activity?.toast("Error deleting ${employee.name}")
+                                Timber.e("Error deleting ${konsumen.id}")
+                                activity?.toast("Error deleting ${konsumen.id}")
                             }
                     }
                     negativeButton("CANCEL") {}
                 }!!.show()
             }
-            R.id.image -> {
-                val i = Intent(activity, DepotActivity::class.java)
-                i.putExtra(K.USERS, employee)
-                startActivity(i)
+            R.id.action->{
+                activity?.alert("Konfirmasi Permintaan Berlangganan Dari User Ini?") {
+                    positiveButton("YES") {
+                        if(konsumenAdapter.itemCount==1){
+                            konsumenAdapter.clear()
+                            noEmployees()
+                        }
+                        konsumen.status=K.SUBSCIBE
+                        getFirestore().collection(K.WATCHLIST).document(konsumen.id!!).set(konsumen).addOnSuccessListener {
+                            activity?.toast("Konsumen Baru Berhasil Ditambahkan")
+                        }
+                            .addOnFailureListener {
+                                Timber.e("Error deleting ${konsumen.id}")
+                                activity?.toast("Error deleting ${konsumen.id}")
+                            }
+                    }
+                    negativeButton("CANCEL") {}
+                }!!.show()
+            }
+            R.id.contact -> {
+                val i = Intent(activity, ChatActivity::class.java)
+                i.putExtra(K.MY_ID, getUid())
+                i.putExtra(K.OTHER_ID, konsumen.id)
+                i.putExtra(K.CHAT_NAME, konsumen.name)
+                activity!!.startActivity(i)
                 AppUtils.animateFadein(activity!!)
             }
         }
+
     }
 }

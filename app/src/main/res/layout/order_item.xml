@@ -104,7 +104,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <View
-                    android:id="@+id/view37"
+                    android:id="@+id/line"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
@@ -114,7 +114,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/transNoTextView1" />
 
                 <TextView
-                    android:id="@+id/placePriceTextView"
+                    android:id="@+id/nameRequest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -125,7 +125,7 @@
                     android:textColor="@color/green"
                     android:textSize="@dimen/font_body_size"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view37"
+                    app:layout_constraintTop_toBottomOf="@+id/line"
                     tools:text="$ 40.50" />
 
                 <TextView
@@ -140,7 +140,7 @@
                     android:textColor="@color/colorTextLight"
                     android:textSize="@dimen/font_body_size"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view37" />
+                    app:layout_constraintTop_toBottomOf="@+id/line" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -171,7 +171,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
                 <TextView
-                    android:id="@+id/placeJumlahGalonTextView"
+                    android:id="@+id/emailRequest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -182,7 +182,7 @@
                     android:textColor="@color/md_light_blue_A700"
                     android:textSize="@dimen/font_body_size"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/placePriceTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/nameRequest"
                     tools:text="Pending" />
 
                 <TextView
@@ -211,7 +211,7 @@
                     android:textColor="@color/md_red_600"
                     android:textSize="@dimen/font_body_size"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/placeOrderDateTextView2"
+                    app:layout_constraintTop_toBottomOf="@+id/addressRequest"
                     tools:text="Pending" />
 
                 <TextView
@@ -247,7 +247,7 @@
                     tools:text="01/01/2018" />
 
                 <TextView
-                    android:id="@+id/placeOrderDateTextView2"
+                    android:id="@+id/addressRequest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -260,7 +260,7 @@
                     android:textSize="@dimen/font_body_size"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/placeJumlahGalonTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/emailRequest"
                     app:layout_constraintVertical_bias="0.0"
                     tools:text="Diego" />
 

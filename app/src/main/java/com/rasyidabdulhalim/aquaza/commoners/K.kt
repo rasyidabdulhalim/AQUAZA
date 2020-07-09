@@ -45,6 +45,10 @@ object K {
     const val ONPROSES = "On Process"
     const val RECEIVED = "Received"
 
+    //User Status
+    const val REQUEST = "Request"
+    const val SUBSCIBE = "Berlangganan"
+
     //Order Status
     const val OWNER = "Owner"
     const val ADMIN = "Administrator"
