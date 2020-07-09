@@ -10,12 +10,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.firebase.firestore.DocumentChange
 import com.rasyidabdulhalim.aquaza.R
-import com.rasyidabdulhalim.aquaza.activities.AddDepotActivity
-import com.rasyidabdulhalim.aquaza.activities.ChatActivity
-import com.rasyidabdulhalim.aquaza.activities.DepotActivity
-import com.rasyidabdulhalim.aquaza.activities.DepotInfoActivity
+import com.rasyidabdulhalim.aquaza.activities.*
 import com.rasyidabdulhalim.aquaza.adapters.DepotsAdapter
 import com.rasyidabdulhalim.aquaza.callbacks.DepotCallback
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils
@@ -274,6 +272,12 @@ class DepotFragment : BaseFragment(), DepotCallback {
                     activity!!.startActivity(i)
                     AppUtils.animateFadein(activity!!)
                 }
+            }
+            R.id.showParam->{
+                val i = Intent(activity, DepotInfoParamActivity::class.java)
+                i.putExtra(K.DEPOT, depot)
+                activity!!.startActivity(i)
+                AppUtils.animateEnterLeft(activity!!)
             }
         }
     }

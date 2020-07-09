@@ -76,6 +76,16 @@
             android:text="@{data.description}"
             tools:text="@string/sample_features"/>
 
+        <ImageButton
+            android:id="@+id/showParam"
+            android:layout_width="37dp"
+            android:layout_height="33dp"
+            android:layout_alignTop="@+id/image"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ic_maneuver_depart"
+            android:onClick="@{(v) -> callback.onClick(v, data)}"
+            tools:ignore="ContentDescription" />
+
         <LinearLayout
             android:id="@+id/buttons_layout"
             android:layout_width="match_parent"
