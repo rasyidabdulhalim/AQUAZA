@@ -14,12 +14,12 @@
 
         <ImageView
             android:id="@+id/loginIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="105dp"
+            android:layout_height="116dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:contentDescription="@string/image"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:layout_width="wrap_content"

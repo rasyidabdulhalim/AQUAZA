@@ -44,6 +44,11 @@ class EmployeeAdapter(private val context: Context, private val callback: Employ
         notifyItemRemoved(indexToRemove)
     }
 
+    fun clear() {
+        val size: Int = users.size
+        users.clear()
+        notifyItemRangeRemoved(0, size)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeeHolder {
         return EmployeeHolder(parent.inflate(R.layout.employee_item), callback)
     }

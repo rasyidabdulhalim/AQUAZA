@@ -1,52 +1,65 @@
 package com.rasyidabdulhalim.aquaza.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.view.MenuItem
 import android.view.View
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.messaging.FirebaseMessaging
 import com.mikepenz.ionicons_typeface_library.Ionicons
 import com.rasyidabdulhalim.aquaza.R
+import com.rasyidabdulhalim.aquaza.adapters.ImagesAdapter
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils
-import com.rasyidabdulhalim.aquaza.commoners.AppUtils.drawableToBitmap
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils.setDrawable
 import com.rasyidabdulhalim.aquaza.commoners.BaseActivity
 import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.User
-import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
-import com.rasyidabdulhalim.aquaza.utils.TimeFormatter
-import com.rasyidabdulhalim.aquaza.utils.setDrawable
+import com.rasyidabdulhalim.aquaza.utils.*
+import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.set
+import com.zhihu.matisse.Matisse
+import com.zhihu.matisse.MimeType
+import com.zhihu.matisse.filter.Filter
 import kotlinx.android.synthetic.main.activity_add_employee.*
+import kotlinx.android.synthetic.main.activity_add_employee.addressEmployee
+import kotlinx.android.synthetic.main.activity_add_employee.buttonEmployee
+import kotlinx.android.synthetic.main.activity_add_employee.confirmPasswordEmployee
+import kotlinx.android.synthetic.main.activity_add_employee.emailEmployee
+import kotlinx.android.synthetic.main.activity_add_employee.nameEmployee
+import kotlinx.android.synthetic.main.activity_add_employee.phoneEmployee
+import kotlinx.android.synthetic.main.auth_register_fragment.*
 import org.jetbrains.anko.toast
 import timber.log.Timber
+import kotlin.collections.mutableListOf
+import kotlin.collections.mutableMapOf
+import kotlin.collections.set
 
-class AddEmployeActivity : BaseActivity(){
-    private var imageUri: Uri? = null
-    private var imageSelected = false
-    private lateinit var status: Array<String>
-    private lateinit var depot: Array<String>
-    private lateinit var shift: Array<String>
-    private lateinit var registerSuccessful: Bitmap
-    private var employee = User()
+class AddEmployeActivity : BaseActivity() {
+    private var pickedImages = mutableListOf<Uri>()
+    private lateinit var imagesAdapter: ImagesAdapter
+    private val images = mutableMapOf<String, String>()
     private lateinit var KEY: String
+    private var employee = User()
     private lateinit var prefs: SharedPreferences
+
+    companion object {
+        private const val IMAGE_PICKER = 401
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_employee)
         prefs = PreferenceHelper.defaultPrefs(this)
-        if (intent.getSerializableExtra(K.USER)!=null){
+        if (intent.getSerializableExtra(K.USER) != null) {
             employee = intent.getSerializableExtra(K.USER) as User
         }
-        val successfulIcon = setDrawable(this, Ionicons.Icon.ion_checkmark_round, R.color.white, 25)
-        registerSuccessful = drawableToBitmap(successfulIcon)
         initViews()
     }
 
@@ -54,133 +67,263 @@ class AddEmployeActivity : BaseActivity(){
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        if (employee.id!=null){
+        if (employee.id != null) {
             supportActionBar?.title = "Edit Data Employee"
-            registerFirstname.text= Editable.Factory.getInstance().newEditable(employee.name.toString())
-            registerPhone.text= Editable.Factory.getInstance().newEditable(employee.phone.toString())
-            registerEmail.text= Editable.Factory.getInstance().newEditable(employee.email.toString())
-            address.text= Editable.Factory.getInstance().newEditable(employee.address.toString())
-            registerPassword.setVisibility(View.GONE)
-            registerConfirmPassword.setVisibility(View.GONE)
+            nameEmployee.text = Editable.Factory.getInstance().newEditable(employee.name.toString())
+            phoneEmployee.text =
+                Editable.Factory.getInstance().newEditable(employee.phone.toString())
+            emailEmployee.text =
+                Editable.Factory.getInstance().newEditable(employee.email.toString())
+            addressEmployee.text =
+                Editable.Factory.getInstance().newEditable(employee.address.toString())
+            passwordEmployee.setVisibility(View.GONE)
+            confirmPasswordEmployee.setVisibility(View.GONE)
+            buttonEmployee.setText("Simpan Perubahan")
 
-        }else{
+            KEY = employee.id.toString()
+
+        } else {
             supportActionBar?.title = "Add New Employee"
+
+            KEY = getFirestore().collection(K.USERS).document().id // buat id baru
+
         }
-        registerFirstname.setDrawable(setDrawable(this, Ionicons.Icon.ion_person, R.color.secondaryText, 18))
-        address.setDrawable(setDrawable(this, Ionicons.Icon.ion_ios_navigate_outline, R.color.secondaryText, 18))
-        registerPhone.setDrawable(setDrawable(this, Ionicons.Icon.ion_android_call, R.color.secondaryText, 18))
-        registerEmail.setDrawable(setDrawable(this, Ionicons.Icon.ion_ios_email, R.color.secondaryText, 18))
-        registerPassword.setDrawable(setDrawable(this, Ionicons.Icon.ion_android_lock, R.color.secondaryText, 18))
-        registerConfirmPassword.setDrawable(setDrawable(this, Ionicons.Icon.ion_android_lock, R.color.secondaryText, 18))
-        registerButton.setOnClickListener{
-            validatedDataEmployee()
-        }
-        initArrays()
+        nameEmployee.setDrawable(
+            setDrawable(
+                this,
+                Ionicons.Icon.ion_person,
+                R.color.secondaryText,
+                18
+            )
+        )
+        addressEmployee.setDrawable(
+            setDrawable(
+                this,
+                Ionicons.Icon.ion_ios_navigate_outline,
+                R.color.secondaryText,
+                18
+            )
+        )
+        phoneEmployee.setDrawable(
+            setDrawable(
+                this,
+                Ionicons.Icon.ion_android_call,
+                R.color.secondaryText,
+                18
+            )
+        )
+        emailEmployee.setDrawable(
+            setDrawable(
+                this,
+                Ionicons.Icon.ion_ios_email,
+                R.color.secondaryText,
+                18
+            )
+        )
+        passwordEmployee.setDrawable(
+            setDrawable(
+                this,
+                Ionicons.Icon.ion_android_lock,
+                R.color.secondaryText,
+                18
+            )
+        )
+        confirmPasswordEmployee.setDrawable(
+            setDrawable(
+                this,
+                Ionicons.Icon.ion_android_lock,
+                R.color.secondaryText,
+                18
+            )
+        )
+
+        photosRv.setHasFixedSize(true)
+        photosRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        imagesAdapter = ImagesAdapter()
+        photosRv.adapter = imagesAdapter
+
+        addPhoto.setDrawable(
+            AppUtils.setDrawable(
+                this,
+                Ionicons.Icon.ion_android_camera,
+                R.color.colorPrimary,
+                15
+            )
+        )
+        addPhoto.setOnClickListener { pickPhotos() }
+
+        buttonEmployee.setOnClickListener { validatedData() }
     }
 
-    // Initial arrays for spinners
-    private fun initArrays() {
-        status = resources.getStringArray(R.array.status)
-        depot = resources.getStringArray(R.array.depot)
-        shift = resources.getStringArray(R.array.shift)
-    }
-
-    private fun validatedDataEmployee() {
-        // Check if all fields are filled
-        if (!AppUtils.validated(registerFirstname,registerPhone, address, registerEmail, registerPassword, registerConfirmPassword)) return
-
-        val email = registerEmail.text.toString().trim()
-        val pw = registerPassword.text.toString().trim()
-        val confirmPw = registerConfirmPassword.text.toString().trim()
-        if (pw != confirmPw) {
-            registerConfirmPassword.error = "Does not match password"
+    // Pick photos from gallery
+    private fun pickPhotos() {
+        if (!storagePermissionGranted()) {
+            requestStoragePermission()
             return
         }
-        registerButton.startAnimation()
-        getFirebaseAuth().createUserWithEmailAndPassword(email, pw)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    registerButton.doneLoadingAnimation(AppUtils.getColor(this, R.color.pink), registerSuccessful)
-                    Timber.e("Add New Employee: Success!")
-                    val user = task.result!!.user
-                    addEmployee(user)
-                } else {
-                    try {
-                        throw task.exception!!
-                    } catch (weakPassword: FirebaseAuthWeakPasswordException){
-                        registerButton.revertAnimation()
-                        registerPassword.error = "Please enter a stronger password"
 
-                    } catch (userExists: FirebaseAuthUserCollisionException) {
-                        registerButton.revertAnimation()
-                        this.toast("Account already exists. Please log in.")
-
-                    } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
-                        registerButton.revertAnimation()
-                        registerEmail.error = "Incorrect email format"
-
-                    } catch (e: Exception) {
-                        registerButton.revertAnimation()
-                        Timber.e( "signingIn: Failure - $e}")
-                        this.toast("Error signing up. Please try again.")
-                    }
-                }
-            }
-
+        Matisse.from(this)
+            .choose(MimeType.ofImage())
+            .countable(true)
+            .maxSelectable(10)
+            .addFilter(GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+            .gridExpectedSize(resources.getDimensionPixelSize(R.dimen.grid_expected_size))
+            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            .thumbnailScale(0.85f)
+            .imageEngine(MyGlideEngine())
+            .forResult(IMAGE_PICKER)
 
     }
-    private fun addEmployee(user: FirebaseUser) {
-        val newUser = User()
-        newUser.name = registerFirstname.text.toString().trim()
-        newUser.email = user.email
-        newUser.dateCreated = TimeFormatter().getNormalYear(System.currentTimeMillis())
-        newUser.id = user.uid
-        newUser.phone = registerPhone.text.toString().trim()
-        newUser.status=statusType.selectedItem.toString()
-        newUser.address=address.text.toString().trim()
-        newUser.mydepot=depotType.selectedItem.toString()
-        newUser.myshift=shiftType.selectedItem.toString()
 
-        if (employee.id!=null){
-            KEY=employee.id.toString()
-        }else{
-            KEY = getFirestore().collection(K.USERS).document().id // buat id baru
+    private fun setImages() {
+        if (pickedImages.size < 1) return
+
+        if (pickedImages.size == 1) {
+            mainImage.setImageURI(pickedImages[0])
+        } else {
+            mainImage.setImageURI(pickedImages[0])
+            photosRv.showView()
+
+            for (i in 1..(pickedImages.size - 1)) {
+                imagesAdapter.addImage(pickedImages[i])
+            }
+
         }
 
+    }
+
+    private fun validatedData() {
+        val email = emailEmployee.text.toString().trim()
+        val pw = confirmPasswordEmployee.text.toString().trim()
+        val confirmPw = confirmPasswordEmployee.text.toString().trim()
+        if (!isConnected()) {
+            toast("Please connect to the internet!")
+            return
+        }
+        // Check if password and confirm password match
+        if (pw != confirmPw) {
+            confirmPasswordEmployee.error = "Does not match password"
+            return
+        }
+
+        if (pickedImages.size < 1) {
+            toast("Please Upload Avatar")
+            return
+        }
+
+        if (employee.id != null) {
+            if (!AppUtils.validated(nameEmployee, phoneEmployee, addressEmployee, emailEmployee)) {
+                toast("Please fill all fields!")
+                return
+            }else{
+                showLoading("Uploading images...")
+                uploadImages()
+            }
+        } else {
+            if (!AppUtils.validated(nameEmployee,phoneEmployee,addressEmployee,emailEmployee,passwordEmployee,confirmPasswordEmployee)) {
+                toast("Please fill all fields!")
+                return
+            }else{
+                getFirebaseAuth().createUserWithEmailAndPassword(email, pw)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            Timber.e("signingIn: Success!")
+                            val user = task.result!!.user
+                            KEY = user.uid
+                            showLoading("Uploading images...")
+                            uploadImages()
+                        } else {
+                            try {
+                                throw task.exception!!
+                            } catch (weakPassword: FirebaseAuthWeakPasswordException) {
+                                buttonEmployee.revertAnimation()
+                                confirmPasswordEmployee.error = "Please enter a stronger password"
+
+                            } catch (userExists: FirebaseAuthUserCollisionException) {
+                                buttonEmployee.revertAnimation()
+                                toast("Account already exists. Please log in.")
+
+                            } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
+                                buttonEmployee.revertAnimation()
+                                emailEmployee.error = "Incorrect email format"
+
+                            } catch (e: Exception) {
+                                buttonEmployee.revertAnimation()
+                                Timber.e("signingIn: Failure - $e}")
+                                toast("Error signing up. Please try again.")
+                            }
+                        }
+                    }
+            }
+        }
+    }
+
+    // Upload images to firebase storage
+    private fun uploadImages() {
+        Timber.e("Images to be uploaded ${pickedImages.size}")
         val ref = getStorageReference().child("avatars").child(KEY)
-        val uploadTask = ref.putFile(imageUri!!)
+
+        val uploadTask = ref.putFile(pickedImages[0])
         uploadTask.continueWithTask { task ->
             if (!task.isSuccessful) {
+                Timber.e("Error uploading images ${task.exception}}")
                 throw task.exception!!
             }
-            Timber.e("Image uploaded")
-
-            // Continue with the task to getBitmap the download URL
+            // Continue with the task to get the download URL
             ref.downloadUrl
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                newUser.avatar =  task.result.toString()
-                user.sendEmailVerification()
-                FirebaseMessaging.getInstance().subscribeToTopic(K.TOPIC_GLOBAL)
-                getFirestore().collection(K.USERS).document(KEY).set(newUser).addOnSuccessListener {
-                    Timber.e("Adding user: $newUser")
-                    registerButton.doneLoadingAnimation(AppUtils.getColor(this, R.color.pink), registerSuccessful)
-                    startActivity(Intent(this, MyEmployeActivity::class.java))
-                    AppUtils.animateEnterRight(this)
-                    this.finish()
-                }
-
-            } else {
-                registerButton.revertAnimation()
-                toast("Error signing up. Please try again.")
-                Timber.e("Error signing up: ${task.exception}")
+                employee.avatar = task.result.toString()
+                images["0"] = task.result.toString()
+                Timber.e("Uploaded image ${task.result}")
+                setDetails()
             }
+        }
+    }
+
+    // Set details to Firestore
+    private fun setDetails() {
+        Timber.e("Uploading details to Firestore")
+        if (employee.id != null) {
+            showLoading("Sedang Mengubah Data Karyawan didalam Database...")
+        } else {
+            showLoading("Sedang Menambahkan Data Karyawan Baru Kedalam Database...")
+        }
+        employee.id = KEY
+        employee.name = nameEmployee.text.toString()
+        employee.phone = phoneEmployee.text.toString()
+        employee.address = addressEmployee.text.toString()
+        employee.email = emailEmployee.text.toString()
+        employee.status = statusEmployee.selectedItem.toString()
+        employee.mydepot = depotType.selectedItem.toString()
+        employee.myshift = shiftEmployee.selectedItem.toString()
+        employee.dateCreated = TimeFormatter().getNormalYear(System.currentTimeMillis())
+        getFirestore().collection(K.USERS).document(KEY).set(employee)
+            .addOnSuccessListener {
+                Timber.e("Data Berhasil Disimpan")
+                hideLoading()
+                toast("Data Karyawan Berhasil Disimpan")
+            }
+            .addOnFailureListener {
+                Timber.e("Error uploading: $it")
+                hideLoading()
+
+                toast("Error. Please try again")
+            }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == IMAGE_PICKER && resultCode == Activity.RESULT_OK) {
+            pickedImages = Matisse.obtainResult(data)
+
+            setImages()
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> onBackPressed()
         }
 
@@ -194,3 +337,4 @@ class AddEmployeActivity : BaseActivity(){
     }
 
 }
+

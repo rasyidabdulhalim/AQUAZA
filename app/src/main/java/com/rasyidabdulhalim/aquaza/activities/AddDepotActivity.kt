@@ -23,8 +23,8 @@ import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.filter.Filter
 import kotlinx.android.synthetic.main.activity_add_depot.*
-import kotlinx.android.synthetic.main.activity_add_depot.address
-import kotlinx.android.synthetic.main.activity_add_depot.registerButton
+import kotlinx.android.synthetic.main.activity_add_depot.addressEmployee
+import kotlinx.android.synthetic.main.activity_add_depot.buttonEmployee
 import kotlinx.android.synthetic.main.activity_add_depot.toolbar
 import org.jetbrains.anko.toast
 import timber.log.Timber
@@ -58,7 +58,7 @@ class AddDepotActivity : BaseActivity() {
         if (depot.id!=null){
             supportActionBar?.title = "Edit Data Depot"
             depotName.text=Editable.Factory.getInstance().newEditable(depot.depotName)
-            address.text=Editable.Factory.getInstance().newEditable(depot.location)
+            addressEmployee.text=Editable.Factory.getInstance().newEditable(depot.location)
             phone.text=Editable.Factory.getInstance().newEditable(depot.phone)
             price.text=Editable.Factory.getInstance().newEditable(depot.price.toString())
             desc.text=Editable.Factory.getInstance().newEditable(depot.description)
@@ -74,7 +74,7 @@ class AddDepotActivity : BaseActivity() {
         addPhoto.setDrawable(AppUtils.setDrawable(this, Ionicons.Icon.ion_android_camera, R.color.colorPrimary, 15))
         addPhoto.setOnClickListener { pickPhotos() }
 
-        registerButton.setOnClickListener { addDepot() }
+        buttonEmployee.setOnClickListener { addDepot() }
     }
 
     // Pick photos from gallery
@@ -125,7 +125,7 @@ class AddDepotActivity : BaseActivity() {
             return
         }
 
-        if(!AppUtils.validated(depotName, address, price, desc)) {
+        if(!AppUtils.validated(depotName, addressEmployee, price, desc)) {
             toast("Please fill all fields!")
             return
         }
@@ -198,7 +198,7 @@ class AddDepotActivity : BaseActivity() {
         depot.time = System.currentTimeMillis()
         depot.depotName=depotName.text.toString().trim()
         depot.price = price.text.toString().trim()
-        depot.location = address.text.toString().trim()
+        depot.location = addressEmployee.text.toString().trim()
         depot.description = desc.text.toString().trim()
         depot.phone=phone.text.toString().trim()
         depot.status="OPEN"

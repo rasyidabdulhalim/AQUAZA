@@ -149,10 +149,13 @@ class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
             R.id.PecatEmp->{
                 activity?.alert("Pecat Karyawan?") {
                     positiveButton("YES") {
+                        if(employeeAdapter.itemCount==1){
+                            employeeAdapter.clear()
+                            noEmployees()
+                        }
                         getFirestore().collection(K.USERS).document(employee.id!!).delete()
                             .addOnSuccessListener {
                                 activity?.toast("Karyawan Telah Dipecat")
-                                employeeAdapter.removeEmployee(employee)
                             }
                             .addOnFailureListener {
                                 Timber.e("Error deleting ${employee.name}")
@@ -163,7 +166,7 @@ class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
                 }!!.show()
             }
             R.id.image -> {
-                val i = Intent(activity, DepotActivity::class.java)
+                val i = Intent(activity, AddEmployeActivity::class.java)
                 i.putExtra(K.USERS, employee)
                 startActivity(i)
                 AppUtils.animateFadein(activity!!)

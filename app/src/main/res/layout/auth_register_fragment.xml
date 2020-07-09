@@ -50,7 +50,7 @@
                 android:contentDescription="@string/image"/>
 
             <EditText
-                android:id="@+id/registerFirstname"
+                android:id="@+id/nameEmployee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -62,7 +62,7 @@
                 android:inputType="text"/>
 
             <EditText
-                android:id="@+id/address"
+                android:id="@+id/addressEmployee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -74,7 +74,7 @@
                 android:inputType="text"/>
 
             <EditText
-                android:id="@+id/registerPhone"
+                android:id="@+id/phoneEmployee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -86,7 +86,7 @@
                 android:inputType="phone"/>
 
             <EditText
-                android:id="@+id/registerEmail"
+                android:id="@+id/emailEmployee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -98,7 +98,7 @@
                 android:inputType="textEmailAddress"/>
 
             <EditText
-                android:id="@+id/registerPassword"
+                android:id="@+id/confirmPasswordEmployee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -110,7 +110,7 @@
                 android:inputType="textPassword"/>
 
             <EditText
-                android:id="@+id/registerConfirmPassword"
+                android:id="@+id/confirmPasswordEmployee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -123,7 +123,7 @@
                 android:inputType="textPassword"/>
 
             <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                android:id="@+id/registerButton"
+                android:id="@+id/buttonEmployee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_solid"

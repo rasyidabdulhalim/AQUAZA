@@ -155,7 +155,7 @@ class AuthLoginFragment : BaseFragment() {
                 prefs[K.STATUS] = userObject.status
                 prefs[K.ADDRESS] = userObject.address
                 Handler().postDelayed({
-                    activity!!.toast("Welcome back ${userObject.name}")
+                    activity!!.toast("Welcome ${userObject.name}")
 
                     startActivity(Intent(activity!!, MainActivity::class.java))
                     activity!!.overridePendingTransition(R.anim.enter_b, R.anim.exit_a)

@@ -148,7 +148,7 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
                 .addDrawerItems(default, DividerDrawerItem(), orders, sales, watchlist, DividerDrawerItem(), settings, exit)
                 .withOnDrawerItemClickListener { _, _, drawerItem ->
                     when(drawerItem) {
-                        orders -> launchActivity(MapActivity::class.java)
+                        orders -> launchActivity(SettingsActivity::class.java)
                         sales -> launchActivity(SalesActivity::class.java)
                         watchlist -> launchActivity(WatchlistActivity::class.java)
                         settings -> launchActivity(SettingsActivity::class.java)
@@ -216,8 +216,8 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
             .withOnDrawerItemClickListener { _, _, drawerItem ->
                 when(drawerItem) {
                     driverReport -> launchActivity(SalesActivity::class.java)
-                    boardEmployee -> launchActivity(MapActivity::class.java)
-                    settings -> launchActivity(MapActivity::class.java)
+                    boardEmployee -> launchActivity(SettingsActivity::class.java)
+                    settings -> launchActivity(SettingsActivity::class.java)
                     exit -> logOut()
                 }
                 true

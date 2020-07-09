@@ -54,7 +54,7 @@
                     android:textStyle="bold"/>
 
                 <EditText
-                    android:id="@+id/registerFirstname"
+                    android:id="@+id/nameEmployee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -66,7 +66,7 @@
                     android:textSize="13sp" />
 
                 <EditText
-                    android:id="@+id/registerPhone"
+                    android:id="@+id/phoneEmployee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -78,7 +78,7 @@
                     android:textSize="13sp" />
 
                 <EditText
-                    android:id="@+id/address"
+                    android:id="@+id/addressEmployee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -90,7 +90,7 @@
                     android:textSize="13sp" />
 
                 <EditText
-                    android:id="@+id/registerEmail"
+                    android:id="@+id/emailEmployee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -102,7 +102,7 @@
                     android:textSize="13sp" />
 
                 <EditText
-                    android:id="@+id/registerPassword"
+                    android:id="@+id/passwordEmployee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -114,7 +114,7 @@
                     android:textSize="13sp" />
 
                 <EditText
-                    android:id="@+id/registerConfirmPassword"
+                    android:id="@+id/confirmPasswordEmployee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -172,7 +172,7 @@
                             android:text="Status"/>
 
                         <Spinner
-                            android:id="@+id/statusType"
+                            android:id="@+id/statusEmployee"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -230,7 +230,7 @@
                             android:text="Shift Kerja"/>
 
                         <Spinner
-                            android:id="@+id/shiftType"
+                            android:id="@+id/shiftEmployee"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -241,7 +241,7 @@
                     </LinearLayout>
 
                     <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                        android:id="@+id/registerButton"
+                        android:id="@+id/buttonEmployee"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -254,9 +254,68 @@
                 </LinearLayout>
 
             </com.github.captain_miao.optroundcardview.OptRoundCardView>
+            <com.github.captain_miao.optroundcardview.OptRoundCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:optRoundCardElevation="5dp">
 
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:clipToPadding="false">
 
+                    <TextView
+                        android:id="@+id/photos_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textColor="@color/primaryText"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:text="@string/upload_photos"/>
 
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/mainImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        app:layout_constraintTop_toBottomOf="@id/photos_title"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:scaleType="centerCrop"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/photosRv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="10dp"
+                        android:overScrollMode="never"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/mainImage"
+                        tools:listitem="@layout/item_image"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/addPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/photosRv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:background="@drawable/wire_button"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/choose_photos"/>
+
+                </android.support.constraint.ConstraintLayout>
+
+            </com.github.captain_miao.optroundcardview.OptRoundCardView>
         </LinearLayout>
 
     </ScrollView>

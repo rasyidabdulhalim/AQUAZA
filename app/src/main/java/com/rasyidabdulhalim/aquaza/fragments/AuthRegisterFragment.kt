@@ -26,7 +26,6 @@ import com.rasyidabdulhalim.aquaza.commoners.AppUtils
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils.drawableToBitmap
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils.getColor
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils.setDrawable
-import com.rasyidabdulhalim.aquaza.commoners.BaseActivity
 import com.rasyidabdulhalim.aquaza.commoners.BaseFragment
 import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.User
@@ -62,12 +61,12 @@ class AuthRegisterFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        registerFirstname.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_person, R.color.secondaryText, 18))
-        address.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_ios_navigate_outline, R.color.secondaryText, 18))
-        registerPhone.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_call, R.color.secondaryText, 18))
-        registerEmail.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_ios_email, R.color.secondaryText, 18))
-        registerPassword.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_lock, R.color.secondaryText, 18))
-        registerConfirmPassword.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_lock, R.color.secondaryText, 18))
+        nameEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_person, R.color.secondaryText, 18))
+        addressEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_ios_navigate_outline, R.color.secondaryText, 18))
+        phoneEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_call, R.color.secondaryText, 18))
+        emailEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_ios_email, R.color.secondaryText, 18))
+        confirmPasswordEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_lock, R.color.secondaryText, 18))
+        confirmPasswordEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_lock, R.color.secondaryText, 18))
 
         avatarEmploye.setOnClickListener {
             if (!isCreatingAccount) {
@@ -99,21 +98,21 @@ class AuthRegisterFragment : BaseFragment() {
             } else activity!!.toast("Please wait...")
         }
 
-        registerButton.setOnClickListener { signUp() }
+        buttonEmployee.setOnClickListener { signUp() }
     }
 
     private fun signUp() {
         // Check if all fields are filled
-        if (!AppUtils.validated(registerFirstname, address, registerEmail, registerPassword, registerConfirmPassword)) return
+        if (!AppUtils.validated(nameEmployee, addressEmployee, emailEmployee, confirmPasswordEmployee, confirmPasswordEmployee)) return
 
-        val name = "${registerFirstname.text.toString().trim()} ${address.text.toString().trim()}"
-        val email = registerEmail.text.toString().trim()
-        val pw = registerPassword.text.toString().trim()
-        val confirmPw = registerConfirmPassword.text.toString().trim()
+        val name = "${nameEmployee.text.toString().trim()} ${addressEmployee.text.toString().trim()}"
+        val email = emailEmployee.text.toString().trim()
+        val pw = confirmPasswordEmployee.text.toString().trim()
+        val confirmPw = confirmPasswordEmployee.text.toString().trim()
 
         // Check if password and confirm password match
         if (pw != confirmPw) {
-            registerConfirmPassword.error = "Does not match password"
+            confirmPasswordEmployee.error = "Does not match password"
             return
         }
 
@@ -131,11 +130,11 @@ class AuthRegisterFragment : BaseFragment() {
 
         // Create new user
         isCreatingAccount = true
-        registerButton.startAnimation()
+        buttonEmployee.startAnimation()
         getFirebaseAuth().createUserWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(activity!!) { task ->
                     if (task.isSuccessful) {
-                        registerButton.doneLoadingAnimation(getColor(activity!!, R.color.pink), registerSuccessful)
+                        buttonEmployee.doneLoadingAnimation(getColor(activity!!, R.color.pink), registerSuccessful)
                         Timber.e("signingIn: Success!")
 
                         // update UI with the signed-in user's information
@@ -144,29 +143,29 @@ class AuthRegisterFragment : BaseFragment() {
                         PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply()//clear first
                         prefs[K.NAME] = name
                         prefs[K.EMAIL] = email
-                        prefs[K.PHONE] = registerPhone.text.toString().trim()
+                        prefs[K.PHONE] = phoneEmployee.text.toString().trim()
 
                     } else {
                         try {
                             throw task.exception!!
                         } catch (weakPassword: FirebaseAuthWeakPasswordException){
                             isCreatingAccount = false
-                            registerButton.revertAnimation()
-                            registerPassword.error = "Please enter a stronger password"
+                            buttonEmployee.revertAnimation()
+                            confirmPasswordEmployee.error = "Please enter a stronger password"
 
                         } catch (userExists: FirebaseAuthUserCollisionException) {
                             isCreatingAccount = false
-                            registerButton.revertAnimation()
+                            buttonEmployee.revertAnimation()
                             activity?.toast("Account already exists. Please log in.")
 
                         } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
                             isCreatingAccount = false
-                            registerButton.revertAnimation()
-                            registerEmail.error = "Incorrect email format"
+                            buttonEmployee.revertAnimation()
+                            emailEmployee.error = "Incorrect email format"
 
                         } catch (e: Exception) {
                             isCreatingAccount = false
-                            registerButton.revertAnimation()
+                            buttonEmployee.revertAnimation()
                             Timber.e( "signingIn: Failure - $e}")
                             activity?.toast("Error signing up. Please try again.")
                         }
@@ -180,12 +179,12 @@ class AuthRegisterFragment : BaseFragment() {
         val id = user.uid
 
         val newUser = User()
-        newUser.name = registerFirstname.text.toString().trim()
+        newUser.name = nameEmployee.text.toString().trim()
         newUser.email = user.email
         newUser.dateCreated = TimeFormatter().getNormalYear(System.currentTimeMillis())
         newUser.id = id
-        newUser.phone = registerPhone.text.toString().trim()
-        newUser.address=address.text.toString().trim()
+        newUser.phone = phoneEmployee.text.toString().trim()
+        newUser.address=addressEmployee.text.toString().trim()
         newUser.status=K.USER
         newUser.mydepot="Belum Berlangganan"
         newUser.myshift="Bukan Karyawan"
@@ -216,16 +215,16 @@ class AuthRegisterFragment : BaseFragment() {
 
                 getFirestore().collection(K.USERS).document(id).set(newUser).addOnSuccessListener {
                     Timber.e("Adding user: $newUser")
-                    registerButton.doneLoadingAnimation(getColor(activity!!, R.color.pink), registerSuccessful)
+                    buttonEmployee.doneLoadingAnimation(getColor(activity!!, R.color.pink), registerSuccessful)
 
-                    activity!!.toast("Welcome ${registerFirstname.text.toString().trim()}")
+                    activity!!.toast("Welcome ${nameEmployee.text.toString().trim()}")
                     startActivity(Intent(activity!!, MainActivity::class.java))
                     AppUtils.animateEnterRight(activity!!)
                     activity!!.finish()
                 }
 
             } else {
-                registerButton.revertAnimation()
+                buttonEmployee.revertAnimation()
                 activity?.toast("Error signing up. Please try again.")
                 Timber.e("Error signing up: ${task.exception}")
             }
@@ -269,7 +268,7 @@ class AuthRegisterFragment : BaseFragment() {
     fun backPressOkay(): Boolean = !isCreatingAccount
 
     override fun onDestroy() {
-        if (registerButton != null) registerButton.dispose()
+        if (buttonEmployee != null) buttonEmployee.dispose()
         super.onDestroy()
     }
 

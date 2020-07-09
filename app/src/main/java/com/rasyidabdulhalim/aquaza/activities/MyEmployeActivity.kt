@@ -77,12 +77,8 @@ class MyEmployeActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
 
         fabCar.setOnClickListener {
             fam.close(true)
-            val firebaseAuth = FirebaseAuth.getInstance()
-            firebaseAuth.signOut()
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(K.TOPIC_GLOBAL)
-            startActivity(Intent(this, AuthActivity::class.java))
+            startActivity(Intent(this, AddEmployeActivity::class.java))
             AppUtils.animateEnterRight(this)
-            finish()
         }
 
         fabPart.setOnClickListener {
