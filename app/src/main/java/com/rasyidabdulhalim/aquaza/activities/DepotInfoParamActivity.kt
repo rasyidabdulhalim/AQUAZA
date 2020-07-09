@@ -15,7 +15,7 @@ import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.activity_depot_info.*
 
 
-class DepotInfoParamActivity : BaseActivity(), ImageListener{
+class DepotInfoParamActivity : BaseActivity(), ImageListener {
     private lateinit var depot: Depot
     private lateinit var prefs: SharedPreferences
 
@@ -39,8 +39,9 @@ class DepotInfoParamActivity : BaseActivity(), ImageListener{
         carousel.setImageListener(this)
 
     }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> onBackPressed()
         }
 
@@ -55,7 +56,7 @@ class DepotInfoParamActivity : BaseActivity(), ImageListener{
     override fun setImageForPosition(position: Int, imageView: ImageView?) {
         val keys = depot.images.keys.toList()
 
-        imageView!!.scaleType =ImageView.ScaleType.CENTER_CROP
+        imageView!!.scaleType = ImageView.ScaleType.CENTER_CROP
         imageView.loadUrl(depot.images[keys[position]]!!)
     }
 }

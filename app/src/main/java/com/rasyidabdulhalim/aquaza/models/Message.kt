@@ -1,11 +1,10 @@
 package com.rasyidabdulhalim.aquaza.models
 
 data class Message(
-        var id: String? = null,
-        var senderId: String? = null,
-        var chatId: String? = null,
-        var message: String? = null,
-        var time: Long? = null,
-        var isMe: Boolean? = null
-) {
-}
+    var id: String? = null,
+    var senderId: String? = null,
+    var chatId: String? = null,
+    var message: String? = null,
+    var time: Long? = null,
+    var isMe: Boolean? = null
+)

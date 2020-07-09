@@ -6,7 +6,8 @@ import com.google.firebase.database.DatabaseError
 import com.rasyidabdulhalim.aquaza.interfaces.FirebaseDriverListener
 import com.rasyidabdulhalim.aquaza.models.Driver
 
-class FirebaseEventListenerHelper(private val firebaseDriverListener: FirebaseDriverListener) : ChildEventListener {
+class FirebaseEventListenerHelper(private val firebaseDriverListener: FirebaseDriverListener) :
+    ChildEventListener {
 
     override fun onCancelled(p0: DatabaseError) {
 

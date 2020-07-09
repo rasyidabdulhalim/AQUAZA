@@ -30,12 +30,14 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import timber.log.Timber
 
-class OrderFragment : BaseFragment(),OrderCallBack{
+class OrderFragment : BaseFragment(), OrderCallBack {
     private lateinit var orderAdapter: OrdersAdapter
     private lateinit var prefs: SharedPreferences
-    private  var noOrder:Boolean = true
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    private var noOrder: Boolean = true
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         prefs = PreferenceHelper.defaultPrefs(activity!!)
         return inflater.inflate(R.layout.fragment_order, container, false)
@@ -44,29 +46,30 @@ class OrderFragment : BaseFragment(),OrderCallBack{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
-        if(prefs[K.STATUS, ""]=="Owner"){
+        if (prefs[K.STATUS, ""] == "Owner") {
             loadOrdersOwner()
-        }else if (prefs[K.STATUS, ""]=="Driver"){
+        } else if (prefs[K.STATUS, ""] == "Driver") {
             loadOrdersDriver()
-        }else{
+        } else {
             loadOrdersUser()
         }
     }
+
     private fun initViews(v: View) {
         rv.setHasFixedSize(true)
         rv.layoutManager = LinearLayoutManager(activity)
         rv.itemAnimator = DefaultItemAnimator()
         rv.addItemDecoration(RecyclerFormatter.SimpleDividerItemDecoration(activity!!))
         (rv.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
-        orderAdapter = OrdersAdapter(activity!!,this)
+        orderAdapter = OrdersAdapter(activity!!, this)
         rv.adapter = orderAdapter
         rv.showShimmerAdapter()
     }
 
     private fun loadOrdersUser() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo("buyerId",getUid())
-            .orderBy("time",com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .whereEqualTo("buyerId", getUid())
+            .orderBy("time", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
@@ -75,18 +78,18 @@ class OrderFragment : BaseFragment(),OrderCallBack{
 
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                if(order.status!="Received") {
+                                if (order.status != "Received") {
                                     orderAdapter.addItem(order)
                                 }
                             }
                             DocumentChange.Type.MODIFIED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                if(order.status!="Received") {
+                                if (order.status != "Received") {
                                     orderAdapter.updateItem(order)
-                                }else{
+                                } else {
                                     orderAdapter.removeItem(order)
 
                                 }
@@ -104,9 +107,10 @@ class OrderFragment : BaseFragment(),OrderCallBack{
             }
         checkOrder()
     }
+
     private fun loadOrdersOwner() {
         getFirestore().collection(K.ORDERS)
-            .orderBy("time",com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .orderBy("time", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
@@ -115,18 +119,18 @@ class OrderFragment : BaseFragment(),OrderCallBack{
 
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                if(order.status!="Received") {
+                                if (order.status != "Received") {
                                     orderAdapter.addItem(order)
                                 }
                             }
                             DocumentChange.Type.MODIFIED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                if(order.status!="Received") {
+                                if (order.status != "Received") {
                                     orderAdapter.updateItem(order)
-                                }else{
+                                } else {
                                     orderAdapter.removeItem(order)
 
                                 }
@@ -144,9 +148,10 @@ class OrderFragment : BaseFragment(),OrderCallBack{
             }
         checkOrder()
     }
+
     private fun loadOrdersDriver() {
         getFirestore().collection(K.ORDERS)
-            .orderBy("time",com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .orderBy("time", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
@@ -155,24 +160,24 @@ class OrderFragment : BaseFragment(),OrderCallBack{
 
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                if((order.status!="Received"&&order.driverId==null)||(order.status!="Received"&&order.driverId==getUid())) {
+                                if ((order.status != "Received" && order.driverId == null) || (order.status != "Received" && order.driverId == getUid())) {
                                     orderAdapter.addItem(order)
                                 }
                             }
                             DocumentChange.Type.MODIFIED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                if((order.status!="Received"&&order.driverId==null)||(order.status!="Received"&&order.driverId==getUid())) {
+                                if ((order.status != "Received" && order.driverId == null) || (order.status != "Received" && order.driverId == getUid())) {
                                     orderAdapter.updateItem(order)
-                                }else if(order.status==K.RECEIVED&&order.driverId==getUid()){
+                                } else if (order.status == K.RECEIVED && order.driverId == getUid()) {
                                     orderAdapter.removeItem(order)
                                     orderAdapter.notifyDataSetChanged()
-                                }else if(order.status==K.ONPROSES&&order.driverId!=getUid()){
+                                } else if (order.status == K.ONPROSES && order.driverId != getUid()) {
                                     orderAdapter.removeItem(order)
                                     orderAdapter.notifyDataSetChanged()
-                                }else{
+                                } else {
 
                                 }
                             }
@@ -189,19 +194,22 @@ class OrderFragment : BaseFragment(),OrderCallBack{
             }
         checkOrder()
     }
-    private fun checkOrder(){
-        if(orderAdapter.itemCount>0){
+
+    private fun checkOrder() {
+        if (orderAdapter.itemCount > 0) {
             hasOrders()
-        }else{
+        } else {
             noOrders()
         }
     }
+
     private fun hasOrders() {
-        noOrder=true
+        noOrder = true
         rv?.hideShimmerAdapter()
         empty?.hideView()
         rv?.showView()
     }
+
     private fun noOrders() {
         rv?.hideShimmerAdapter()
         rv?.hideView()
@@ -209,34 +217,35 @@ class OrderFragment : BaseFragment(),OrderCallBack{
     }
 
     override fun onClick(v: View, order: Order) {
-        when(v.id) {
-            R.id.action->{
-                if(order.buyerId==getUid()){
+        when (v.id) {
+            R.id.action -> {
+                if (order.buyerId == getUid()) {
                     val i = Intent(activity, MapActivity::class.java)
                     i.putExtra(K.ORDER, order)
                     activity!!.startActivity(i)
                     AppUtils.animateEnterLeft(activity!!)
-                }else{
+                } else {
                     activity?.alert("Pesanan Sudah Sampai Ketujuan?") {
                         positiveButton("YES") {
-                            order.status=K.RECEIVED
-                            getFirestore().collection(K.ORDERS).document(order.id!!).set(order).addOnSuccessListener {
-                                activity?.toast("Terimakasih,Hati-Hati dalam Perjalanan~")
-                            }
+                            order.status = K.RECEIVED
+                            getFirestore().collection(K.ORDERS).document(order.id!!).set(order)
+                                .addOnSuccessListener {
+                                    activity?.toast("Terimakasih,Hati-Hati dalam Perjalanan~")
+                                }
                         }
                         negativeButton("CANCEL") {}
                     }!!.show()
                 }
             }
-            R.id.contact->{
-                if(order.buyerId==getUid()){
+            R.id.contact -> {
+                if (order.buyerId == getUid()) {
                     val i = Intent(activity, ChatActivity::class.java)
                     i.putExtra(K.MY_ID, getUid())
                     i.putExtra(K.OTHER_ID, order.depotId)
                     i.putExtra(K.CHAT_NAME, order.depotName)
                     activity!!.startActivity(i)
                     AppUtils.animateFadein(activity!!)
-                }else{
+                } else {
                     val i = Intent(activity, ChatActivity::class.java)
                     i.putExtra(K.MY_ID, getUid())
                     i.putExtra(K.OTHER_ID, order.buyerId)
@@ -245,11 +254,11 @@ class OrderFragment : BaseFragment(),OrderCallBack{
                     AppUtils.animateFadein(activity!!)
                 }
             }
-            R.id.cancel->{
-                if(order.buyerId==getUid()){
+            R.id.cancel -> {
+                if (order.buyerId == getUid()) {
                     activity?.alert("Batalkan Pesanan?") {
                         positiveButton("YES") {
-                            if(orderAdapter.itemCount==1){
+                            if (orderAdapter.itemCount == 1) {
                                 orderAdapter.clear()
                                 noOrders()
                             }
@@ -264,32 +273,33 @@ class OrderFragment : BaseFragment(),OrderCallBack{
                         }
                         negativeButton("CANCEL") {}
                     }!!.show()
-                }else{
+                } else {
                     activity?.alert("Ambil Pesanan?") {
                         positiveButton("YES") {
-                            order.status=K.ONPROSES
-                            order.driverId=getUid()
-                            order.driverName=prefs[K.NAME]
-                            getFirestore().collection(K.ORDERS).document(order.id!!).set(order).addOnSuccessListener {
-                                activity?.toast("Pesanan Berhasil Diambil,Silahkan Antarkan Pesanan~")
-                            }
+                            order.status = K.ONPROSES
+                            order.driverId = getUid()
+                            order.driverName = prefs[K.NAME]
+                            getFirestore().collection(K.ORDERS).document(order.id!!).set(order)
+                                .addOnSuccessListener {
+                                    activity?.toast("Pesanan Berhasil Diambil,Silahkan Antarkan Pesanan~")
+                                }
                         }
                         negativeButton("CANCEL") {}
                     }!!.show()
                 }
             }
-            R.id.placeDetailOrder->{
-                if(prefs[K.STATUS, ""]==K.OWNER){
+            R.id.placeDetailOrder -> {
+                if (prefs[K.STATUS, ""] == K.OWNER) {
                     val i = Intent(activity, MapActivity::class.java)
                     i.putExtra(K.ORDER, order)
                     activity!!.startActivity(i)
                     AppUtils.animateEnterLeft(activity!!)
-                }else if (prefs[K.STATUS, ""]==K.DRIVER){
+                } else if (prefs[K.STATUS, ""] == K.DRIVER) {
                     val i = Intent(activity, MapDriverActivity::class.java)
                     i.putExtra(K.ORDER, order)
                     activity!!.startActivity(i)
                     AppUtils.animateEnterLeft(activity!!)
-                }else{
+                } else {
                     val i = Intent(activity, MapActivity::class.java)
                     i.putExtra(K.ORDER, order)
                     activity!!.startActivity(i)

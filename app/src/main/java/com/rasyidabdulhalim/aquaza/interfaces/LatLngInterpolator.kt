@@ -38,10 +38,22 @@ interface LatLngInterpolator {
             return LatLng(toDegrees(lat), toDegrees(lng))
         }
 
-        private fun computeAngleBetween(fromLat: Double, fromLng: Double, toLat: Double, toLng: Double): Double {
+        private fun computeAngleBetween(
+            fromLat: Double,
+            fromLng: Double,
+            toLat: Double,
+            toLng: Double
+        ): Double {
             val dLat = fromLat - toLat
             val dLng = fromLng - toLng
-            return 2 * asin(sqrt(pow(sin(dLat / 2), 2.0) + cos(fromLat) * cos(toLat) * pow(sin(dLng / 2), 2.0)))
+            return 2 * asin(
+                sqrt(
+                    pow(
+                        sin(dLat / 2),
+                        2.0
+                    ) + cos(fromLat) * cos(toLat) * pow(sin(dLng / 2), 2.0)
+                )
+            )
         }
     }
 }

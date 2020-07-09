@@ -18,7 +18,7 @@ class ImagesAdapter : RecyclerView.Adapter<ImagesAdapter.ImageHolder>() {
 
     fun addImage(image: Uri) {
         this.images.add(image)
-        notifyItemInserted(images.size -1 )
+        notifyItemInserted(images.size - 1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {

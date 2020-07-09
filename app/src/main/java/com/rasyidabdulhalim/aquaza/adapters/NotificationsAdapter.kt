@@ -26,7 +26,8 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
         holder.bind(notifs[position])
     }
 
-    class NotificationHolder(private val binding: ItemNotifBinding) : RecyclerView.ViewHolder(binding.root) {
+    class NotificationHolder(private val binding: ItemNotifBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(notification: Notification) {
             binding.notif = notification

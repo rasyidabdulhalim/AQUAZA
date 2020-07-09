@@ -37,11 +37,11 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v?.id) {
+        when (v?.id) {
             R.id.about -> about()
             R.id.terms -> tou()
             R.id.privacy -> privacy()
-            R.id.rate ->  rate()
+            R.id.rate -> rate()
             R.id.feedback -> feedback()
             R.id.exit -> logOut()
         }
@@ -49,11 +49,11 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
     private fun notifications() {
         notifications.setOnCheckedChangeListener { _, isChecked ->
-           // prefs[K.NOTIFICATIONS] = isChecked
+            // prefs[K.NOTIFICATIONS] = isChecked
         }
 
         news.setOnCheckedChangeListener { _, isChecked ->
-           // prefs[K.NEWS] = isChecked
+            // prefs[K.NEWS] = isChecked
         }
     }
 
@@ -78,8 +78,12 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         try {
             startActivity(goToMarket)
         } catch (e: ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse(resources.getString(R.string.play_store_link) + this.packageName)))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(resources.getString(R.string.play_store_link) + this.packageName)
+                )
+            )
         }
     }
 
@@ -98,7 +102,8 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                     val firebaseAuth = FirebaseAuth.getInstance()
                     firebaseAuth.signOut()
                     FirebaseMessaging.getInstance().unsubscribeFromTopic(K.TOPIC_GLOBAL)
-                    PreferenceManager.getDefaultSharedPreferences(this as Context).edit().clear().apply()//clear first
+                    PreferenceManager.getDefaultSharedPreferences(this as Context).edit().clear()
+                        .apply()//clear first
                     startActivity(Intent(this@SettingsActivity, AuthActivity::class.java))
                     AppUtils.animateEnterLeft(this@SettingsActivity)
                     finish()
@@ -109,7 +114,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> onBackPressed()
         }
 

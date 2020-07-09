@@ -37,10 +37,13 @@ class AuthLoginFragment : BaseFragment() {
     private var isLoggingIn = false
     private lateinit var prefs: SharedPreferences
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        val successfulIcon = setDrawable(activity!!, Ionicons.Icon.ion_checkmark_round, R.color.white, 25)
+        val successfulIcon =
+            setDrawable(activity!!, Ionicons.Icon.ion_checkmark_round, R.color.white, 25)
         signupSuccessful = drawableToBitmap(successfulIcon)
         prefs = PreferenceHelper.defaultPrefs(activity!!)
 
@@ -50,18 +53,39 @@ class AuthLoginFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loginEmail.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_ios_email, R.color.secondaryText, 18))
-        loginPassword.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_lock, R.color.secondaryText, 18))
+        loginEmail.setDrawable(
+            setDrawable(
+                activity!!,
+                Ionicons.Icon.ion_ios_email,
+                R.color.secondaryText,
+                18
+            )
+        )
+        loginPassword.setDrawable(
+            setDrawable(
+                activity!!,
+                Ionicons.Icon.ion_android_lock,
+                R.color.secondaryText,
+                18
+            )
+        )
 
         loginRegister.setOnClickListener {
             if (!isLoggingIn)
-                (activity as AppCompatActivity).replaceFragment(AuthRegisterFragment(), R.id.authHolder)
+                (activity as AppCompatActivity).replaceFragment(
+                    AuthRegisterFragment(),
+                    R.id.authHolder
+                )
             else
                 activity!!.toast("Please wait...")
         }
 
         loginButton.setOnClickListener { signIn() }
-        loginForgotPassword.setOnClickListener { if (!isLoggingIn) forgotPassword() else activity!!.toast("Please wait...")}
+        loginForgotPassword.setOnClickListener {
+            if (!isLoggingIn) forgotPassword() else activity!!.toast(
+                "Please wait..."
+            )
+        }
     }
 
     private fun signIn() {
@@ -73,34 +97,34 @@ class AuthLoginFragment : BaseFragment() {
         isLoggingIn = true
         loginButton.startAnimation()
         getFirebaseAuth().signInWithEmailAndPassword(email, pw)
-                .addOnCompleteListener(activity!!) { task ->
-                    if (task.isSuccessful) {
-                        Timber.e("signingIn: Success!")
+            .addOnCompleteListener(activity!!) { task ->
+                if (task.isSuccessful) {
+                    Timber.e("signingIn: Success!")
 
-                        // update UI with the signed-in user's information
-                        val user = task.result!!.user
-                        updateUI(user!!)
-                    } else {
-                        try {
-                            throw task.exception!!
-                        } catch (wrongPassword: FirebaseAuthInvalidCredentialsException) {
-                            isLoggingIn = false
-                            loginButton.revertAnimation()
-                            loginPassword.error = "Password incorrect"
+                    // update UI with the signed-in user's information
+                    val user = task.result!!.user
+                    updateUI(user!!)
+                } else {
+                    try {
+                        throw task.exception!!
+                    } catch (wrongPassword: FirebaseAuthInvalidCredentialsException) {
+                        isLoggingIn = false
+                        loginButton.revertAnimation()
+                        loginPassword.error = "Password incorrect"
 
-                        } catch (userNull: FirebaseAuthInvalidUserException) {
-                            isLoggingIn = false
-                            loginButton.revertAnimation()
-                            activity?.toast("Account not found. Have you signed up?")
+                    } catch (userNull: FirebaseAuthInvalidUserException) {
+                        isLoggingIn = false
+                        loginButton.revertAnimation()
+                        activity?.toast("Account not found. Have you signed up?")
 
-                        } catch (e: Exception) {
-                            isLoggingIn = false
-                            loginButton.revertAnimation()
-                            Timber.e("signingIn: Failure - ${e.localizedMessage}")
-                            activity?.toast("Error signing in. Please try again.")
-                        }
+                    } catch (e: Exception) {
+                        isLoggingIn = false
+                        loginButton.revertAnimation()
+                        Timber.e("signingIn: Failure - ${e.localizedMessage}")
+                        activity?.toast("Error signing in. Please try again.")
                     }
                 }
+            }
 
     }
 
@@ -115,24 +139,24 @@ class AuthLoginFragment : BaseFragment() {
             positiveButton("SEND EMAIL") {
 
                 getFirebaseAuth().sendPasswordResetEmail(email)
-                        .addOnCompleteListener(activity!!) { task ->
-                            if (task.isSuccessful) {
-                                Timber.e("sendResetPassword: Success!")
+                    .addOnCompleteListener(activity!!) { task ->
+                        if (task.isSuccessful) {
+                            Timber.e("sendResetPassword: Success!")
 
-                                activity?.toast("Email sent")
-                            } else {
-                                try {
-                                    throw task.exception!!
-                                } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
-                                    loginEmail.error = "Incorrect email format"
-                                    activity?.toast("Email not sent. Please try again.")
+                            activity?.toast("Email sent")
+                        } else {
+                            try {
+                                throw task.exception!!
+                            } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
+                                loginEmail.error = "Incorrect email format"
+                                activity?.toast("Email not sent. Please try again.")
 
-                                } catch (e: Exception) {
-                                    Timber.e("sendResetEmail: Failure - $e")
-                                    activity?.toast("Email not sent. Please try again.")
-                                }
+                            } catch (e: Exception) {
+                                Timber.e("sendResetEmail: Failure - $e")
+                                activity?.toast("Email not sent. Please try again.")
                             }
                         }
+                    }
 
             }
 

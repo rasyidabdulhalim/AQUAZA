@@ -12,25 +12,25 @@ class FirebaseHelper constructor(driverId: String) {
     }
 
     private val onlineDriverDatabaseReference: DatabaseReference = FirebaseDatabase
-            .getInstance()
-            .reference
-            .child(ONLINE_DRIVERS)
-            .child(driverId)
+        .getInstance()
+        .reference
+        .child(ONLINE_DRIVERS)
+        .child(driverId)
 
     init {
         onlineDriverDatabaseReference
-                .onDisconnect()
-                .removeValue()
+            .onDisconnect()
+            .removeValue()
     }
 
     fun updateDriver(driver: Driver) {
         onlineDriverDatabaseReference
-                .setValue(driver)
+            .setValue(driver)
         Log.e("Driver Info", " Updated")
     }
 
     fun deleteDriver() {
         onlineDriverDatabaseReference
-                .removeValue()
+            .removeValue()
     }
 }

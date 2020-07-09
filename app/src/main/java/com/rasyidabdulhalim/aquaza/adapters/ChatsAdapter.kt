@@ -9,7 +9,8 @@ import com.rasyidabdulhalim.aquaza.models.Chat
 import com.rasyidabdulhalim.aquaza.utils.TimeFormatter
 import com.rasyidabdulhalim.aquaza.utils.inflate
 
-class ChatsAdapter(private val callback: ChatListCallback) : RecyclerView.Adapter<ChatsAdapter.ChatListHolder>() {
+class ChatsAdapter(private val callback: ChatListCallback) :
+    RecyclerView.Adapter<ChatsAdapter.ChatListHolder>() {
     private var chats = mutableListOf<Chat>()
 
     fun addChat(chat: Chat) {
@@ -40,7 +41,8 @@ class ChatsAdapter(private val callback: ChatListCallback) : RecyclerView.Adapte
         fun onItemClickListener(chat: Chat)
     }
 
-    class ChatListHolder(private val binding: ChatItemBinding, callback: ChatListCallback) : RecyclerView.ViewHolder(binding.root){
+    class ChatListHolder(private val binding: ChatItemBinding, callback: ChatListCallback) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.callback = callback

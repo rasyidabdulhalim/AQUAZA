@@ -48,10 +48,13 @@ class AuthRegisterFragment : BaseFragment() {
         private const val AVATAR_REQUEST = 1
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        val successfulIcon = setDrawable(activity!!, Ionicons.Icon.ion_checkmark_round, R.color.white, 25)
+        val successfulIcon =
+            setDrawable(activity!!, Ionicons.Icon.ion_checkmark_round, R.color.white, 25)
         registerSuccessful = drawableToBitmap(successfulIcon)
         prefs = PreferenceHelper.defaultPrefs(activity!!)
 
@@ -61,17 +64,60 @@ class AuthRegisterFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        nameEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_person, R.color.secondaryText, 18))
-        locationNewDepot.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_ios_navigate_outline, R.color.secondaryText, 18))
-        phoneEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_call, R.color.secondaryText, 18))
-        emailEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_ios_email, R.color.secondaryText, 18))
-        confirmPasswordEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_lock, R.color.secondaryText, 18))
-        confirmPasswordEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_lock, R.color.secondaryText, 18))
+        nameEmployee.setDrawable(
+            setDrawable(
+                activity!!,
+                Ionicons.Icon.ion_person,
+                R.color.secondaryText,
+                18
+            )
+        )
+        locationNewDepot.setDrawable(
+            setDrawable(
+                activity!!,
+                Ionicons.Icon.ion_ios_navigate_outline,
+                R.color.secondaryText,
+                18
+            )
+        )
+        phoneEmployee.setDrawable(
+            setDrawable(
+                activity!!,
+                Ionicons.Icon.ion_android_call,
+                R.color.secondaryText,
+                18
+            )
+        )
+        emailEmployee.setDrawable(
+            setDrawable(
+                activity!!,
+                Ionicons.Icon.ion_ios_email,
+                R.color.secondaryText,
+                18
+            )
+        )
+        confirmPasswordEmployee.setDrawable(
+            setDrawable(
+                activity!!,
+                Ionicons.Icon.ion_android_lock,
+                R.color.secondaryText,
+                18
+            )
+        )
+        confirmPasswordEmployee.setDrawable(
+            setDrawable(
+                activity!!,
+                Ionicons.Icon.ion_android_lock,
+                R.color.secondaryText,
+                18
+            )
+        )
 
         avatarEmploye.setOnClickListener {
             if (!isCreatingAccount) {
                 if (storagePermissionGranted()) {
-                    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    val galleryIntent =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     startActivityForResult(galleryIntent, AVATAR_REQUEST)
 
                     //pickImageFromGallery()
@@ -86,14 +132,18 @@ class AuthRegisterFragment : BaseFragment() {
                 if (activity!!.supportFragmentManager.backStackEntryCount > 0)
                     activity!!.supportFragmentManager.popBackStackImmediate()
                 else
-                    (activity as AppCompatActivity).replaceFragment(AuthLoginFragment(), R.id.authHolder)
+                    (activity as AppCompatActivity).replaceFragment(
+                        AuthLoginFragment(),
+                        R.id.authHolder
+                    )
             } else activity!!.toast("Please wait...")
         }
 
         registerTerms.setOnClickListener {
             if (!isCreatingAccount) {
                 val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse("https://sites.google.com/view/dankmemesapp/terms-and-conditions")
+                i.data =
+                    Uri.parse("https://sites.google.com/view/dankmemesapp/terms-and-conditions")
                 startActivity(i)
             } else activity!!.toast("Please wait...")
         }
@@ -103,9 +153,17 @@ class AuthRegisterFragment : BaseFragment() {
 
     private fun signUp() {
         // Check if all fields are filled
-        if (!AppUtils.validated(nameEmployee, locationNewDepot, emailEmployee, confirmPasswordEmployee, confirmPasswordEmployee)) return
+        if (!AppUtils.validated(
+                nameEmployee,
+                locationNewDepot,
+                emailEmployee,
+                confirmPasswordEmployee,
+                confirmPasswordEmployee
+            )
+        ) return
 
-        val name = "${nameEmployee.text.toString().trim()} ${locationNewDepot.text.toString().trim()}"
+        val name =
+            "${nameEmployee.text.toString().trim()} ${locationNewDepot.text.toString().trim()}"
         val email = emailEmployee.text.toString().trim()
         val pw = confirmPasswordEmployee.text.toString().trim()
         val confirmPw = confirmPasswordEmployee.text.toString().trim()
@@ -132,45 +190,49 @@ class AuthRegisterFragment : BaseFragment() {
         isCreatingAccount = true
         buttonNotification.startAnimation()
         getFirebaseAuth().createUserWithEmailAndPassword(email, pw)
-                .addOnCompleteListener(activity!!) { task ->
-                    if (task.isSuccessful) {
-                        buttonNotification.doneLoadingAnimation(getColor(activity!!, R.color.pink), registerSuccessful)
-                        Timber.e("signingIn: Success!")
+            .addOnCompleteListener(activity!!) { task ->
+                if (task.isSuccessful) {
+                    buttonNotification.doneLoadingAnimation(
+                        getColor(activity!!, R.color.pink),
+                        registerSuccessful
+                    )
+                    Timber.e("signingIn: Success!")
 
-                        // update UI with the signed-in user's information
-                        val user = task.result!!.user
-                        updateUI(user)
-                        PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply()//clear first
-                        prefs[K.NAME] = name
-                        prefs[K.EMAIL] = email
-                        prefs[K.PHONE] = phoneEmployee.text.toString().trim()
+                    // update UI with the signed-in user's information
+                    val user = task.result!!.user
+                    updateUI(user)
+                    PreferenceManager.getDefaultSharedPreferences(context).edit().clear()
+                        .apply()//clear first
+                    prefs[K.NAME] = name
+                    prefs[K.EMAIL] = email
+                    prefs[K.PHONE] = phoneEmployee.text.toString().trim()
 
-                    } else {
-                        try {
-                            throw task.exception!!
-                        } catch (weakPassword: FirebaseAuthWeakPasswordException){
-                            isCreatingAccount = false
-                            buttonNotification.revertAnimation()
-                            confirmPasswordEmployee.error = "Please enter a stronger password"
+                } else {
+                    try {
+                        throw task.exception!!
+                    } catch (weakPassword: FirebaseAuthWeakPasswordException) {
+                        isCreatingAccount = false
+                        buttonNotification.revertAnimation()
+                        confirmPasswordEmployee.error = "Please enter a stronger password"
 
-                        } catch (userExists: FirebaseAuthUserCollisionException) {
-                            isCreatingAccount = false
-                            buttonNotification.revertAnimation()
-                            activity?.toast("Account already exists. Please log in.")
+                    } catch (userExists: FirebaseAuthUserCollisionException) {
+                        isCreatingAccount = false
+                        buttonNotification.revertAnimation()
+                        activity?.toast("Account already exists. Please log in.")
 
-                        } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
-                            isCreatingAccount = false
-                            buttonNotification.revertAnimation()
-                            emailEmployee.error = "Incorrect email format"
+                    } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
+                        isCreatingAccount = false
+                        buttonNotification.revertAnimation()
+                        emailEmployee.error = "Incorrect email format"
 
-                        } catch (e: Exception) {
-                            isCreatingAccount = false
-                            buttonNotification.revertAnimation()
-                            Timber.e( "signingIn: Failure - $e}")
-                            activity?.toast("Error signing up. Please try again.")
-                        }
+                    } catch (e: Exception) {
+                        isCreatingAccount = false
+                        buttonNotification.revertAnimation()
+                        Timber.e("signingIn: Failure - $e}")
+                        activity?.toast("Error signing up. Please try again.")
                     }
                 }
+            }
 
 
     }
@@ -184,10 +246,10 @@ class AuthRegisterFragment : BaseFragment() {
         newUser.dateCreated = TimeFormatter().getNormalYear(System.currentTimeMillis())
         newUser.id = id
         newUser.phone = phoneEmployee.text.toString().trim()
-        newUser.address=locationNewDepot.text.toString().trim()
-        newUser.status=K.USER
-        newUser.mydepot="Belum Berlangganan"
-        newUser.myshift="Bukan Karyawan"
+        newUser.address = locationNewDepot.text.toString().trim()
+        newUser.status = K.USER
+        newUser.mydepot = "Belum Berlangganan"
+        newUser.myshift = "Bukan Karyawan"
 
         prefs[K.NAME] = newUser.name
         prefs[K.EMAIL] = newUser.email
@@ -208,14 +270,17 @@ class AuthRegisterFragment : BaseFragment() {
             ref.downloadUrl
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                newUser.avatar =  task.result.toString()
+                newUser.avatar = task.result.toString()
 
                 user.sendEmailVerification()
                 FirebaseMessaging.getInstance().subscribeToTopic(K.TOPIC_GLOBAL)
 
                 getFirestore().collection(K.USERS).document(id).set(newUser).addOnSuccessListener {
                     Timber.e("Adding user: $newUser")
-                    buttonNotification.doneLoadingAnimation(getColor(activity!!, R.color.pink), registerSuccessful)
+                    buttonNotification.doneLoadingAnimation(
+                        getColor(activity!!, R.color.pink),
+                        registerSuccessful
+                    )
 
                     activity!!.toast("Welcome ${nameEmployee.text.toString().trim()}")
                     startActivity(Intent(activity!!, MainActivity::class.java))
@@ -252,7 +317,7 @@ class AuthRegisterFragment : BaseFragment() {
                 imageUri = resultUri
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-               Timber.e( "Cropping error: ${result.error.message}")
+                Timber.e("Cropping error: ${result.error.message}")
             }
         }
 
@@ -260,8 +325,8 @@ class AuthRegisterFragment : BaseFragment() {
 
     private fun startCropActivity(imageUri: Uri) {
         CropImage.activity(imageUri)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(context!!, this)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .start(context!!, this)
     }
 
     // Check if user has initiated signing up process. If in process, disable back button

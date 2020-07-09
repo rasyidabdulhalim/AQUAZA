@@ -12,12 +12,13 @@ import com.rasyidabdulhalim.aquaza.utils.inflate
 import java.text.NumberFormat
 import java.util.*
 
-class HistoryOrdersAdapter(private val callback: OrderCallBack) : RecyclerView.Adapter<HistoryOrdersAdapter.OrderHolder>(){
+class HistoryOrdersAdapter(private val callback: OrderCallBack) :
+    RecyclerView.Adapter<HistoryOrdersAdapter.OrderHolder>() {
     private val orders = mutableListOf<Order>()
     fun addItem(order: Order) {
         orders.add(order)
 
-        notifyItemInserted(orders.size-1)
+        notifyItemInserted(orders.size - 1)
     }
 
     fun addItems(orders: MutableList<Order>) {
@@ -34,6 +35,7 @@ class HistoryOrdersAdapter(private val callback: OrderCallBack) : RecyclerView.A
             }
         }
     }
+
     fun clear() {
         val size: Int = orders.size
         orders.clear()
@@ -63,9 +65,11 @@ class HistoryOrdersAdapter(private val callback: OrderCallBack) : RecyclerView.A
         holder.bind(orders[position])
     }
 
-    class OrderHolder(private val binding: HistoryOrderItemBinding, callback: OrderCallBack) : RecyclerView.ViewHolder(binding.root) {
+    class OrderHolder(private val binding: HistoryOrderItemBinding, callback: OrderCallBack) :
+        RecyclerView.ViewHolder(binding.root) {
         private var localeID: Locale = Locale("in", "ID")
-        private var formatRupiah : NumberFormat = NumberFormat.getCurrencyInstance(localeID)
+        private var formatRupiah: NumberFormat = NumberFormat.getCurrencyInstance(localeID)
+
         init {
             //  binding.location.setDrawable(setDrawable(context, Ionicons.Icon.ion_location, R.color.secondaryText, 12))
             binding.callback = callback
@@ -74,7 +78,7 @@ class HistoryOrdersAdapter(private val callback: OrderCallBack) : RecyclerView.A
         fun bind(order: Order) {
             binding.data = order
             binding.time = TimeFormatter().getTimeStamp(order.time!!)
-            binding.qty=""+order.quantity+" Galon"
+            binding.qty = "" + order.quantity + " Galon"
             binding.price = formatRupiah.format(order.price!!.toDouble())
             binding.isMine = (order.buyerId == FirebaseAuth.getInstance().currentUser?.uid)
         }

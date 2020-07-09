@@ -76,28 +76,39 @@ class MapActivity : AppCompatActivity(), FirebaseDriverListener {
         valueEventListener = FirebaseEventListenerHelper(this)
         databaseReference.addChildEventListener(valueEventListener)
 
-        if (prefs[K.STATUS,""]==K.USER){
-            totalOnlineDrivers.setVisibility(View.GONE)
+        if (prefs[K.STATUS, ""] == K.USER) {
+            totalOnlineDrivers.visibility = View.GONE
         }
     }
 
     @SuppressLint("MissingPermission")
     private fun requestLocationUpdate() {
         if (!uiHelper.isHaveLocationPermission(this)) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
             )
             return
         }
         if (uiHelper.isLocationProviderEnabled(this))
-            uiHelper.showPositiveDialogWithListener(this, resources.getString(R.string.need_location), resources.getString(
-                R.string.location_content
-            ), object : IPositiveNegativeListener {
-                override fun onPositive() {
-                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                }
-            }, "Turn On", false)
-        locationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+            uiHelper.showPositiveDialogWithListener(this,
+                resources.getString(R.string.need_location),
+                resources.getString(
+                    R.string.location_content
+                ),
+                object : IPositiveNegativeListener {
+                    override fun onPositive() {
+                        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                    }
+                },
+                "Turn On",
+                false
+            )
+        locationProviderClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.myLooper()
+        )
     }
 
     private fun createLocationCallback() {
@@ -105,7 +116,10 @@ class MapActivity : AppCompatActivity(), FirebaseDriverListener {
             override fun onLocationResult(locationResult: LocationResult?) {
                 super.onLocationResult(locationResult)
                 if (locationResult!!.lastLocation == null) return
-                val latLng = LatLng(locationResult.lastLocation.latitude, locationResult.lastLocation.longitude)
+                val latLng = LatLng(
+                    locationResult.lastLocation.latitude,
+                    locationResult.lastLocation.longitude
+                )
                 Log.e("Location", latLng.latitude.toString() + " , " + latLng.longitude)
                 if (locationFlag) {
                     locationFlag = false
@@ -119,7 +133,11 @@ class MapActivity : AppCompatActivity(), FirebaseDriverListener {
         googleMap.animateCamera(cameraUpdate, 10, null)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             val value = grantResults[0]
@@ -131,14 +149,14 @@ class MapActivity : AppCompatActivity(), FirebaseDriverListener {
     }
 
     override fun onDriverAdded(driver: Driver) {
-        if (prefs[K.STATUS,""]==K.OWNER){
-                addMarker(driver)
-        }else if (prefs[K.STATUS,""]==K.DRIVER){
+        if (prefs[K.STATUS, ""] == K.OWNER) {
+            addMarker(driver)
+        } else if (prefs[K.STATUS, ""] == K.DRIVER) {
 
-        }else{//for user
-            if (driver.driverId==order.driverId){
+        } else {//for user
+            if (driver.driverId == order.driverId) {
                 addMarker(driver)
-            }else{
+            } else {
                 Toast.makeText(this, "No Driver", Toast.LENGTH_SHORT).show()
             }
         }
@@ -146,38 +164,42 @@ class MapActivity : AppCompatActivity(), FirebaseDriverListener {
     }
 
     override fun onDriverRemoved(driver: Driver) {
-        if (prefs[K.STATUS,""]==K.OWNER){
-             removeMarker(driver)
-        }else if (prefs[K.STATUS,""]=="Driver"){
+        if (prefs[K.STATUS, ""] == K.OWNER) {
+            removeMarker(driver)
+        } else if (prefs[K.STATUS, ""] == "Driver") {
 
-        }else {//for user
+        } else {//for user
             if (driver.driverId == order.driverId) {
-             removeMarker(driver)
+                removeMarker(driver)
             }
         }
     }
 
     override fun onDriverUpdated(driver: Driver) {
-        if (prefs[K.STATUS,""]==K.OWNER){
-              updateMarker(driver)
-        }else if (prefs[K.STATUS,""]=="Driver"){
+        if (prefs[K.STATUS, ""] == K.OWNER) {
+            updateMarker(driver)
+        } else if (prefs[K.STATUS, ""] == "Driver") {
 
-        }else {//for user
+        } else {//for user
             if (driver.driverId == order.driverId) {
                 updateMarker(driver)
             }
         }
     }
-    private fun addMarker(driver: Driver){
-        val markerOptions = googleMapHelper.getDriverMarkerOptions(LatLng(driver.lat!!, driver.lng!!))
+
+    private fun addMarker(driver: Driver) {
+        val markerOptions =
+            googleMapHelper.getDriverMarkerOptions(LatLng(driver.lat!!, driver.lng!!))
         val marker = googleMap.addMarker(markerOptions)
         marker.tag = driver.driverId
         MarkerCollection.insertMarker(marker)
-        totalOnlineDrivers.text = resources.getString(R.string.total_online_drivers).plus(" ").plus(MarkerCollection.allMarkers().size)
-        val latLng = LatLng(driver.lat!!, driver.lng!!)
+        totalOnlineDrivers.text = resources.getString(R.string.total_online_drivers).plus(" ")
+            .plus(MarkerCollection.allMarkers().size)
+        val latLng = LatLng(driver.lat, driver.lng)
         animateCamera(latLng)
     }
-    private fun updateMarker(driver: Driver){
+
+    private fun updateMarker(driver: Driver) {
         val marker = MarkerCollection.getMarker(driverId = driver.driverId!!)
         markerAnimationHelper.animateMarkerToGB(
             marker!!,
@@ -185,7 +207,8 @@ class MapActivity : AppCompatActivity(), FirebaseDriverListener {
             LatLngInterpolator.Spherical()
         )
     }
-    private fun removeMarker(driver: Driver){
+
+    private fun removeMarker(driver: Driver) {
         MarkerCollection.removeMarker(driver.driverId!!)
         totalOnlineDrivers.text =
             resources.getString(R.string.total_online_drivers).plus(" ").plus(

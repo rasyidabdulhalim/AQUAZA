@@ -60,7 +60,14 @@ class ChatActivity : BaseActivity(), View.OnClickListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         editTextListener()
-        send.setImageDrawable(setDrawable(this, FontAwesome.Icon.faw_paper_plane, R.color.colorPrimaryLight, 22))
+        send.setImageDrawable(
+            setDrawable(
+                this,
+                FontAwesome.Icon.faw_paper_plane,
+                R.color.colorPrimaryLight,
+                22
+            )
+        )
 
         rv.setHasFixedSize(true)
         rv.layoutManager = LinearLayoutManager(this)
@@ -84,11 +91,25 @@ class ChatActivity : BaseActivity(), View.OnClickListener {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s!!.isEmpty() || s.isBlank()) {
                     hasTyped = false
-                    send.setImageDrawable(setDrawable(this@ChatActivity, FontAwesome.Icon.faw_paper_plane, R.color.colorPrimaryLight, 22))
+                    send.setImageDrawable(
+                        setDrawable(
+                            this@ChatActivity,
+                            FontAwesome.Icon.faw_paper_plane,
+                            R.color.colorPrimaryLight,
+                            22
+                        )
+                    )
 
                 } else {
                     hasTyped = true
-                    send.setImageDrawable(setDrawable(this@ChatActivity, FontAwesome.Icon.faw_paper_plane, R.color.colorPrimary, 22))
+                    send.setImageDrawable(
+                        setDrawable(
+                            this@ChatActivity,
+                            FontAwesome.Icon.faw_paper_plane,
+                            R.color.colorPrimary,
+                            22
+                        )
+                    )
 
                 }
             }
@@ -175,7 +196,7 @@ class ChatActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v?.id) {
+        when (v?.id) {
             send.id -> if (hasTyped) {
                 sendMessage()
                 updateChats()
@@ -184,7 +205,7 @@ class ChatActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> onBackPressed()
         }
 

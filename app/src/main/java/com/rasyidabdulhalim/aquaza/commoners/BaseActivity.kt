@@ -39,20 +39,23 @@ open class BaseActivity : AppCompatActivity() {
     // User hasn't requested storage permission; request them to allow
     fun requestStoragePermission() {
         Dexter.withActivity(this)
-                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(object : PermissionListener {
-                    override fun onPermissionGranted(response: PermissionGrantedResponse) {
+            .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(response: PermissionGrantedResponse) {
 
-                    }
+                }
 
-                    override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                override fun onPermissionDenied(response: PermissionDeniedResponse) {
 
-                    }
+                }
 
-                    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest, token: PermissionToken) {
-                        token.continuePermissionRequest()
-                    }
-                }).check()
+                override fun onPermissionRationaleShouldBeShown(
+                    permission: PermissionRequest,
+                    token: PermissionToken
+                ) {
+                    token.continuePermissionRequest()
+                }
+            }).check()
     }
 
     // Show progress dialog
@@ -68,7 +71,10 @@ open class BaseActivity : AppCompatActivity() {
 
     // Check if user has granted storage permission
     fun storagePermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     // Get root database reference
@@ -96,9 +102,10 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun getToken(): String {
-        var token:String? = null
+        var token: String? = null
 
-        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(object : OnSuccessListener<InstanceIdResult> {
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(object :
+            OnSuccessListener<InstanceIdResult> {
             override fun onSuccess(p0: InstanceIdResult?) {
                 token = p0!!.token
             }
@@ -108,6 +115,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun refreshToken() {
-        getDatabaseReference().child("users").child(getUid()).child("userToken").setValue(getToken())
+        getDatabaseReference().child("users").child(getUid()).child("userToken")
+            .setValue(getToken())
     }
 }

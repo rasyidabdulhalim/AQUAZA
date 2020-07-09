@@ -28,9 +28,11 @@ import timber.log.Timber
 
 class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
     private lateinit var employeeAdapter: EmployeeAdapter
-    private  var noEmp:Boolean = true
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    private var noEmp: Boolean = true
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_employee, container, false)
     }
@@ -55,7 +57,7 @@ class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
 
     private fun loadEmployees() {
         getFirestore().collection(K.USERS)
-            .whereEqualTo("status",K.DRIVER)
+            .whereEqualTo("status", K.DRIVER)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching employee $firebaseFirestoreException")
@@ -66,7 +68,7 @@ class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
                 } else {
                     hasEmployees()
                     for (docChange in querySnapshot.documentChanges) {
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val employee = docChange.document.toObject(User::class.java)
                                 employeeAdapter.addEmployee(employee)
@@ -89,7 +91,7 @@ class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
                 }
             }
         getFirestore().collection(K.USERS)
-            .whereEqualTo("status",K.ADMIN)
+            .whereEqualTo("status", K.ADMIN)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching employee $firebaseFirestoreException")
@@ -100,7 +102,7 @@ class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
                 } else {
                     hasEmployees()
                     for (docChange in querySnapshot.documentChanges) {
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val employee = docChange.document.toObject(User::class.java)
                                 employeeAdapter.addEmployee(employee)
@@ -122,11 +124,11 @@ class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
 
                 }
             }
-        if(noEmp) noEmployees()
+        if (noEmp) noEmployees()
     }
 
     private fun hasEmployees() {
-        noEmp=false
+        noEmp = false
         rv?.hideShimmerAdapter()
         empty?.hideView()
         rv?.showView()
@@ -137,18 +139,19 @@ class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
         rv?.hideView()
         empty?.showView()
     }
+
     override fun onClick(v: View, employee: User) {
-        when(v.id){
-            R.id.editEmp->{
+        when (v.id) {
+            R.id.editEmp -> {
                 val i = Intent(activity, AddEmployeActivity::class.java)
                 i.putExtra(K.USER, employee)
                 startActivity(i)
                 AppUtils.animateFadein(activity!!)
             }
-            R.id.PecatEmp->{
+            R.id.PecatEmp -> {
                 activity?.alert("Pecat Karyawan?") {
                     positiveButton("YES") {
-                        if(employeeAdapter.itemCount==1){
+                        if (employeeAdapter.itemCount == 1) {
                             employeeAdapter.clear()
                             noEmployees()
                         }

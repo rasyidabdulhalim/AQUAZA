@@ -35,10 +35,12 @@ class DepotFragment : BaseFragment(), DepotCallback {
     private lateinit var prefs: SharedPreferences
     private var localeID: Locale = Locale("in", "ID")
     private var formatRupiah: NumberFormat = NumberFormat.getCurrencyInstance(localeID)
-    var totalPriceOrder=0
-    var totalOrderSummary=0
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    var totalPriceOrder = 0
+    var totalOrderSummary = 0
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
 
         prefs = PreferenceHelper.defaultPrefs(activity!!)
@@ -52,11 +54,11 @@ class DepotFragment : BaseFragment(), DepotCallback {
         Glide.with(this *//* context *//*)
             .load(myUri)
             .into(userImageView)*/
-        if(prefs[K.STATUS, ""]=="Owner"){
+        if (prefs[K.STATUS, ""] == "Owner") {
             loadOrderSummaryOwner()
-        }else if (prefs[K.STATUS, ""]=="Driver"){
+        } else if (prefs[K.STATUS, ""] == "Driver") {
             loadOrdersSummaryDriver()
-        }else{
+        } else {
             loadOrderSummary()
         }
         loadDepots()
@@ -73,52 +75,52 @@ class DepotFragment : BaseFragment(), DepotCallback {
         rv.adapter = depotsAdapter
         rv.showShimmerAdapter()
         refreshbutton.setOnClickListener {
-            getFragmentManager()?.beginTransaction()?.detach(this)?.attach(this)?.commit()
+            fragmentManager?.beginTransaction()?.detach(this)?.attach(this)?.commit()
             activity?.toast("Daftar Sudah Di refresh")
         }
     }
 
     private fun loadDepots() {
         getFirestore().collection(K.DEPOTS)
-                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                    if (firebaseFirestoreException != null) {
-                        Timber.e("Error fetching depots $firebaseFirestoreException")
-                        noCars()
-                    }
-                    if (querySnapshot == null || querySnapshot.isEmpty) {
-                        noCars()
-                    } else {
-                        hasCars()
-                        for (docChange in querySnapshot.documentChanges) {
-                            when(docChange.type) {
-                                DocumentChange.Type.ADDED -> {
-                                    val car = docChange.document.toObject(Depot::class.java)
-                                    depotsAdapter.addCar(car)
-                                }
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if (firebaseFirestoreException != null) {
+                    Timber.e("Error fetching depots $firebaseFirestoreException")
+                    noCars()
+                }
+                if (querySnapshot == null || querySnapshot.isEmpty) {
+                    noCars()
+                } else {
+                    hasCars()
+                    for (docChange in querySnapshot.documentChanges) {
+                        when (docChange.type) {
+                            DocumentChange.Type.ADDED -> {
+                                val car = docChange.document.toObject(Depot::class.java)
+                                depotsAdapter.addCar(car)
+                            }
 
-                                DocumentChange.Type.MODIFIED -> {
-                                    val car = docChange.document.toObject(Depot::class.java)
-                                    depotsAdapter.updateCar(car)
-                                }
+                            DocumentChange.Type.MODIFIED -> {
+                                val car = docChange.document.toObject(Depot::class.java)
+                                depotsAdapter.updateCar(car)
+                            }
 
-                                DocumentChange.Type.REMOVED -> {
-                                    val car = docChange.document.toObject(Depot::class.java)
-                                    depotsAdapter.removeCar(car)
-                                }
-
+                            DocumentChange.Type.REMOVED -> {
+                                val car = docChange.document.toObject(Depot::class.java)
+                                depotsAdapter.removeCar(car)
                             }
 
                         }
 
                     }
+
                 }
+            }
 
     }
 
-    private fun loadOrderSummary(){
+    private fun loadOrderSummary() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo("buyerId",getUid())
-            .whereEqualTo(K.STATUS,K.RECEIVED)
+            .whereEqualTo("buyerId", getUid())
+            .whereEqualTo(K.STATUS, K.RECEIVED)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
@@ -127,30 +129,33 @@ class DepotFragment : BaseFragment(), DepotCallback {
 
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                totalPriceOrder+=order.price!!.toInt()
-                                totalOrderSummary +=order.quantity!!
-                                priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble()).toString()
-                                totalOrder.text=totalOrderSummary.toString()
+                                totalPriceOrder += order.price!!.toInt()
+                                totalOrderSummary += order.quantity!!
+                                priceTotalOrder.text =
+                                    formatRupiah.format(totalPriceOrder.toDouble()).toString()
+                                totalOrder.text = totalOrderSummary.toString()
                             }
                             DocumentChange.Type.REMOVED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                totalPriceOrder-=order.price!!.toInt()
-                                totalOrderSummary -=order.quantity!!
-                                priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble()).toString()
-                                totalOrder.text=totalOrderSummary.toString()
+                                totalPriceOrder -= order.price!!.toInt()
+                                totalOrderSummary -= order.quantity!!
+                                priceTotalOrder.text =
+                                    formatRupiah.format(totalPriceOrder.toDouble()).toString()
+                                totalOrder.text = totalOrderSummary.toString()
                             }
                         }
                     }
                 }
             }
     }
-    private fun loadOrdersSummaryDriver(){
+
+    private fun loadOrdersSummaryDriver() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo("driverId",getUid())
-            .whereEqualTo(K.STATUS,K.RECEIVED)
+            .whereEqualTo("driverId", getUid())
+            .whereEqualTo(K.STATUS, K.RECEIVED)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
@@ -159,31 +164,34 @@ class DepotFragment : BaseFragment(), DepotCallback {
 
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                totalPriceOrder+=order.price!!.toInt()
-                                totalOrderSummary +=order.quantity!!
-                                priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble()).toString()
-                                totalOrder.text=totalOrderSummary.toString()
-                                right_text.text="Received Money"
-                                left_text.text="Delivered Water"
+                                totalPriceOrder += order.price!!.toInt()
+                                totalOrderSummary += order.quantity!!
+                                priceTotalOrder.text =
+                                    formatRupiah.format(totalPriceOrder.toDouble()).toString()
+                                totalOrder.text = totalOrderSummary.toString()
+                                right_text.text = "Received Money"
+                                left_text.text = "Delivered Water"
                             }
                             DocumentChange.Type.REMOVED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                totalPriceOrder-=order.price!!.toInt()
-                                totalOrderSummary -=order.quantity!!
-                                priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble()).toString()
-                                totalOrder.text=totalOrderSummary.toString()
+                                totalPriceOrder -= order.price!!.toInt()
+                                totalOrderSummary -= order.quantity!!
+                                priceTotalOrder.text =
+                                    formatRupiah.format(totalPriceOrder.toDouble()).toString()
+                                totalOrder.text = totalOrderSummary.toString()
                             }
                         }
                     }
                 }
             }
     }
-    private fun loadOrderSummaryOwner(){
+
+    private fun loadOrderSummaryOwner() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo(K.STATUS,K.RECEIVED)
+            .whereEqualTo(K.STATUS, K.RECEIVED)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
@@ -192,26 +200,29 @@ class DepotFragment : BaseFragment(), DepotCallback {
 
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                totalPriceOrder+=order.price!!.toInt()
-                                totalOrderSummary +=order.quantity!!
-                                priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble()).toString()
-                                totalOrder.text=totalOrderSummary.toString()
+                                totalPriceOrder += order.price!!.toInt()
+                                totalOrderSummary += order.quantity!!
+                                priceTotalOrder.text =
+                                    formatRupiah.format(totalPriceOrder.toDouble()).toString()
+                                totalOrder.text = totalOrderSummary.toString()
                             }
                             DocumentChange.Type.REMOVED -> {
                                 val order = docChange.document.toObject(Order::class.java)
-                                totalPriceOrder-=order.price!!.toInt()
-                                totalOrderSummary -=order.quantity!!
-                                priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble()).toString()
-                                totalOrder.text=totalOrderSummary.toString()
+                                totalPriceOrder -= order.price!!.toInt()
+                                totalOrderSummary -= order.quantity!!
+                                priceTotalOrder.text =
+                                    formatRupiah.format(totalPriceOrder.toDouble()).toString()
+                                totalOrder.text = totalOrderSummary.toString()
                             }
                         }
                     }
                 }
             }
     }
+
     private fun hasCars() {
         rv?.hideShimmerAdapter()
         empty?.hideView()
@@ -225,7 +236,7 @@ class DepotFragment : BaseFragment(), DepotCallback {
     }
 
     override fun onClick(v: View, depot: Depot) {
-        when(v.id) {
+        when (v.id) {
             R.id.action -> {
                 if (depot.sellerId == getUid()) {
                     val i = Intent(activity, AddDepotActivity::class.java)
@@ -255,9 +266,9 @@ class DepotFragment : BaseFragment(), DepotCallback {
             }
             R.id.contact -> {
                 if (depot.sellerId == getUid()) {
-                  val i = Intent(activity, DepotInfoActivity::class.java)
-                  i.putExtra(K.DEPOT, depot)
-                  activity!!.startActivity(i)
+                    val i = Intent(activity, DepotInfoActivity::class.java)
+                    i.putExtra(K.DEPOT, depot)
+                    activity!!.startActivity(i)
                     AppUtils.animateEnterLeft(activity!!)
 
                 } else {
@@ -269,7 +280,7 @@ class DepotFragment : BaseFragment(), DepotCallback {
                     AppUtils.animateFadein(activity!!)
                 }
             }
-            R.id.showParam->{
+            R.id.showParam -> {
                 val i = Intent(activity, DepotInfoParamActivity::class.java)
                 i.putExtra(K.DEPOT, depot)
                 activity!!.startActivity(i)
@@ -283,7 +294,7 @@ class DepotFragment : BaseFragment(), DepotCallback {
 
         val builder = AlertDialog.Builder(activity!!)
         builder.setItems(items) { _, item ->
-            when(item) {
+            when (item) {
                 0 -> {
                     getFirestore().collection(K.DEPOTS).document(depot.id!!).delete()
                         .addOnSuccessListener {
@@ -307,7 +318,7 @@ class DepotFragment : BaseFragment(), DepotCallback {
             val items = arrayOf<CharSequence>("Batalkan Berlangganan Pada Depot Ini?")
 
             builder.setItems(items) { _, item ->
-                when(item) {
+                when (item) {
                     0 -> {
                         removeFromWatchlist(depot)
                     }
@@ -318,7 +329,7 @@ class DepotFragment : BaseFragment(), DepotCallback {
             val items = arrayOf<CharSequence>("Berlangganan Pada Depot Ini?")
 
             builder.setItems(items) { _, item ->
-                when(item) {
+                when (item) {
                     0 -> {
                         addToWatchList(depot)
                     }
@@ -347,21 +358,22 @@ class DepotFragment : BaseFragment(), DepotCallback {
             Timber.e("Successfully added ${depot.id} to ${getUid()} watchlist")
             activity?.toast("${depot.depotName} added to watchlist")
 
-            getFirestore().collection(K.WATCHLIST).document(getUid()).collection(K.DEPOTS).document(depot.id!!).set(depot)
+            getFirestore().collection(K.WATCHLIST).document(getUid()).collection(K.DEPOTS)
+                .document(depot.id!!).set(depot)
             val konsumen = Konsumen()
             konsumen.id = getUid()
-            konsumen.name = prefs[K.NAME,""]
-            konsumen.email = prefs[K.EMAIL,""]
+            konsumen.name = prefs[K.NAME, ""]
+            konsumen.email = prefs[K.EMAIL, ""]
             konsumen.dateCreated = TimeFormatter().getNormalYear(System.currentTimeMillis())
-            konsumen.dateModified= TimeFormatter().getNormalYear(System.currentTimeMillis())
-            konsumen.phone = prefs[K.PHONE,""]
-            konsumen.address = prefs[K.ADDRESS,""]
-            konsumen.status =K.REQUEST
+            konsumen.dateModified = TimeFormatter().getNormalYear(System.currentTimeMillis())
+            konsumen.phone = prefs[K.PHONE, ""]
+            konsumen.address = prefs[K.ADDRESS, ""]
+            konsumen.status = K.REQUEST
             konsumen.depotId = depot.id
             konsumen.depotName = depot.depotName
-            konsumen.avatar= prefs[K.AVATAR,""]
-            konsumen.defaultlat=0.0
-            konsumen.defaultlng=0.0
+            konsumen.avatar = prefs[K.AVATAR, ""]
+            konsumen.defaultlat = 0.0
+            konsumen.defaultlng = 0.0
             getFirestore().collection(K.WATCHLIST).document(getUid()).set(konsumen)
         }.addOnFailureListener {
             Timber.e("Error adding ${depot.id} to watchlist: $it")
@@ -384,7 +396,8 @@ class DepotFragment : BaseFragment(), DepotCallback {
             Timber.e("Successfully removed ${depot.id} from ${getUid()} watchlist")
             activity?.toast("${depot.depotName} removed from watchlist")
 
-            getFirestore().collection(K.WATCHLIST).document(getUid()).collection(K.DEPOTS).document(depot.id!!).delete()
+            getFirestore().collection(K.WATCHLIST).document(getUid()).collection(K.DEPOTS)
+                .document(depot.id!!).delete()
         }.addOnFailureListener {
             Timber.e("Error removing ${depot.id} from watchlist: $it")
         }

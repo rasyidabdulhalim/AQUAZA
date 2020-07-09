@@ -31,37 +31,37 @@ inline fun <reified T : ViewDataBinding> ViewGroup.inflate(@LayoutRes layoutRes:
 
 fun ImageView.loadUrl(url: Int) {
     Glide.with(context)
-            .load(url)
-            .thumbnail(0.05f)
-            .into(this)
+        .load(url)
+        .thumbnail(0.05f)
+        .into(this)
 }
 
 fun ImageView.loadUrl(url: String) {
     Glide.with(context)
-            .load(url)
-            .thumbnail(0.05f)
-            .into(this)
+        .load(url)
+        .thumbnail(0.05f)
+        .into(this)
 }
 
 fun RoundedImageView.loadUrl(url: String) {
     Glide.with(context)
-            .load(url)
-            .thumbnail(0.05f)
-            .into(this)
+        .load(url)
+        .thumbnail(0.05f)
+        .into(this)
 }
 
 fun CircleImageView.loadUrl(url: Int) {
     Glide.with(context)
-            .load(url)
-            .thumbnail(0.05f)
-            .into(this)
+        .load(url)
+        .thumbnail(0.05f)
+        .into(this)
 }
 
 fun CircleImageView.loadUrl(url: String) {
     Glide.with(context.applicationContext)
-            .load(url)
-            .thumbnail(0.05f)
-            .into(this)
+        .load(url)
+        .thumbnail(0.05f)
+        .into(this)
 }
 
 fun TextView.setFont(font: String) {
@@ -101,12 +101,12 @@ inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Fragmen
 
 fun <E> List<E>.random(): E? = if (size > 0) get(Random().nextInt(size)) else null
 
-fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int){
+fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int) {
     supportFragmentManager.inTransaction { add(frameId, fragment) }
 }
 
 fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
-    supportFragmentManager.inTransaction{ replace(frameId, fragment).addToBackStack(fragment.tag) }
+    supportFragmentManager.inTransaction { replace(frameId, fragment).addToBackStack(fragment.tag) }
 }
 
 class SemiSquareLayout : RelativeLayout {
@@ -114,7 +114,11 @@ class SemiSquareLayout : RelativeLayout {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec - 80)
@@ -127,7 +131,11 @@ class SquareLayout : RelativeLayout {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec)

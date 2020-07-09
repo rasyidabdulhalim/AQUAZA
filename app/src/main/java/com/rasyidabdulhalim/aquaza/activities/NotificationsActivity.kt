@@ -27,6 +27,7 @@ class NotificationsActivity : BaseActivity() {
 
         initViews()
     }
+
     private fun initViews() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -50,7 +51,7 @@ class NotificationsActivity : BaseActivity() {
 
     private fun loadSample() {
         getFirestore().collection(K.NOTIFICATIONS)
-            .orderBy("time",com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .orderBy("time", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
@@ -59,10 +60,11 @@ class NotificationsActivity : BaseActivity() {
 
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
-                                val notification = docChange.document.toObject(Notification::class.java)
-                                if (notification.uid==getUid()){
+                                val notification =
+                                    docChange.document.toObject(Notification::class.java)
+                                if (notification.uid == getUid()) {
                                     notificationsAdapter.addNotif(notification)
                                 }
                             }
@@ -75,7 +77,7 @@ class NotificationsActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> onBackPressed()
         }
 

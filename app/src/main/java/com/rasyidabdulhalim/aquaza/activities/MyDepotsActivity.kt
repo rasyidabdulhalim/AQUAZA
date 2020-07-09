@@ -60,7 +60,9 @@ class MyDepotsActivity : BaseActivity(), DepotCallback {
         fabPart.colorNormal = ContextCompat.getColor(this, R.color.colorPrimary)
         fabPart.colorPressed = ContextCompat.getColor(this, R.color.colorPrimaryDark)
         fabPart.colorRipple = ContextCompat.getColor(this, R.color.colorPrimaryDark)
-        fabPart.setImageDrawable(IconicsDrawable(this).icon(Ionicons.Icon.ion_plus).color(Color.WHITE).sizeDp(17))
+        fabPart.setImageDrawable(
+            IconicsDrawable(this).icon(Ionicons.Icon.ion_plus).color(Color.WHITE).sizeDp(17)
+        )
 
         fabPart.setOnClickListener {
             fam.close(true)
@@ -85,7 +87,7 @@ class MyDepotsActivity : BaseActivity(), DepotCallback {
 
                     for (docChange in querySnapshot.documentChanges) {
 
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val car = docChange.document.toObject(Depot::class.java)
                                 depotsAdapter.addCar(car)
@@ -124,7 +126,7 @@ class MyDepotsActivity : BaseActivity(), DepotCallback {
 
 
     override fun onClick(v: View, depot: Depot) {
-        when(v.id) {
+        when (v.id) {
             R.id.action -> {
                 if (depot.sellerId == getUid()) {
                     val i = Intent(this, AddDepotActivity::class.java)
@@ -176,7 +178,7 @@ class MyDepotsActivity : BaseActivity(), DepotCallback {
 
         val builder = AlertDialog.Builder(this)
         builder.setItems(items) { _, item ->
-            when(item) {
+            when (item) {
                 0 -> {
                     getFirestore().collection(K.DEPOTS).document(depot.id!!).delete()
                         .addOnSuccessListener {
@@ -200,7 +202,7 @@ class MyDepotsActivity : BaseActivity(), DepotCallback {
             val items = arrayOf<CharSequence>("Remove from watchlist")
 
             builder.setItems(items) { _, item ->
-                when(item) {
+                when (item) {
                     0 -> {
                         removeFromWatchlist(depot)
                     }
@@ -211,7 +213,7 @@ class MyDepotsActivity : BaseActivity(), DepotCallback {
             val items = arrayOf<CharSequence>("Add to watchlist")
 
             builder.setItems(items) { _, item ->
-                when(item) {
+                when (item) {
                     0 -> {
                         addToWatchList(depot)
                     }
@@ -240,7 +242,8 @@ class MyDepotsActivity : BaseActivity(), DepotCallback {
             Timber.e("Successfully added ${depot.id} to ${getUid()} watchlist")
             toast("${depot.depotName} added to watchlist")
 
-            getFirestore().collection(K.WATCHLIST).document(getUid()).collection(K.DEPOTS).document(depot.id!!).set(depot)
+            getFirestore().collection(K.WATCHLIST).document(getUid()).collection(K.DEPOTS)
+                .document(depot.id!!).set(depot)
         }.addOnFailureListener {
             Timber.e("Error adding ${depot.id} to watchlist: $it")
         }
@@ -262,14 +265,15 @@ class MyDepotsActivity : BaseActivity(), DepotCallback {
             Timber.e("Successfully removed ${depot.id} from ${getUid()} watchlist")
             toast("${depot.depotName} removed from watchlist")
 
-            getFirestore().collection(K.WATCHLIST).document(getUid()).collection(K.DEPOTS).document(depot.id!!).delete()
+            getFirestore().collection(K.WATCHLIST).document(getUid()).collection(K.DEPOTS)
+                .document(depot.id!!).delete()
         }.addOnFailureListener {
             Timber.e("Error removing ${depot.id} from watchlist: $it")
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> onBackPressed()
         }
 

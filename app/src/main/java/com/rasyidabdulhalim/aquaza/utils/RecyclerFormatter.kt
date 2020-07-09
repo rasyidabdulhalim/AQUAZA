@@ -12,7 +12,8 @@ import com.rasyidabdulhalim.aquaza.R
 class RecyclerFormatter {
 
     class SimpleDividerItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
-        private val mDivider: Drawable? = ContextCompat.getDrawable(context, R.drawable.simple_recycler_divider)
+        private val mDivider: Drawable? =
+            ContextCompat.getDrawable(context, R.drawable.simple_recycler_divider)
 
         override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
             val left = parent.paddingLeft
@@ -34,7 +35,8 @@ class RecyclerFormatter {
     }
 
     class DoubleDividerItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
-        private val mDivider: Drawable? = ContextCompat.getDrawable(context, R.drawable.recycler_divider)
+        private val mDivider: Drawable? =
+            ContextCompat.getDrawable(context, R.drawable.recycler_divider)
 
         override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
             val left = parent.paddingLeft
@@ -55,7 +57,11 @@ class RecyclerFormatter {
         }
     }
 
-    class GridItemDecoration(private val context: Context, private val spanCount: Int, private val space: Int) : RecyclerView.ItemDecoration() {
+    class GridItemDecoration(
+        private val context: Context,
+        private val spanCount: Int,
+        private val space: Int
+    ) : RecyclerView.ItemDecoration() {
 
         override fun getItemOffsets(
             outRect: Rect,

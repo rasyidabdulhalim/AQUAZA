@@ -61,7 +61,8 @@ class MapDriverActivity : AppCompatActivity() {
         order = intent.getSerializableExtra(K.ORDER) as Order
         firebaseHelper = FirebaseHelper(order.driverId!!)
         setContentView(R.layout.activity_mapdriver)
-        val mapFragment: SupportMapFragment = supportFragmentManager.findFragmentById(R.id.supportMap) as SupportMapFragment
+        val mapFragment: SupportMapFragment =
+            supportFragmentManager.findFragmentById(R.id.supportMap) as SupportMapFragment
         mapFragment.getMapAsync(object : OnMapReadyCallback {
             override fun onMapReady(p0: GoogleMap?) {
                 googleMap = p0!!
@@ -77,7 +78,8 @@ class MapDriverActivity : AppCompatActivity() {
         val driverStatusTextView = findViewById<TextView>(R.id.driverStatusTextView)
         findViewById<SwitchCompat>(R.id.driverStatusSwitch).setOnCheckedChangeListener { _, b ->
             driverOnlineFlag = b
-            if (driverOnlineFlag) driverStatusTextView.text = resources.getString(R.string.online_driver)
+            if (driverOnlineFlag) driverStatusTextView.text =
+                resources.getString(R.string.online_driver)
             else {
                 driverStatusTextView.text = resources.getString(R.string.offline)
                 firebaseHelper.deleteDriver()
@@ -88,16 +90,31 @@ class MapDriverActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun requestLocationUpdate() {
         if (!uiHelper.isHaveLocationPermission(this)) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+            )
             return
         }
         if (uiHelper.isLocationProviderEnabled(this))
-            uiHelper.showPositiveDialogWithListener(this, resources.getString(R.string.need_location), resources.getString(R.string.location_content), object : IPositiveNegativeListener {
-                override fun onPositive() {
-                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                }
-            }, "Turn On", false)
-        locationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+            uiHelper.showPositiveDialogWithListener(
+                this,
+                resources.getString(R.string.need_location),
+                resources.getString(R.string.location_content),
+                object : IPositiveNegativeListener {
+                    override fun onPositive() {
+                        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                    }
+                },
+                "Turn On",
+                false
+            )
+        locationProviderClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.myLooper()
+        )
     }
 
     private fun createLocationCallback() {
@@ -105,12 +122,21 @@ class MapDriverActivity : AppCompatActivity() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 super.onLocationResult(locationResult)
                 if (locationResult!!.lastLocation == null) return
-                val latLng = LatLng(locationResult.lastLocation.latitude, locationResult.lastLocation.longitude)
+                val latLng = LatLng(
+                    locationResult.lastLocation.latitude,
+                    locationResult.lastLocation.longitude
+                )
                 Log.e("Location", latLng.latitude.toString() + " , " + latLng.longitude)
                 if (locationFlag) {
                     locationFlag = false
                 }
-                if (driverOnlineFlag) firebaseHelper.updateDriver(Driver(order.driverId,lat = latLng.latitude, lng = latLng.longitude))
+                if (driverOnlineFlag) firebaseHelper.updateDriver(
+                    Driver(
+                        order.driverId,
+                        lat = latLng.latitude,
+                        lng = latLng.longitude
+                    )
+                )
                 showOrAnimateMarker(latLng)
                 addMarkerDestinations(order)
             }
@@ -119,10 +145,16 @@ class MapDriverActivity : AppCompatActivity() {
 
     private fun showOrAnimateMarker(latLng: LatLng) {
         if (currentPositionMarker == null)
-            currentPositionMarker = googleMap.addMarker(googleMapHelper.getDriverMarkerOptions(latLng))
-        else markerAnimationHelper.animateMarkerToGB(currentPositionMarker!!, latLng, LatLngInterpolator.Spherical())
+            currentPositionMarker =
+                googleMap.addMarker(googleMapHelper.getDriverMarkerOptions(latLng))
+        else markerAnimationHelper.animateMarkerToGB(
+            currentPositionMarker!!,
+            latLng,
+            LatLngInterpolator.Spherical()
+        )
     }
-    private fun addMarkerDestinations(order: Order){
+
+    private fun addMarkerDestinations(order: Order) {
         val markerOptions = googleMapHelper.getOrderMarkerOptions(LatLng(order.lat!!, order.lng!!))
         val marker = googleMap.addMarker(markerOptions)
         marker.tag = "AQUAZA"
@@ -135,7 +167,11 @@ class MapDriverActivity : AppCompatActivity() {
         googleMap.animateCamera(cameraUpdate, 10, null)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             val value = grantResults[0]

@@ -74,7 +74,7 @@ class OrderHistoryFragment : BaseFragment(), OrderCallBack {
 
     private fun loadOrdersUser() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo("buyerId",getUid())
+            .whereEqualTo("buyerId", getUid())
             .whereEqualTo("status", "Received")
             .orderBy("time", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
@@ -150,7 +150,7 @@ class OrderHistoryFragment : BaseFragment(), OrderCallBack {
 
     private fun loadOrdersDriver() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo("driverId",getUid())
+            .whereEqualTo("driverId", getUid())
             .whereEqualTo("status", "Received")
             .orderBy("time", com.google.firebase.firestore.Query.Direction.ASCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
@@ -209,9 +209,9 @@ class OrderHistoryFragment : BaseFragment(), OrderCallBack {
                         positiveButton("YES") {
                             getFirestore().collection(K.ORDERS).document(order.id!!)
                                 .update("status", "Received").addOnSuccessListener {
-                                orderAdapter.updateItem(order)
-                                activity?.toast("Terimakasih,Hati-Hati dalam Perjalanan~")
-                            }
+                                    orderAdapter.updateItem(order)
+                                    activity?.toast("Terimakasih,Hati-Hati dalam Perjalanan~")
+                                }
                         }
                         negativeButton("CANCEL") {}
                     }!!.show()
@@ -255,9 +255,9 @@ class OrderHistoryFragment : BaseFragment(), OrderCallBack {
                         positiveButton("YES") {
                             getFirestore().collection(K.ORDERS).document(order.id!!)
                                 .update("status", "On Progress").addOnSuccessListener {
-                                orderAdapter.updateItem(order)
-                                activity?.toast("Pesanan Berhasil Diambil,Silahkan Antarkan Pesanan~")
-                            }
+                                    orderAdapter.updateItem(order)
+                                    activity?.toast("Pesanan Berhasil Diambil,Silahkan Antarkan Pesanan~")
+                                }
                         }
                         negativeButton("CANCEL") {}
                     }!!.show()

@@ -65,9 +65,9 @@ class AddEmployeActivity : BaseActivity() {
                 Editable.Factory.getInstance().newEditable(employee.email.toString())
             locationNewDepot.text =
                 Editable.Factory.getInstance().newEditable(employee.address.toString())
-            passwordEmployee.setVisibility(View.GONE)
-            confirmPasswordEmployee.setVisibility(View.GONE)
-            buttonNotification.setText("Simpan Perubahan")
+            passwordEmployee.visibility = View.GONE
+            confirmPasswordEmployee.visibility = View.GONE
+            buttonNotification.text = "Simpan Perubahan"
 
             KEY = employee.id.toString()
 
@@ -204,15 +204,23 @@ class AddEmployeActivity : BaseActivity() {
             if (!AppUtils.validated(nameEmployee, phoneEmployee, locationNewDepot, emailEmployee)) {
                 toast("Please fill all fields!")
                 return
-            }else{
+            } else {
                 showLoading("Uploading images...")
                 uploadImages()
             }
         } else {
-            if (!AppUtils.validated(nameEmployee,phoneEmployee,locationNewDepot,emailEmployee,passwordEmployee,confirmPasswordEmployee)) {
+            if (!AppUtils.validated(
+                    nameEmployee,
+                    phoneEmployee,
+                    locationNewDepot,
+                    emailEmployee,
+                    passwordEmployee,
+                    confirmPasswordEmployee
+                )
+            ) {
                 toast("Please fill all fields!")
                 return
-            }else{
+            } else {
                 getFirebaseAuth().createUserWithEmailAndPassword(email, pw)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {

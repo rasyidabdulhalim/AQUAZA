@@ -9,7 +9,11 @@ import com.rasyidabdulhalim.aquaza.interfaces.LatLngInterpolator
 
 class MarkerAnimationHelper {
 
-    fun animateMarkerToGB(marker: Marker, finalPosition: LatLng, latLngInterpolator: LatLngInterpolator) {
+    fun animateMarkerToGB(
+        marker: Marker,
+        finalPosition: LatLng,
+        latLngInterpolator: LatLngInterpolator
+    ) {
         val startPosition = marker.position
         val handler = Handler()
         val start = SystemClock.uptimeMillis()

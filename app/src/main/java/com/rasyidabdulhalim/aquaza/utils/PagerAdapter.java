@@ -18,34 +18,34 @@ public class PagerAdapter extends FragmentPagerAdapter {
     private List<String> titles = new ArrayList<>();
     private Context context;
 
-    public PagerAdapter(FragmentManager fm,Context context) {
+    public PagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
     }
 
-    public void addTitle(String title){
+    public void addTitle(String title) {
         titles.add(title);
     }
 
-    public void addFragment(Fragment fragment){
+    public void addFragment(Fragment fragment) {
         fragments.add(fragment);
     }
 
 
-    public void addFrag(Fragment fragment,String title){
+    public void addFrag(Fragment fragment, String title) {
         fragments.add(fragment);
         titles.add(title.toUpperCase());
     }
 
-    public void addAllFrags(Fragment... frag){
+    public void addAllFrags(Fragment... frag) {
         fragments.addAll(Arrays.asList(frag));
     }
 
-    public void addAllTitles(String... title){
+    public void addAllTitles(String... title) {
         titles.addAll(Arrays.asList(title));
     }
 
-    public void removeFrag(int i){
+    public void removeFrag(int i) {
         fragments.remove(i);
         titles.remove(i);
         notifyDataSetChanged();

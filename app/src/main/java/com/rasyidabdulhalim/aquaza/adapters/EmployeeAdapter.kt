@@ -9,12 +9,13 @@ import com.rasyidabdulhalim.aquaza.databinding.EmployeeItemBinding
 import com.rasyidabdulhalim.aquaza.models.User
 import com.rasyidabdulhalim.aquaza.utils.inflate
 
-class EmployeeAdapter(private val context: Context, private val callback: EmployeCallBack) : RecyclerView.Adapter<EmployeeAdapter.EmployeeHolder>(){
+class EmployeeAdapter(private val context: Context, private val callback: EmployeCallBack) :
+    RecyclerView.Adapter<EmployeeAdapter.EmployeeHolder>() {
     private val users = mutableListOf<User>()
 
     fun addEmployee(employee: User) {
         users.add(employee)
-        notifyItemInserted(users.size-1)
+        notifyItemInserted(users.size - 1)
     }
 
     fun addEmployees(employees: MutableList<User>) {
@@ -49,6 +50,7 @@ class EmployeeAdapter(private val context: Context, private val callback: Employ
         users.clear()
         notifyItemRangeRemoved(0, size)
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeeHolder {
         return EmployeeHolder(parent.inflate(R.layout.employee_item), callback)
     }
@@ -59,10 +61,11 @@ class EmployeeAdapter(private val context: Context, private val callback: Employ
         holder.bind(users[position])
     }
 
-    class EmployeeHolder(private val binding:EmployeeItemBinding, callback: EmployeCallBack) : RecyclerView.ViewHolder(binding.root) {
+    class EmployeeHolder(private val binding: EmployeeItemBinding, callback: EmployeCallBack) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
-          //  binding.location.setDrawable(setDrawable(context, Ionicons.Icon.ion_location, R.color.secondaryText, 12))
+            //  binding.location.setDrawable(setDrawable(context, Ionicons.Icon.ion_location, R.color.secondaryText, 12))
             binding.callback = callback
         }
 

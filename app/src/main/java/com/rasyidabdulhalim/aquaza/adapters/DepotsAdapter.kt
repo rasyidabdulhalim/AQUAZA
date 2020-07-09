@@ -11,12 +11,13 @@ import com.rasyidabdulhalim.aquaza.models.Depot
 import com.rasyidabdulhalim.aquaza.utils.TimeFormatter
 import com.rasyidabdulhalim.aquaza.utils.inflate
 
-class DepotsAdapter(private val context: Context, private val callback: DepotCallback) : RecyclerView.Adapter<DepotsAdapter.DepotHolder>(){
+class DepotsAdapter(private val context: Context, private val callback: DepotCallback) :
+    RecyclerView.Adapter<DepotsAdapter.DepotHolder>() {
     private val depots = mutableListOf<Depot>()
 
     fun addCar(depot: Depot) {
         depots.add(depot)
-        notifyItemInserted(depots.size-1)
+        notifyItemInserted(depots.size - 1)
     }
 
     fun addCars(depots: MutableList<Depot>) {
@@ -56,7 +57,8 @@ class DepotsAdapter(private val context: Context, private val callback: DepotCal
         holder.bind(depots[position])
     }
 
-    class DepotHolder(private val binding:DepotItemBinding, callback: DepotCallback) : RecyclerView.ViewHolder(binding.root) {
+    class DepotHolder(private val binding: DepotItemBinding, callback: DepotCallback) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.callback = callback

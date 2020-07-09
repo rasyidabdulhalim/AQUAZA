@@ -28,9 +28,9 @@ class AuthActivity : BaseActivity() {
     }
 
     private fun checkIfLoggedIn() {
-        if (getUser() != null){
+        if (getUser() != null) {
             startActivity(Intent(this, MainActivity::class.java))
-            overridePendingTransition(0,0)
+            overridePendingTransition(0, 0)
             finish()
         }
     }
@@ -48,7 +48,7 @@ class AuthActivity : BaseActivity() {
                 toast("Tap back again to exit")
                 doubleBackToExit = true
 
-                Handler().postDelayed({doubleBackToExit = false}, 1500)
+                Handler().postDelayed({ doubleBackToExit = false }, 1500)
             }
         }
 

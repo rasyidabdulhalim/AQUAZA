@@ -28,8 +28,10 @@ import timber.log.Timber
 class MyKonsumenFragment : BaseFragment(), KonsumenCallback {
     private lateinit var konsumenAdapter: KonsumenAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_requestkonsumen, container, false)
     }
@@ -54,7 +56,7 @@ class MyKonsumenFragment : BaseFragment(), KonsumenCallback {
 
     private fun loadRequestKonsumen() {
         getFirestore().collection(K.WATCHLIST)
-            .whereEqualTo("status",K.SUBSCIBE)
+            .whereEqualTo("status", K.SUBSCIBE)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching Employee $firebaseFirestoreException")
@@ -68,7 +70,7 @@ class MyKonsumenFragment : BaseFragment(), KonsumenCallback {
 
                     for (docChange in querySnapshot.documentChanges) {
 
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val konsumen = docChange.document.toObject(Konsumen::class.java)
                                 konsumenAdapter.addItem(konsumen)
@@ -105,11 +107,11 @@ class MyKonsumenFragment : BaseFragment(), KonsumenCallback {
     }
 
     override fun onClick(v: View, konsumen: Konsumen) {
-        when(v.id){
-            R.id.cancel->{
+        when (v.id) {
+            R.id.cancel -> {
                 activity?.alert("Hapus Permintaan Berlangganan Dari User Ini?") {
                     positiveButton("YES") {
-                        if(konsumenAdapter.itemCount==1){
+                        if (konsumenAdapter.itemCount == 1) {
                             konsumenAdapter.clear()
                             noEmployees()
                         }
@@ -125,17 +127,18 @@ class MyKonsumenFragment : BaseFragment(), KonsumenCallback {
                     negativeButton("CANCEL") {}
                 }!!.show()
             }
-            R.id.action->{
+            R.id.action -> {
                 activity?.alert("Konfirmasi Permintaan Berlangganan Dari User Ini?") {
                     positiveButton("YES") {
-                        if(konsumenAdapter.itemCount==1){
+                        if (konsumenAdapter.itemCount == 1) {
                             konsumenAdapter.clear()
                             noEmployees()
                         }
-                        konsumen.status=K.SUBSCIBE
-                        getFirestore().collection(K.WATCHLIST).document(konsumen.id!!).set(konsumen).addOnSuccessListener {
-                            activity?.toast("Konsumen Baru Berhasil Ditambahkan")
-                        }
+                        konsumen.status = K.SUBSCIBE
+                        getFirestore().collection(K.WATCHLIST).document(konsumen.id!!).set(konsumen)
+                            .addOnSuccessListener {
+                                activity?.toast("Konsumen Baru Berhasil Ditambahkan")
+                            }
                             .addOnFailureListener {
                                 Timber.e("Error deleting ${konsumen.id}")
                                 activity?.toast("Error deleting ${konsumen.id}")

@@ -28,35 +28,36 @@ import org.jetbrains.anko.toast
 
 open class BaseFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
 
     fun isConnected(): Boolean = Connectivity.isConnected(activity!!)
 
     // User hasn't requested storage permission; request them to allow
     fun requestStoragePermission() {
         Dexter.withActivity(activity)
-                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(object : PermissionListener {
-                    override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                    }
+            .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(response: PermissionGrantedResponse) {
+                }
 
-                    override fun onPermissionDenied(response: PermissionDeniedResponse) {
-                        activity?.toast("Storage permission is required!")
-                    }
+                override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                    activity?.toast("Storage permission is required!")
+                }
 
-                    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest, token: PermissionToken) {
-                        token.continuePermissionRequest()
-                    }
-                }).check()
+                override fun onPermissionRationaleShouldBeShown(
+                    permission: PermissionRequest,
+                    token: PermissionToken
+                ) {
+                    token.continuePermissionRequest()
+                }
+            }).check()
     }
 
     // Check if user has granted storage permission
     fun storagePermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(
+            activity!!,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     // Get root database reference
@@ -80,9 +81,11 @@ open class BaseFragment : Fragment() {
 
     // Get user token
     fun getToken(): String {
-        var token:String? = null
+        var token: String? = null
 
-        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { p0 -> token = p0!!.token }
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { p0 ->
+            token = p0!!.token
+        }
 
         return token!!
     }

@@ -47,21 +47,21 @@ class AddNotificationActivity : BaseActivity() {
             typeSendMessage.text = Editable.Factory.getInstance().newEditable("All")
         }
         buttonNotification.setOnClickListener {
-addMessage()
+            addMessage()
         }
 
     }
 
     fun addMessage() {
-        if (typeSendMessage.text.toString()==""){
+        if (typeSendMessage.text.toString() == "") {
             toast("Input Type Send Message")
             return
         }
-        if (message.text.toString()==""){
+        if (message.text.toString() == "") {
             toast("Input Type Send Message")
             return
         }
-        if (statusMessage.text.toString()==""){
+        if (statusMessage.text.toString() == "") {
             toast("Input Type Send Message")
             return
         }

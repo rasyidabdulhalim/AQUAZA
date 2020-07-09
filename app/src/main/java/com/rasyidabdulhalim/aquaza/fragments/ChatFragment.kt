@@ -27,8 +27,10 @@ class ChatFragment : BaseFragment(), ChatListCallback {
     private lateinit var chatsAdapter: ChatsAdapter
     private lateinit var chatsQuery: Query
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
 
         chatsQuery = getDatabaseReference().child(K.CHATS).child(getUid())
@@ -113,6 +115,7 @@ class ChatFragment : BaseFragment(), ChatListCallback {
         activity!!.startActivity(i)
         AppUtils.animateFadein(activity!!)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         chatsQuery.removeEventListener(chatsValueListener)

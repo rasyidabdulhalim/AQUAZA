@@ -6,5 +6,4 @@ data class Driver(
     val driverId: String? = null,
     val lat: Double? = null,
     val lng: Double? = null
-): Serializable {
-}
+) : Serializable

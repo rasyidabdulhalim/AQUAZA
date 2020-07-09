@@ -22,10 +22,10 @@ class GoogleMapHelper {
 
     fun buildCameraUpdate(latLng: LatLng): CameraUpdate {
         val cameraPosition = CameraPosition.Builder()
-                .target(latLng)
-                .tilt(TILT_LEVEL.toFloat())
-                .zoom(ZOOM_LEVEL.toFloat())
-                .build()
+            .target(latLng)
+            .tilt(TILT_LEVEL.toFloat())
+            .zoom(ZOOM_LEVEL.toFloat())
+            .build()
         return CameraUpdateFactory.newCameraPosition(cameraPosition)
     }
 
@@ -39,15 +39,17 @@ class GoogleMapHelper {
         options.flat(true)
         return options
     }
+
     fun getOrderMarkerOptions(position: LatLng): MarkerOptions {
         val options = getMarkerOptions(R.drawable.icon_order, position)
         options.flat(true)
         return options
     }
+
     private fun getMarkerOptions(resource: Int, position: LatLng): MarkerOptions {
         return MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(resource))
-                .position(position)
+            .icon(BitmapDescriptorFactory.fromResource(resource))
+            .position(position)
     }
 
 }

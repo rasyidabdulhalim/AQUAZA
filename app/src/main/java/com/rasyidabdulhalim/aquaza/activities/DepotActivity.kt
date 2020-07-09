@@ -44,7 +44,8 @@ import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
 
-class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,
+class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener,
+    DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,
     OnMapReadyCallback, PermissionsListener {
     private lateinit var depot: Depot
     private lateinit var datePicker: DatePickerDialog
@@ -55,16 +56,17 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
     private lateinit var KEY: String
     private val order = Order()
     private var localeID: Locale = Locale("in", "ID")
-    private var formatRupiah : NumberFormat = NumberFormat.getCurrencyInstance(localeID)
+    private var formatRupiah: NumberFormat = NumberFormat.getCurrencyInstance(localeID)
     private var mapView: MapView? = null
     private var mapboxMap: MapboxMap? = null
     private var locationComponent: LocationComponent? = null
     private var permissionsManager: PermissionsManager? = null
     private var locationEngine: LocationEngine? = null
     private var callback: DepotActivity.LocationChangeListeningCallback? = null
-    private var subTotal:Double = 0.0
+    private var subTotal: Double = 0.0
 
-    private inner class LocationChangeListeningCallback : LocationEngineCallback<LocationEngineResult> {
+    private inner class LocationChangeListeningCallback :
+        LocationEngineCallback<LocationEngineResult> {
 
         override fun onSuccess(result: LocationEngineResult?) {
             result?.lastLocation ?: return
@@ -78,8 +80,8 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
                     .tilt(10.0)
                     .build()
                 mapboxMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(position))
-                lngtv.text=lng.toString()
-                lattv.text=lat.toString()
+                lngtv.text = lng.toString()
+                lattv.text = lat.toString()
                 //   Toast.makeText(this@MainActivity, "Location update : $latLng", Toast.LENGTH_SHORT).show()
             }
 
@@ -111,10 +113,10 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = null
 
-        if (depot.id!=null){
-            locationNewDepot.text= Editable.Factory.getInstance().newEditable(prefs[K.ADDRESS,""])
-            priceTextView.text=formatRupiah.format(depot.price?.toDouble())
-            totalPriceTextView.text= formatRupiah.format(depot.price?.toDouble())
+        if (depot.id != null) {
+            locationNewDepot.text = Editable.Factory.getInstance().newEditable(prefs[K.ADDRESS, ""])
+            priceTextView.text = formatRupiah.format(depot.price?.toDouble())
+            totalPriceTextView.text = formatRupiah.format(depot.price?.toDouble())
         }
         toolbarTitle()
 
@@ -125,13 +127,25 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
         editdepot.setOnClickListener(this)
 
         val cal = Calendar.getInstance()
-        datePicker = DatePickerDialog(this, this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
-        timePicker = TimePickerDialog(this, this, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true)
+        datePicker = DatePickerDialog(
+            this,
+            this,
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        )
+        timePicker = TimePickerDialog(
+            this,
+            this,
+            cal.get(Calendar.HOUR_OF_DAY),
+            cal.get(Calendar.MINUTE),
+            true
+        )
     }
 
     private fun toolbarTitle() {
         toolbarLayout.title = ""
-        appBar.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener{
+        appBar.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
             var showTitle = true
             var scrollRange = -1
 
@@ -161,7 +175,7 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
     override fun setImageForPosition(position: Int, imageView: ImageView?) {
         val keys = depot.images.keys.toList()
 
-        imageView!!.scaleType =ImageView.ScaleType.CENTER_CROP
+        imageView!!.scaleType = ImageView.ScaleType.CENTER_CROP
         imageView.loadUrl(depot.images[keys[position]]!!)
     }
 
@@ -180,7 +194,7 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> onBackPressed()
         }
 
@@ -188,8 +202,10 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
     }
 
     private fun initActions() {
-        moreImageView.setOnClickListener { Toast.makeText(this, "Clicked More.", Toast.LENGTH_SHORT).show() }
-        plusImageView.setOnClickListener{
+        moreImageView.setOnClickListener {
+            Toast.makeText(this, "Clicked More.", Toast.LENGTH_SHORT).show()
+        }
+        plusImageView.setOnClickListener {
             try {
                 var value = Integer.parseInt(qtyEditText.text.toString())
                 value++
@@ -199,7 +215,8 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
                 subTotal = (value * itemPrice!!.toInt()).toDouble()
 
                 totalPriceTextView.text = formatRupiah.format(subTotal.toDouble())
-            } catch (ignored: Exception) { }
+            } catch (ignored: Exception) {
+            }
         }
         minusImageView.setOnClickListener {
             var value = Integer.parseInt(qtyEditText.text.toString())
@@ -220,26 +237,33 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
                     val itemPrice = depot.price?.toInt()
                     subTotal = (value * itemPrice!!).toDouble()
                     totalPriceTextView.text = formatRupiah.format(subTotal.toDouble())
-                }catch (ignored:Exception){}
+                } catch (ignored: Exception) {
+                }
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
                 try {
                     var value = Integer.parseInt(s.toString())
                     val itemPrice = depot.price?.toInt()
                     subTotal = (value * itemPrice!!).toDouble()
                     totalPriceTextView.text = formatRupiah.format(subTotal.toDouble())
-                }catch (ignored:Exception){}
+                } catch (ignored: Exception) {
+                }
             }
         })
     }
+
     override fun onClick(v: View?) {
-        when(v?.id) {
+        when (v?.id) {
             R.id.contactSeller -> {
                 val i = Intent(this, ChatActivity::class.java)
                 i.putExtra(K.MY_ID, getUid())
@@ -250,23 +274,24 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
             }
 
             R.id.testDrive -> {
-                val view = layoutInflater.inflate(R.layout.depot_make_order,null,false)
+                val view = layoutInflater.inflate(R.layout.depot_make_order, null, false)
 
                 val quantity = view.findViewById<EditText>(R.id.orderQuantity)
                 val location = view.findViewById<EditText>(R.id.typenotification)
                 val desc = view.findViewById<EditText>(R.id.noteOrder)
                 val price = view.findViewById<TextView>(R.id.priceOrder)
 
-                quantity.text=qtyEditText.text
-                location.text=locationNewDepot.text
-                desc.text=note.text
-                price.text=totalPriceTextView.text
-                AlertDialog.Builder(this).setTitle("Information Pemesanan").setView(view).setPositiveButton("ORDER") { _, _->
-                    if (!AppUtils.validated(quantity,location,desc)){
-                        return@setPositiveButton
-                    }
-                    makeOrder()
-                }.setNegativeButton("CANCEL",null).create().show()
+                quantity.text = qtyEditText.text
+                location.text = locationNewDepot.text
+                desc.text = note.text
+                price.text = totalPriceTextView.text
+                AlertDialog.Builder(this).setTitle("Information Pemesanan").setView(view)
+                    .setPositiveButton("ORDER") { _, _ ->
+                        if (!AppUtils.validated(quantity, location, desc)) {
+                            return@setPositiveButton
+                        }
+                        makeOrder()
+                    }.setNegativeButton("CANCEL", null).create().show()
 
             }
 
@@ -308,8 +333,8 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
         order.description = note.text.toString().trim()
         order.description = note.text.toString().trim()
         order.status = K.ONREQUEST
-        order.lng=lngtv.text.toString().toDouble()
-        order.lat=lattv.text.toString().toDouble()
+        order.lng = lngtv.text.toString().toDouble()
+        order.lat = lattv.text.toString().toDouble()
         getFirestore().collection(K.ORDERS).document(KEY).set(order)
             .addOnSuccessListener {
                 Timber.e("Order Success,Silahkan Tunggu")
@@ -348,15 +373,19 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
     @SuppressLint("MissingPermission")
     private fun enableLocationComponent(loadedMapStyle: Style) { // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
-            val locationComponentActivationOptions = LocationComponentActivationOptions.builder(this, loadedMapStyle)
-                .useDefaultLocationEngine(false)
-                .build()
+            val locationComponentActivationOptions =
+                LocationComponentActivationOptions.builder(this, loadedMapStyle)
+                    .useDefaultLocationEngine(false)
+                    .build()
             locationComponent = mapboxMap!!.locationComponent
             mapboxMap!!.locationComponent.apply {
                 activateLocationComponent(locationComponentActivationOptions)
-                isLocationComponentEnabled = true                       // Enable to make component visible
-                cameraMode = CameraMode.TRACKING                        // Set the component's camera mode
-                renderMode = RenderMode.COMPASS                         // Set the component's render mode
+                isLocationComponentEnabled =
+                    true                       // Enable to make component visible
+                cameraMode =
+                    CameraMode.TRACKING                        // Set the component's camera mode
+                renderMode =
+                    RenderMode.COMPASS                         // Set the component's render mode
             }
             initLocationEngine()
         } else {
@@ -374,14 +403,16 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
     }
 
     override fun onExplanationNeeded(permissionsToExplain: List<String>) {
-        Toast.makeText(this, R.string.user_location_permission_explanation, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, R.string.user_location_permission_explanation, Toast.LENGTH_LONG)
+            .show()
     }
 
     override fun onPermissionResult(granted: Boolean) {
         if (granted) {
             enableLocationComponent(mapboxMap!!.style!!)
         } else {
-            Toast.makeText(this, R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.user_location_permission_not_granted, Toast.LENGTH_LONG)
+                .show()
             finish()
         }
     }

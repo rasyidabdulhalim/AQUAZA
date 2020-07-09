@@ -23,8 +23,10 @@ import timber.log.Timber
 class MyEmployeeBoardFragment : BaseFragment() {
     private lateinit var notificationsAdapter: NotificationsAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_board_employee, container, false)
     }
@@ -52,7 +54,7 @@ class MyEmployeeBoardFragment : BaseFragment() {
 
     private fun loadSample() {
         getFirestore().collection(K.NOTIFICATIONS)
-            .orderBy("time",com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .orderBy("time", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
@@ -61,10 +63,11 @@ class MyEmployeeBoardFragment : BaseFragment() {
 
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
-                        when(docChange.type) {
+                        when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
-                                val notification = docChange.document.toObject(Notification::class.java)
-                                    notificationsAdapter.addNotif(notification)
+                                val notification =
+                                    docChange.document.toObject(Notification::class.java)
+                                notificationsAdapter.addNotif(notification)
                             }
 
                         }

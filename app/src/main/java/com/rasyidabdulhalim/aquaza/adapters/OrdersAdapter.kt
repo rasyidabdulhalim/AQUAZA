@@ -83,7 +83,7 @@ class OrdersAdapter(private val context: Context, private val callback: OrderCal
             binding.price = formatRupiah.format(order.price!!.toDouble())
             binding.isMine = (order.buyerId == FirebaseAuth.getInstance().currentUser?.uid)
             if (binding.isMine == true) {
-                binding.action.text="Track"
+                binding.action.text = "Track"
                 if (order.status == K.ONPROSES) {
                     binding.cancel.isEnabled = false
                     binding.cancel.isClickable = false
@@ -101,7 +101,7 @@ class OrdersAdapter(private val context: Context, private val callback: OrderCal
                     binding.action.setBackgroundColor(R.drawable.button_tag_with_state)
                 }
             } else {
-                binding.action.text="Confirm"
+                binding.action.text = "Confirm"
 
                 if (order.status == K.ONPROSES) {
                     binding.cancel.isEnabled = false

@@ -37,7 +37,7 @@ import timber.log.Timber
 
 
 class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
-        AHBottomNavigation.OnNavigationPositionListener, ViewPager.OnPageChangeListener {
+    AHBottomNavigation.OnNavigationPositionListener, ViewPager.OnPageChangeListener {
 
     private var doubleBackToExit = false
 
@@ -81,11 +81,11 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
 
         setupBottomNav()
         setupViewPager()
-        if(prefs[K.STATUS, ""]==K.OWNER){
+        if (prefs[K.STATUS, ""] == K.OWNER) {
             setupDrawerOwner()
-        }else if (prefs[K.STATUS, ""]==K.DRIVER){
+        } else if (prefs[K.STATUS, ""] == K.DRIVER) {
             setupDrawerDriver()
-        }else{
+        } else {
             setupDrawer()
         }
     }
@@ -94,7 +94,8 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
     private fun setupBottomNav() {
         val homeIcon = setDrawable(this, Ionicons.Icon.ion_ios_home, R.color.secondaryText, 18)
         val partsIcon = setDrawable(this, Ionicons.Icon.ion_gear_a, R.color.secondaryText, 18)
-        val notificationIcon = setDrawable(this, Ionicons.Icon.ion_ios_bell, R.color.secondaryText, 18)
+        val notificationIcon =
+            setDrawable(this, Ionicons.Icon.ion_ios_bell, R.color.secondaryText, 18)
         val chatIcon = setDrawable(this, Ionicons.Icon.ion_chatbubbles, R.color.secondaryText, 18)
 
         bottomNav.addItem(AHBottomNavigationItem(DEPOT, homeIcon))
@@ -127,61 +128,96 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
 
     private fun setupDrawer() {
         val accountHeader = AccountHeaderBuilder().withActivity(this)
-                .withSelectionListEnabled(false)
-                .withHeaderBackground(R.drawable.bg_drawer)
-                .addProfiles(ProfileDrawerItem()
-                        .withName(prefs[K.NAME, ""])
-                        .withEmail(prefs[K.PHONE, ""])
-                        .withIcon(R.drawable.app_logo))
-                .build()
-
-        val default = SecondaryDrawerItem().withIdentifier(0).withName("Home").withIcon(Ionicons.Icon.ion_ios_home)
-        //val orders = SecondaryDrawerItem().withIdentifier(1).withName("Jadwalkan Pemesanan").withIcon(Ionicons.Icon.ion_ios_cart)
-        val watchlist = SecondaryDrawerItem().withIdentifier(4).withName("Depot Langganan").withIcon(Ionicons.Icon.ion_star)
-        val sales = SecondaryDrawerItem().withIdentifier(5).withName("Order Reports").withIcon(Ionicons.Icon.ion_android_list)
-        val settings = SecondaryDrawerItem().withIdentifier(6).withName("Settings").withIcon(Ionicons.Icon.ion_ios_gear)
-        val exit = SecondaryDrawerItem().withIdentifier(7).withName("Logout").withIcon(Ionicons.Icon.ion_log_out)
-
-        drawer = DrawerBuilder().withActivity(this)
-                .withToolbar(toolbar)
-                .withAccountHeader(accountHeader)
-                .addDrawerItems(default, DividerDrawerItem(),sales, watchlist, DividerDrawerItem(), settings, exit)
-                .withOnDrawerItemClickListener { _, _, drawerItem ->
-                    when(drawerItem) {
-                        //orders -> launchActivity(SettingsActivity::class.java)
-                        sales -> launchActivity(SalesActivity::class.java)
-                        watchlist -> launchActivity(WatchlistActivity::class.java)
-                        settings -> launchActivity(SettingsActivity::class.java)
-                        exit -> logOut()
-                    }
-                    true
-                }
-                .build()
-    }
-    private fun setupDrawerOwner() {
-        val accountHeader = AccountHeaderBuilder().withActivity(this)
             .withSelectionListEnabled(false)
             .withHeaderBackground(R.drawable.bg_drawer)
-            .addProfiles(ProfileDrawerItem()
-                .withName(prefs[K.NAME, ""])
-                .withEmail(prefs[K.PHONE, ""])
-                .withIcon(R.drawable.app_logo))
+            .addProfiles(
+                ProfileDrawerItem()
+                    .withName(prefs[K.NAME, ""])
+                    .withEmail(prefs[K.PHONE, ""])
+                    .withIcon(R.drawable.app_logo)
+            )
             .build()
 
-        val default = SecondaryDrawerItem().withIdentifier(0).withName("HOME").withIcon(Ionicons.Icon.ion_ios_home)
-        val myDepot = SecondaryDrawerItem().withIdentifier(2).withName("DEPOT").withIcon(Ionicons.Icon.ion_ios_cart)
-        val myEmployee = SecondaryDrawerItem().withIdentifier(3).withName("KARYAWAN").withIcon(Ionicons.Icon.ion_upload)
-        val myKonsumen = SecondaryDrawerItem().withIdentifier(4).withName("KONSUMEN").withIcon(Ionicons.Icon.ion_star)
-        val sales = SecondaryDrawerItem().withIdentifier(5).withName("LAPORAN PENJUALAN").withIcon(Ionicons.Icon.ion_android_list)
-        val settings = SecondaryDrawerItem().withIdentifier(6).withName("PENGATURAN").withIcon(Ionicons.Icon.ion_ios_gear)
-        val exit = SecondaryDrawerItem().withIdentifier(7).withName("KELUAR").withIcon(Ionicons.Icon.ion_log_out)
+        val default = SecondaryDrawerItem().withIdentifier(0).withName("Home")
+            .withIcon(Ionicons.Icon.ion_ios_home)
+        //val orders = SecondaryDrawerItem().withIdentifier(1).withName("Jadwalkan Pemesanan").withIcon(Ionicons.Icon.ion_ios_cart)
+        val watchlist = SecondaryDrawerItem().withIdentifier(4).withName("Depot Langganan")
+            .withIcon(Ionicons.Icon.ion_star)
+        val sales = SecondaryDrawerItem().withIdentifier(5).withName("Order Reports")
+            .withIcon(Ionicons.Icon.ion_android_list)
+        val settings = SecondaryDrawerItem().withIdentifier(6).withName("Settings")
+            .withIcon(Ionicons.Icon.ion_ios_gear)
+        val exit = SecondaryDrawerItem().withIdentifier(7).withName("Logout")
+            .withIcon(Ionicons.Icon.ion_log_out)
 
         drawer = DrawerBuilder().withActivity(this)
             .withToolbar(toolbar)
             .withAccountHeader(accountHeader)
-            .addDrawerItems(default, DividerDrawerItem(), myDepot, myEmployee, myKonsumen,sales, DividerDrawerItem(), settings, exit)
+            .addDrawerItems(
+                default,
+                DividerDrawerItem(),
+                sales,
+                watchlist,
+                DividerDrawerItem(),
+                settings,
+                exit
+            )
             .withOnDrawerItemClickListener { _, _, drawerItem ->
-                when(drawerItem) {
+                when (drawerItem) {
+                    //orders -> launchActivity(SettingsActivity::class.java)
+                    sales -> launchActivity(SalesActivity::class.java)
+                    watchlist -> launchActivity(WatchlistActivity::class.java)
+                    settings -> launchActivity(SettingsActivity::class.java)
+                    exit -> logOut()
+                }
+                true
+            }
+            .build()
+    }
+
+    private fun setupDrawerOwner() {
+        val accountHeader = AccountHeaderBuilder().withActivity(this)
+            .withSelectionListEnabled(false)
+            .withHeaderBackground(R.drawable.bg_drawer)
+            .addProfiles(
+                ProfileDrawerItem()
+                    .withName(prefs[K.NAME, ""])
+                    .withEmail(prefs[K.PHONE, ""])
+                    .withIcon(R.drawable.app_logo)
+            )
+            .build()
+
+        val default = SecondaryDrawerItem().withIdentifier(0).withName("HOME")
+            .withIcon(Ionicons.Icon.ion_ios_home)
+        val myDepot = SecondaryDrawerItem().withIdentifier(2).withName("DEPOT")
+            .withIcon(Ionicons.Icon.ion_ios_cart)
+        val myEmployee = SecondaryDrawerItem().withIdentifier(3).withName("KARYAWAN")
+            .withIcon(Ionicons.Icon.ion_upload)
+        val myKonsumen = SecondaryDrawerItem().withIdentifier(4).withName("KONSUMEN")
+            .withIcon(Ionicons.Icon.ion_star)
+        val sales = SecondaryDrawerItem().withIdentifier(5).withName("LAPORAN PENJUALAN")
+            .withIcon(Ionicons.Icon.ion_android_list)
+        val settings = SecondaryDrawerItem().withIdentifier(6).withName("PENGATURAN")
+            .withIcon(Ionicons.Icon.ion_ios_gear)
+        val exit = SecondaryDrawerItem().withIdentifier(7).withName("KELUAR")
+            .withIcon(Ionicons.Icon.ion_log_out)
+
+        drawer = DrawerBuilder().withActivity(this)
+            .withToolbar(toolbar)
+            .withAccountHeader(accountHeader)
+            .addDrawerItems(
+                default,
+                DividerDrawerItem(),
+                myDepot,
+                myEmployee,
+                myKonsumen,
+                sales,
+                DividerDrawerItem(),
+                settings,
+                exit
+            )
+            .withOnDrawerItemClickListener { _, _, drawerItem ->
+                when (drawerItem) {
                     myDepot -> launchActivity(MyDepotsActivity::class.java)
                     myEmployee -> launchActivity(MyEmployeActivity::class.java)
                     sales -> launchActivity(SalesActivity::class.java)
@@ -193,28 +229,44 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
             }
             .build()
     }
+
     private fun setupDrawerDriver() {
         val accountHeader = AccountHeaderBuilder().withActivity(this)
             .withSelectionListEnabled(false)
             .withHeaderBackground(R.drawable.bg_drawer)
-            .addProfiles(ProfileDrawerItem()
-                .withName(prefs[K.NAME, ""])
-                .withEmail(prefs[K.PHONE, ""])
-                .withIcon(R.drawable.app_logo))
+            .addProfiles(
+                ProfileDrawerItem()
+                    .withName(prefs[K.NAME, ""])
+                    .withEmail(prefs[K.PHONE, ""])
+                    .withIcon(R.drawable.app_logo)
+            )
             .build()
 
-        val default = SecondaryDrawerItem().withIdentifier(0).withName("Home").withIcon(Ionicons.Icon.ion_ios_home)
-        val boardEmployee = SecondaryDrawerItem().withIdentifier(4).withName("Board Employee").withIcon(Ionicons.Icon.ion_star)
-        val driverReport = SecondaryDrawerItem().withIdentifier(5).withName("Driver Reports").withIcon(Ionicons.Icon.ion_android_list)
-        val settings = SecondaryDrawerItem().withIdentifier(6).withName("Settings").withIcon(Ionicons.Icon.ion_ios_gear)
-        val exit = SecondaryDrawerItem().withIdentifier(7).withName("Logout").withIcon(Ionicons.Icon.ion_log_out)
+        val default = SecondaryDrawerItem().withIdentifier(0).withName("Home")
+            .withIcon(Ionicons.Icon.ion_ios_home)
+        val boardEmployee = SecondaryDrawerItem().withIdentifier(4).withName("Board Employee")
+            .withIcon(Ionicons.Icon.ion_star)
+        val driverReport = SecondaryDrawerItem().withIdentifier(5).withName("Driver Reports")
+            .withIcon(Ionicons.Icon.ion_android_list)
+        val settings = SecondaryDrawerItem().withIdentifier(6).withName("Settings")
+            .withIcon(Ionicons.Icon.ion_ios_gear)
+        val exit = SecondaryDrawerItem().withIdentifier(7).withName("Logout")
+            .withIcon(Ionicons.Icon.ion_log_out)
 
         drawer = DrawerBuilder().withActivity(this)
             .withToolbar(toolbar)
             .withAccountHeader(accountHeader)
-            .addDrawerItems(default, DividerDrawerItem(), driverReport, boardEmployee, DividerDrawerItem(), settings, exit)
+            .addDrawerItems(
+                default,
+                DividerDrawerItem(),
+                driverReport,
+                boardEmployee,
+                DividerDrawerItem(),
+                settings,
+                exit
+            )
             .withOnDrawerItemClickListener { _, _, drawerItem ->
-                when(drawerItem) {
+                when (drawerItem) {
                     driverReport -> launchActivity(SalesActivity::class.java)
                     boardEmployee -> launchActivity(NotificationsActivity::class.java)
                     settings -> launchActivity(SettingsActivity::class.java)
@@ -224,6 +276,7 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
             }
             .build()
     }
+
     private fun launchActivity(intentClass: Class<*>) {
         val intent = Intent(this, intentClass)
         startActivity(intent)
@@ -257,7 +310,7 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
     override fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
         viewPager.setCurrentItem(position, true)
 
-        when(position) {
+        when (position) {
             0 -> supportActionBar?.title = HOME
             1 -> supportActionBar?.title = DAFTAR_PESANAN
             2 -> supportActionBar?.title = HISTORY
@@ -290,7 +343,7 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
             doubleBackToExit = true
             toast("Tap back again to exit")
 
-            Handler().postDelayed({doubleBackToExit = false}, 1500)
+            Handler().postDelayed({ doubleBackToExit = false }, 1500)
         }
     }
 

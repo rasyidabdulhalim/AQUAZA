@@ -40,7 +40,7 @@ public class GifSizeFilter extends Filter {
         Point size = PhotoMetadataUtils.getBitmapBound(context.getContentResolver(), item.getContentUri());
         if (size.x < mMinWidth || size.y < mMinHeight || item.size > mMaxSize) {
             return new IncapableCause(IncapableCause.DIALOG, context.getString(R.string.error_gif, mMinWidth,
-              String.valueOf(PhotoMetadataUtils.getSizeInMB(mMaxSize))));
+                    String.valueOf(PhotoMetadataUtils.getSizeInMB(mMaxSize))));
         }
         return null;
     }

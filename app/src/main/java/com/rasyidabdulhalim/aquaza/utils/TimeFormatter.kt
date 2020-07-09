@@ -22,7 +22,8 @@ class TimeFormatter {
 
         return when {
             timeDifference <= 10000 -> "Just now"
-            timeDifference <= 86400000 -> DateUtils.getRelativeTimeSpanString(time, currentTime, 0).toString()
+            timeDifference <= 86400000 -> DateUtils.getRelativeTimeSpanString(time, currentTime, 0)
+                .toString()
             timeDifference <= 604800000 -> getTimeWeek(time)
             else -> if (isThisYear(time)) getDetailDate(time) else getFullFormat(time)
         }
@@ -34,7 +35,7 @@ class TimeFormatter {
         val formattedTime: String
 
         formattedTime = when {
-            timeDifference <= 43200000  -> getTime(time)
+            timeDifference <= 43200000 -> getTime(time)
             isYesterday(time) -> "Yesterday"
             else -> getNormalYear(time)
         }
@@ -50,7 +51,7 @@ class TimeFormatter {
         return timeFormat.format(millis)
     }
 
-     fun getTimeWeek(millis: Long): String {
+    fun getTimeWeek(millis: Long): String {
         return weekFormat.format(millis)
     }
 

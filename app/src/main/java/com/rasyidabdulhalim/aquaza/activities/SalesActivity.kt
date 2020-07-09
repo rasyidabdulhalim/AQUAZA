@@ -42,10 +42,10 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
 
     private var localeID: Locale = Locale("in", "ID")
     private var formatRupiah: NumberFormat = NumberFormat.getCurrencyInstance(localeID)
-    var totalPriceOrder=0
-    var totalOrder=0
-    var totalPriceOrderByDepot=0
-    var totalOrderByDepot=0
+    var totalPriceOrder = 0
+    var totalOrder = 0
+    var totalPriceOrderByDepot = 0
+    var totalOrderByDepot = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,22 +54,22 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
         initViews()
 
         showLoading("Loading records...")
-        Handler().postDelayed({hideLoading()}, 1000)
+        Handler().postDelayed({ hideLoading() }, 1000)
 
-        if(prefs[K.STATUS, ""]=="Owner"){
+        if (prefs[K.STATUS, ""] == "Owner") {
             loadOrderSummary()
             entriesBarCabang.add(BarEntry(0f, 1000.toFloat()))
             entriesBarCabang.add(BarEntry(1f, 2000.toFloat()))
             carSalesBar(entriesBarCabang)
             partSales(entriesBarCabang)
-        }else if (prefs[K.STATUS, ""]=="Driver"){
+        } else if (prefs[K.STATUS, ""] == "Driver") {
             loadOrderSummaryDriver()
-            grafikTotalOrder.setVisibility(View.GONE)
-            grafikPemesanan.setVisibility(View.GONE)
-        }else{
+            grafikTotalOrder.visibility = View.GONE
+            grafikPemesanan.visibility = View.GONE
+        } else {
             loadOrderSummaryUser()
-            grafikTotalOrder.setVisibility(View.GONE)
-            grafikPemesanan.setVisibility(View.GONE)
+            grafikTotalOrder.visibility = View.GONE
+            grafikPemesanan.visibility = View.GONE
         }
 
     }
@@ -80,8 +80,16 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Sales Reports"
 
-        dateFilter.setImageDrawable(setDrawable(this, Ionicons.Icon.ion_android_calendar, R.color.textGray, 27))
-        date.text = "Report for: Jan 01, 2018 - ${TimeFormatter().getReportTime(System.currentTimeMillis())}"
+        dateFilter.setImageDrawable(
+            setDrawable(
+                this,
+                Ionicons.Icon.ion_android_calendar,
+                R.color.textGray,
+                27
+            )
+        )
+        date.text =
+            "Report for: Jan 01, 2018 - ${TimeFormatter().getReportTime(System.currentTimeMillis())}"
         dateFilter.hideView()
 
         dateRangePicker = SmoothDateRangePickerFragment.newInstance(this)
@@ -89,98 +97,102 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
 
         dateFilter.setOnClickListener { dateRangePicker.show(fragmentManager, "") }
     }
-    private fun loadOrderSummary(){
+
+    private fun loadOrderSummary() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo(K.STATUS,K.RECEIVED)
+            .whereEqualTo(K.STATUS, K.RECEIVED)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
                 }
                 if (querySnapshot == null || querySnapshot.isEmpty) {
-                    priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
-                    totalOrderSummary.text=totalOrder.toString()
+                    priceTotalOrder.text = formatRupiah.format(totalPriceOrder.toDouble())
+                    totalOrderSummary.text = totalOrder.toString()
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
                         val order = docChange.document.toObject(Order::class.java)
-                        totalPriceOrder+=order.price!!.toInt()
-                        totalOrder +=order.quantity!!
+                        totalPriceOrder += order.price!!.toInt()
+                        totalOrder += order.quantity!!
                     }
-                    priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
-                    totalOrderSummary.text=totalOrder.toString()
+                    priceTotalOrder.text = formatRupiah.format(totalPriceOrder.toDouble())
+                    totalOrderSummary.text = totalOrder.toString()
 
                     totalSales()
                 }
             }
     }
-    private fun loadOrderSummaryDriver(){
+
+    private fun loadOrderSummaryDriver() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo("driverId",getUid())
-            .whereEqualTo(K.STATUS,K.RECEIVED)
+            .whereEqualTo("driverId", getUid())
+            .whereEqualTo(K.STATUS, K.RECEIVED)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
                 }
                 if (querySnapshot == null || querySnapshot.isEmpty) {
-                    priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
-                    totalOrderSummary.text=totalOrder.toString()
+                    priceTotalOrder.text = formatRupiah.format(totalPriceOrder.toDouble())
+                    totalOrderSummary.text = totalOrder.toString()
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
                         val order = docChange.document.toObject(Order::class.java)
-                        totalPriceOrder+=order.price!!.toInt()
-                        totalOrder +=order.quantity!!
-                        right_text.text="Received Money"
-                        left_text.text="Delivered Water"
+                        totalPriceOrder += order.price!!.toInt()
+                        totalOrder += order.quantity!!
+                        right_text.text = "Received Money"
+                        left_text.text = "Delivered Water"
                     }
-                    priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
-                    totalOrderSummary.text=totalOrder.toString()
+                    priceTotalOrder.text = formatRupiah.format(totalPriceOrder.toDouble())
+                    totalOrderSummary.text = totalOrder.toString()
 
                     totalSales()
                 }
             }
     }
-    private fun loadOrderSummaryUser(){
+
+    private fun loadOrderSummaryUser() {
         getFirestore().collection(K.ORDERS)
-            .whereEqualTo("buyerId",getUid())
-            .whereEqualTo(K.STATUS,K.RECEIVED)
+            .whereEqualTo("buyerId", getUid())
+            .whereEqualTo(K.STATUS, K.RECEIVED)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     Timber.e("Error fetching orders $firebaseFirestoreException")
                 }
                 if (querySnapshot == null || querySnapshot.isEmpty) {
-                    priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
-                    totalOrderSummary.text=totalOrder.toString()
+                    priceTotalOrder.text = formatRupiah.format(totalPriceOrder.toDouble())
+                    totalOrderSummary.text = totalOrder.toString()
                 } else {
                     for (docChange in querySnapshot.documentChanges) {
                         val order = docChange.document.toObject(Order::class.java)
-                        totalPriceOrder+=order.price!!.toInt()
-                        totalOrder +=order.quantity!!
+                        totalPriceOrder += order.price!!.toInt()
+                        totalOrder += order.quantity!!
                     }
-                    priceTotalOrder.text= formatRupiah.format(totalPriceOrder.toDouble())
-                    totalOrderSummary.text=totalOrder.toString()
+                    priceTotalOrder.text = formatRupiah.format(totalPriceOrder.toDouble())
+                    totalOrderSummary.text = totalOrder.toString()
 
                     totalSales()
                 }
             }
     }
+
     private fun totalSales() {
         val salesEntries = mutableListOf<Entry>()
 
-        val toy1 = Entry(0f,100000f)
+        val toy1 = Entry(0f, 100000f)
         salesEntries.add(toy1)
-        val toy2 = Entry(1f,200000f)
+        val toy2 = Entry(1f, 200000f)
         salesEntries.add(toy2)
-        val toy3 = Entry(2f,300000f)
+        val toy3 = Entry(2f, 300000f)
         salesEntries.add(toy3)
-        val toy4 = Entry(3f,250000f)
+        val toy4 = Entry(3f, 250000f)
         salesEntries.add(toy4)
-        val nis1 = Entry(4f,430000f)
+        val nis1 = Entry(4f, 430000f)
         salesEntries.add(nis1)
-        val nis2 = Entry(5f,370000f)
+        val nis2 = Entry(5f, 370000f)
         salesEntries.add(nis2)
-        val nis3 = Entry(6f,440000f)
+        val nis3 = Entry(6f, 440000f)
         salesEntries.add(nis3)
 
-        val salesDataSet = LineDataSet(salesEntries, "SALES ("+priceTotalOrder.text+")")
+        val salesDataSet = LineDataSet(salesEntries, "SALES (" + priceTotalOrder.text + ")")
         salesDataSet.axisDependency = YAxis.AxisDependency.LEFT
         salesDataSet.color = ColorTemplate.COLORFUL_COLORS.asList().random()!!
 
@@ -196,7 +208,7 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
         totalSales.axisRight.setDrawLabels(false)
         totalSales.axisLeft.setDrawLabels(false)
 
-        val labels = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul")
+        val labels = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul")
 
         val xAxis = totalSales.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -212,7 +224,7 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
         totalSales.invalidate()
     }
 
-    private fun carSalesBar(entries:MutableList<BarEntry>) {
+    private fun carSalesBar(entries: MutableList<BarEntry>) {
 
         val labels = arrayOf("AQUAZA1", "AQUAZA2")
 
@@ -238,7 +250,7 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
         carSalesBar.invalidate()
     }
 
-    private fun partSales(entries:MutableList<BarEntry>) {
+    private fun partSales(entries: MutableList<BarEntry>) {
 
         val labels = arrayOf("AQUAZA1", "AQUAZA2")
 
@@ -264,10 +276,32 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
         partSalesBar.invalidate()
     }
 
-    override fun onDateRangeSet(view: SmoothDateRangePickerFragment?, yearStart: Int, monthStart: Int, dayStart: Int, yearEnd: Int, monthEnd: Int, dayEnd: Int) {
-        var months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+    override fun onDateRangeSet(
+        view: SmoothDateRangePickerFragment?,
+        yearStart: Int,
+        monthStart: Int,
+        dayStart: Int,
+        yearEnd: Int,
+        monthEnd: Int,
+        dayEnd: Int
+    ) {
+        var months = arrayOf(
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+        )
 
-        date.text = "${months[monthStart]} $dayStart, $yearStart - ${months[monthEnd]} $dayEnd, $yearEnd"
+        date.text =
+            "${months[monthStart]} $dayStart, $yearStart - ${months[monthEnd]} $dayEnd, $yearEnd"
         startMonth = monthStart
         endMonth = monthEnd
 
@@ -277,8 +311,9 @@ class SalesActivity : BaseActivity(), SmoothDateRangePickerFragment.OnDateRangeS
 
         //loadData()
     }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> onBackPressed()
         }
 

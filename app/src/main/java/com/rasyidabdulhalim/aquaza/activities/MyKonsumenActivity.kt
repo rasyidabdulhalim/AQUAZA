@@ -65,12 +65,16 @@ class MyKonsumenActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
         fabCar.colorNormal = ContextCompat.getColor(this, R.color.colorPrimary)
         fabCar.colorPressed = ContextCompat.getColor(this, R.color.colorPrimaryDark)
         fabCar.colorRipple = ContextCompat.getColor(this, R.color.colorPrimaryDark)
-        fabCar.setImageDrawable(IconicsDrawable(this).icon(Ionicons.Icon.ion_plus).color(Color.WHITE).sizeDp(17))
+        fabCar.setImageDrawable(
+            IconicsDrawable(this).icon(Ionicons.Icon.ion_plus).color(Color.WHITE).sizeDp(17)
+        )
 
         fabPart.colorNormal = ContextCompat.getColor(this, R.color.colorPrimary)
         fabPart.colorPressed = ContextCompat.getColor(this, R.color.colorPrimaryDark)
         fabPart.colorRipple = ContextCompat.getColor(this, R.color.colorPrimaryDark)
-        fabPart.setImageDrawable(IconicsDrawable(this).icon(Ionicons.Icon.ion_plus).color(Color.WHITE).sizeDp(17))
+        fabPart.setImageDrawable(
+            IconicsDrawable(this).icon(Ionicons.Icon.ion_plus).color(Color.WHITE).sizeDp(17)
+        )
 
         fabCar.setOnClickListener {
             fam.close(true)
@@ -98,7 +102,7 @@ class MyKonsumenActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> onBackPressed()
         }
 

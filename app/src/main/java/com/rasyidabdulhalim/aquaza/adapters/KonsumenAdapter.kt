@@ -78,9 +78,9 @@ class KonsumenAdapter(private val context: Context, private val callback: Konsum
             binding.data = konsumen
             binding.isKonsumen = (konsumen.status == K.SUBSCIBE)
             if (konsumen.status == K.SUBSCIBE) {
-                binding.cancel.setVisibility(View.GONE)
-                binding.action.setVisibility(View.GONE)
-                binding.contact.setVisibility(View.GONE)
+                binding.cancel.visibility = View.GONE
+                binding.action.visibility = View.GONE
+                binding.contact.visibility = View.GONE
             }
         }
 

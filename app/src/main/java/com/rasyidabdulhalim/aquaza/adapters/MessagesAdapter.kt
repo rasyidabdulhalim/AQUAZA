@@ -47,7 +47,8 @@ class MessagesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     }
 
-    class ChatMeHolder(private val binding: ChatItemMessageMeBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ChatMeHolder(private val binding: ChatItemMessageMeBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(message: Message) {
             binding.message = message
@@ -55,7 +56,8 @@ class MessagesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     }
 
-    class ChatHolder(private val binding: ChatItemMessageBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ChatHolder(private val binding: ChatItemMessageBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(message: Message) {
             binding.message = message
