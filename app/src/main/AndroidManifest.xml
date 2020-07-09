@@ -74,6 +74,11 @@
             android:launchMode="singleInstance"
             android:screenOrientation="fullSensor" />
         <activity
+            android:name=".activities.MapDriverActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleInstance"
+            android:screenOrientation="fullSensor" />
+        <activity
             android:name=".activities.WatchlistActivity"
             android:configChanges="orientation"
             android:launchMode="singleInstance"

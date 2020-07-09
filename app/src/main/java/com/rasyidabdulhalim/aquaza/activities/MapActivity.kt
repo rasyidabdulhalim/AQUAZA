@@ -3,6 +3,7 @@ package com.rasyidabdulhalim.aquaza.activities
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.os.Looper
 import android.provider.Settings
 import android.support.v4.app.ActivityCompat
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
@@ -17,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.FirebaseDatabase
 import com.rasyidabdulhalim.aquaza.R
+import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.utils.MarkerCollection
 import com.rasyidabdulhalim.aquaza.helpers.FirebaseEventListenerHelper
 import com.rasyidabdulhalim.aquaza.helpers.GoogleMapHelper
@@ -26,6 +29,9 @@ import com.rasyidabdulhalim.aquaza.interfaces.FirebaseDriverListener
 import com.rasyidabdulhalim.aquaza.interfaces.IPositiveNegativeListener
 import com.rasyidabdulhalim.aquaza.interfaces.LatLngInterpolator
 import com.rasyidabdulhalim.aquaza.models.Driver
+import com.rasyidabdulhalim.aquaza.models.Order
+import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper
+import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
 import kotlinx.android.synthetic.main.activity_map.*
 
 class MapActivity : AppCompatActivity(), FirebaseDriverListener {
@@ -43,12 +49,18 @@ class MapActivity : AppCompatActivity(), FirebaseDriverListener {
     private lateinit var valueEventListener: FirebaseEventListenerHelper
     private val uiHelper = UiHelper()
     private val googleMapHelper = GoogleMapHelper()
+    private val markerAnimationHelper = MarkerAnimationHelper()
+    private lateinit var order: Order
+    private lateinit var prefs: SharedPreferences
+
     private val databaseReference = FirebaseDatabase.getInstance().reference.child(
         ONLINE_DRIVERS
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        prefs = PreferenceHelper.defaultPrefs(this)
+        order = intent.getSerializableExtra(K.ORDER) as Order
         setContentView(R.layout.activity_map)
         val mapFragment: SupportMapFragment = supportFragmentManager.findFragmentById(
             R.id.supportMap
@@ -63,6 +75,10 @@ class MapActivity : AppCompatActivity(), FirebaseDriverListener {
         } else requestLocationUpdate()
         valueEventListener = FirebaseEventListenerHelper(this)
         databaseReference.addChildEventListener(valueEventListener)
+
+        if (prefs[K.STATUS,""]==K.USER){
+            totalOnlineDrivers.setVisibility(View.GONE)
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -93,7 +109,6 @@ class MapActivity : AppCompatActivity(), FirebaseDriverListener {
                 Log.e("Location", latLng.latitude.toString() + " , " + latLng.longitude)
                 if (locationFlag) {
                     locationFlag = false
-                    animateCamera(latLng)
                 }
             }
         }
@@ -116,23 +131,66 @@ class MapActivity : AppCompatActivity(), FirebaseDriverListener {
     }
 
     override fun onDriverAdded(driver: Driver) {
-        val markerOptions = googleMapHelper.getDriverMarkerOptions(LatLng(driver.lat, driver.lng))
-        val marker = googleMap.addMarker(markerOptions)
-        marker.tag = driver.driverId
-        MarkerCollection.insertMarker(marker)
-        totalOnlineDrivers.text = resources.getString(R.string.total_online_drivers).plus(" ").plus(
-            MarkerCollection.allMarkers().size)
+        if (prefs[K.STATUS,""]==K.OWNER){
+                addMarker(driver)
+        }else if (prefs[K.STATUS,""]==K.DRIVER){
+
+        }else{//for user
+            if (driver.driverId==order.driverId){
+                addMarker(driver)
+            }else{
+                Toast.makeText(this, "No Driver", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     override fun onDriverRemoved(driver: Driver) {
-        MarkerCollection.removeMarker(driver.driverId)
-        totalOnlineDrivers.text = resources.getString(R.string.total_online_drivers).plus(" ").plus(
-            MarkerCollection.allMarkers().size)
+        if (prefs[K.STATUS,""]==K.OWNER){
+             removeMarker(driver)
+        }else if (prefs[K.STATUS,""]=="Driver"){
+
+        }else {//for user
+            if (driver.driverId == order.driverId) {
+             removeMarker(driver)
+            }
+        }
     }
 
     override fun onDriverUpdated(driver: Driver) {
-        val marker = MarkerCollection.getMarker(driverId = driver.driverId)
-        MarkerAnimationHelper.animateMarkerToGB(marker!!, LatLng(driver.lat, driver.lng), LatLngInterpolator.Spherical())
+        if (prefs[K.STATUS,""]==K.OWNER){
+              updateMarker(driver)
+        }else if (prefs[K.STATUS,""]=="Driver"){
+
+        }else {//for user
+            if (driver.driverId == order.driverId) {
+                updateMarker(driver)
+            }
+        }
+    }
+    private fun addMarker(driver: Driver){
+        val markerOptions = googleMapHelper.getDriverMarkerOptions(LatLng(driver.lat!!, driver.lng!!))
+        val marker = googleMap.addMarker(markerOptions)
+        marker.tag = driver.driverId
+        MarkerCollection.insertMarker(marker)
+        totalOnlineDrivers.text = resources.getString(R.string.total_online_drivers).plus(" ").plus(MarkerCollection.allMarkers().size)
+        val latLng = LatLng(driver.lat!!, driver.lng!!)
+        animateCamera(latLng)
+    }
+    private fun updateMarker(driver: Driver){
+        val marker = MarkerCollection.getMarker(driverId = driver.driverId!!)
+        markerAnimationHelper.animateMarkerToGB(
+            marker!!,
+            LatLng(driver.lat!!, driver.lng!!),
+            LatLngInterpolator.Spherical()
+        )
+    }
+    private fun removeMarker(driver: Driver){
+        MarkerCollection.removeMarker(driver.driverId!!)
+        totalOnlineDrivers.text =
+            resources.getString(R.string.total_online_drivers).plus(" ").plus(
+                MarkerCollection.allMarkers().size
+            )
     }
 
     override fun onDestroy() {

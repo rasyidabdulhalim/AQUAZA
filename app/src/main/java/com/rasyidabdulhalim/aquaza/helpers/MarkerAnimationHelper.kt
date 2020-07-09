@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.rasyidabdulhalim.aquaza.interfaces.LatLngInterpolator
 
-object MarkerAnimationHelper {
+class MarkerAnimationHelper {
 
     fun animateMarkerToGB(marker: Marker, finalPosition: LatLng, latLngInterpolator: LatLngInterpolator) {
         val startPosition = marker.position

@@ -81,9 +81,9 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
 
         setupBottomNav()
         setupViewPager()
-        if(prefs[K.STATUS, ""]=="Owner"){
+        if(prefs[K.STATUS, ""]==K.OWNER){
             setupDrawerOwner()
-        }else if (prefs[K.STATUS, ""]=="Driver"){
+        }else if (prefs[K.STATUS, ""]==K.DRIVER){
             setupDrawerDriver()
         }else{
             setupDrawer()

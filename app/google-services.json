@@ -602,7 +602,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:249569514807:android:5404150d52a5b9bfcdf6b2",
         "android_client_info": {
-          "package_name": "com.spartons.driverapp"
+          "package_name": "com.rasyidabdulhalim.aquaza"
         }
       },
       "oauth_client": [
@@ -610,7 +610,7 @@
           "client_id": "249569514807-ket6lmvv885otgcs83q4egieimdik63a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.spartons.driverapp",
+            "package_name": "com.rasyidabdulhalim.aquaza",
             "certificate_hash": "2b6198a2bd421b0ca0e55dbf84daecc9bf8f0810"
           }
         },

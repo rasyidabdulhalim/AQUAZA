@@ -13,6 +13,7 @@ import com.google.firebase.firestore.DocumentChange
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.activities.ChatActivity
 import com.rasyidabdulhalim.aquaza.activities.MapActivity
+import com.rasyidabdulhalim.aquaza.activities.MapDriverActivity
 import com.rasyidabdulhalim.aquaza.adapters.OrdersAdapter
 import com.rasyidabdulhalim.aquaza.callbacks.OrderCallBack
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils
@@ -278,10 +279,22 @@ class OrderFragment : BaseFragment(),OrderCallBack{
                 }
             }
             R.id.placeDetailOrder->{
-                val i = Intent(activity, MapActivity::class.java)
-                i.putExtra(K.ORDER, order)
-                activity!!.startActivity(i)
-                AppUtils.animateEnterLeft(activity!!)
+                if(prefs[K.STATUS, ""]==K.OWNER){
+                    val i = Intent(activity, MapActivity::class.java)
+                    i.putExtra(K.ORDER, order)
+                    activity!!.startActivity(i)
+                    AppUtils.animateEnterLeft(activity!!)
+                }else if (prefs[K.STATUS, ""]==K.DRIVER){
+                    val i = Intent(activity, MapDriverActivity::class.java)
+                    i.putExtra(K.ORDER, order)
+                    activity!!.startActivity(i)
+                    AppUtils.animateEnterLeft(activity!!)
+                }else{
+                    val i = Intent(activity, MapActivity::class.java)
+                    i.putExtra(K.ORDER, order)
+                    activity!!.startActivity(i)
+                    AppUtils.animateEnterLeft(activity!!)
+                }
             }
         }
     }

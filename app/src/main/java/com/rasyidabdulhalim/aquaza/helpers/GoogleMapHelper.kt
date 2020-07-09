@@ -35,14 +35,19 @@ class GoogleMapHelper {
      */
 
     fun getDriverMarkerOptions(position: LatLng): MarkerOptions {
-        val options = getMarkerOptions(R.drawable.car_icon, position)
+        val options = getMarkerOptions(R.drawable.icon_driver, position)
         options.flat(true)
         return options
     }
-
+    fun getOrderMarkerOptions(position: LatLng): MarkerOptions {
+        val options = getMarkerOptions(R.drawable.icon_order, position)
+        options.flat(true)
+        return options
+    }
     private fun getMarkerOptions(resource: Int, position: LatLng): MarkerOptions {
         return MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromResource(resource))
                 .position(position)
     }
+
 }
