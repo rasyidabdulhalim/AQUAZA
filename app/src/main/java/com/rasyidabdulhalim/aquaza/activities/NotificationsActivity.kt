@@ -1,53 +1,51 @@
-package com.rasyidabdulhalim.aquaza.fragments
+package com.rasyidabdulhalim.aquaza.activities
 
 
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.MenuItem
 import com.google.firebase.firestore.DocumentChange
-
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.adapters.NotificationsAdapter
-import com.rasyidabdulhalim.aquaza.commoners.BaseFragment
+import com.rasyidabdulhalim.aquaza.commoners.AppUtils
+import com.rasyidabdulhalim.aquaza.commoners.BaseActivity
 import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.Notification
 import com.rasyidabdulhalim.aquaza.utils.RecyclerFormatter
-import kotlinx.android.synthetic.main.fragment_my_board_employee.view.*
+import kotlinx.android.synthetic.main.activity_notification.*
 import timber.log.Timber
 
 
-class MyEmployeeBoardFragment : BaseFragment() {
+class NotificationsActivity : BaseActivity() {
     private lateinit var notificationsAdapter: NotificationsAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_board_employee, container, false)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_notification)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initViews(view)
+        initViews()
     }
+    private fun initViews() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Notifikasi"
 
-    private fun initViews(v: View) {
-        v.rv.setHasFixedSize(true)
-        v.rv.layoutManager = LinearLayoutManager(activity!!)
-        v.rv.itemAnimator = DefaultItemAnimator()
-        v.rv.addItemDecoration(RecyclerFormatter.SimpleDividerItemDecoration(activity!!))
+        rv.setHasFixedSize(true)
+        rv.layoutManager = LinearLayoutManager(this)
+        rv.itemAnimator = DefaultItemAnimator()
+        rv.addItemDecoration(RecyclerFormatter.SimpleDividerItemDecoration(this))
 
         notificationsAdapter = NotificationsAdapter()
-        v.rv.adapter = notificationsAdapter
-        v.rv.showShimmerAdapter()
+        rv.adapter = notificationsAdapter
+        rv.showShimmerAdapter()
 
         Handler().postDelayed({
-            v.rv.hideShimmerAdapter()
+            rv.hideShimmerAdapter()
             loadSample()
-        }, 1500)
+        }, 650)
     }
 
     private fun loadSample() {
@@ -64,7 +62,9 @@ class MyEmployeeBoardFragment : BaseFragment() {
                         when(docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 val notification = docChange.document.toObject(Notification::class.java)
+                                if (notification.uid==getUid()){
                                     notificationsAdapter.addNotif(notification)
+                                }
                             }
 
                         }
@@ -72,7 +72,19 @@ class MyEmployeeBoardFragment : BaseFragment() {
 
                 }
             }
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+
+        return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AppUtils.animateEnterLeft(this)
     }
 
 }

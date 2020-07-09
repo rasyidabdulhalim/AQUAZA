@@ -62,7 +62,7 @@
                 android:inputType="text"/>
 
             <EditText
-                android:id="@+id/addressEmployee"
+                android:id="@+id/locationNewDepot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -123,7 +123,7 @@
                 android:inputType="textPassword"/>
 
             <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                android:id="@+id/buttonEmployee"
+                android:id="@+id/buttonNotification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_solid"

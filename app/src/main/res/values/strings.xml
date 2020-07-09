@@ -57,6 +57,7 @@
     <string name="location_content">This app wants to change your device settings use GPS,Wi-Fi and cell networks for your location</string>
     <string name="empty_requestKonsumen">Permintaan Berlangganan Konsumen Belum Ada</string>
     <string name="status_noKonsumen">Belum Ada Konsumen yang Berlangganan</string>
+    <string name="no_notification">Pemberitahuan Belum ada</string>
 
     <string-array name="status">
         <item name="driver">Driver</item>

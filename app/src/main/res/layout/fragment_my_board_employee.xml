@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.MyEmployeeFragment">
+    tools:context=".fragments.MyEmployeeBoardFragment"
+    android:background="@color/light_background">
 
-    <TextView
-        android:id="@+id/empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no_cars_posted_yet"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
-
+    <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:shimmer_demo_child_count="10"
+        app:shimmer_demo_layout_manager_type="linear_vertical"
+        app:shimmer_demo_angle="20"
+        tools:listitem="@layout/item_notif"/>
 
 </RelativeLayout>

@@ -62,7 +62,7 @@ class AuthRegisterFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         nameEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_person, R.color.secondaryText, 18))
-        addressEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_ios_navigate_outline, R.color.secondaryText, 18))
+        locationNewDepot.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_ios_navigate_outline, R.color.secondaryText, 18))
         phoneEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_call, R.color.secondaryText, 18))
         emailEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_ios_email, R.color.secondaryText, 18))
         confirmPasswordEmployee.setDrawable(setDrawable(activity!!, Ionicons.Icon.ion_android_lock, R.color.secondaryText, 18))
@@ -98,14 +98,14 @@ class AuthRegisterFragment : BaseFragment() {
             } else activity!!.toast("Please wait...")
         }
 
-        buttonEmployee.setOnClickListener { signUp() }
+        buttonNotification.setOnClickListener { signUp() }
     }
 
     private fun signUp() {
         // Check if all fields are filled
-        if (!AppUtils.validated(nameEmployee, addressEmployee, emailEmployee, confirmPasswordEmployee, confirmPasswordEmployee)) return
+        if (!AppUtils.validated(nameEmployee, locationNewDepot, emailEmployee, confirmPasswordEmployee, confirmPasswordEmployee)) return
 
-        val name = "${nameEmployee.text.toString().trim()} ${addressEmployee.text.toString().trim()}"
+        val name = "${nameEmployee.text.toString().trim()} ${locationNewDepot.text.toString().trim()}"
         val email = emailEmployee.text.toString().trim()
         val pw = confirmPasswordEmployee.text.toString().trim()
         val confirmPw = confirmPasswordEmployee.text.toString().trim()
@@ -130,11 +130,11 @@ class AuthRegisterFragment : BaseFragment() {
 
         // Create new user
         isCreatingAccount = true
-        buttonEmployee.startAnimation()
+        buttonNotification.startAnimation()
         getFirebaseAuth().createUserWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(activity!!) { task ->
                     if (task.isSuccessful) {
-                        buttonEmployee.doneLoadingAnimation(getColor(activity!!, R.color.pink), registerSuccessful)
+                        buttonNotification.doneLoadingAnimation(getColor(activity!!, R.color.pink), registerSuccessful)
                         Timber.e("signingIn: Success!")
 
                         // update UI with the signed-in user's information
@@ -150,22 +150,22 @@ class AuthRegisterFragment : BaseFragment() {
                             throw task.exception!!
                         } catch (weakPassword: FirebaseAuthWeakPasswordException){
                             isCreatingAccount = false
-                            buttonEmployee.revertAnimation()
+                            buttonNotification.revertAnimation()
                             confirmPasswordEmployee.error = "Please enter a stronger password"
 
                         } catch (userExists: FirebaseAuthUserCollisionException) {
                             isCreatingAccount = false
-                            buttonEmployee.revertAnimation()
+                            buttonNotification.revertAnimation()
                             activity?.toast("Account already exists. Please log in.")
 
                         } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
                             isCreatingAccount = false
-                            buttonEmployee.revertAnimation()
+                            buttonNotification.revertAnimation()
                             emailEmployee.error = "Incorrect email format"
 
                         } catch (e: Exception) {
                             isCreatingAccount = false
-                            buttonEmployee.revertAnimation()
+                            buttonNotification.revertAnimation()
                             Timber.e( "signingIn: Failure - $e}")
                             activity?.toast("Error signing up. Please try again.")
                         }
@@ -184,7 +184,7 @@ class AuthRegisterFragment : BaseFragment() {
         newUser.dateCreated = TimeFormatter().getNormalYear(System.currentTimeMillis())
         newUser.id = id
         newUser.phone = phoneEmployee.text.toString().trim()
-        newUser.address=addressEmployee.text.toString().trim()
+        newUser.address=locationNewDepot.text.toString().trim()
         newUser.status=K.USER
         newUser.mydepot="Belum Berlangganan"
         newUser.myshift="Bukan Karyawan"
@@ -215,7 +215,7 @@ class AuthRegisterFragment : BaseFragment() {
 
                 getFirestore().collection(K.USERS).document(id).set(newUser).addOnSuccessListener {
                     Timber.e("Adding user: $newUser")
-                    buttonEmployee.doneLoadingAnimation(getColor(activity!!, R.color.pink), registerSuccessful)
+                    buttonNotification.doneLoadingAnimation(getColor(activity!!, R.color.pink), registerSuccessful)
 
                     activity!!.toast("Welcome ${nameEmployee.text.toString().trim()}")
                     startActivity(Intent(activity!!, MainActivity::class.java))
@@ -224,7 +224,7 @@ class AuthRegisterFragment : BaseFragment() {
                 }
 
             } else {
-                buttonEmployee.revertAnimation()
+                buttonNotification.revertAnimation()
                 activity?.toast("Error signing up. Please try again.")
                 Timber.e("Error signing up: ${task.exception}")
             }
@@ -268,7 +268,7 @@ class AuthRegisterFragment : BaseFragment() {
     fun backPressOkay(): Boolean = !isCreatingAccount
 
     override fun onDestroy() {
-        if (buttonEmployee != null) buttonEmployee.dispose()
+        if (buttonNotification != null) buttonNotification.dispose()
         super.onDestroy()
     }
 

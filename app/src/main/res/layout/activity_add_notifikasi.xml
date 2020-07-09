@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AddNotificationActivity"
+    android:background="@color/light_background">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        style="?android:actionBarStyle"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_below="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:clipToPadding="false">
+
+            <com.github.captain_miao.optroundcardview.OptRoundCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optRoundCardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:clipToPadding="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primaryText"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:text="Notification Information"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textStyle="bold"
+                        android:text="Status Message"/>
+
+                    <EditText
+                        android:id="@+id/statusMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:padding="10dp"
+                        android:textSize="15sp"
+                        android:background="@drawable/et_background_plain"
+                        android:textColor="@color/primaryText"
+                        android:inputType="text"
+                        android:hint="Owner / Administirasi / Other"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textStyle="bold"
+                        android:text="Type Send"/>
+
+                    <EditText
+                        android:id="@+id/typeSendMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:padding="10dp"
+                        android:textSize="15sp"
+                        android:background="@drawable/et_background_plain"
+                        android:textColor="@color/primaryText"
+                        android:inputType="text"
+                        android:hint="All / Driver / Administator"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textStyle="bold"
+                        android:text="@string/desc"/>
+
+                    <EditText
+                        android:id="@+id/message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:minHeight="150dp"
+                        android:padding="10dp"
+                        android:textSize="15sp"
+                        android:gravity="top|start"
+                        android:background="@drawable/et_background_plain"
+                        android:textColor="@color/primaryText"
+                        android:inputType="textMultiLine"
+                        android:hint="Write Your Message Here..."/>
+
+                </LinearLayout>
+
+            </com.github.captain_miao.optroundcardview.OptRoundCardView>
+
+
+            <com.github.captain_miao.optroundcardview.OptRoundCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:optRoundCardElevation="5dp"/>
+
+            <Button
+                android:id="@+id/buttonNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/flat_button"
+                android:textColor="@android:color/white"
+                android:text="POST NOTIFICATION"
+                tools:background="@drawable/rounded_button"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

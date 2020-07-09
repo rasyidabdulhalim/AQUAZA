@@ -39,7 +39,7 @@ import com.rasyidabdulhalim.aquaza.models.Order
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.depot_activity.*
 import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.get
-import kotlinx.android.synthetic.main.depot_activity.addressEmployee
+import kotlinx.android.synthetic.main.depot_activity.locationNewDepot
 import kotlinx.android.synthetic.main.depot_activity.toolbar
 import org.jetbrains.anko.toast
 import timber.log.Timber
@@ -114,7 +114,7 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
         supportActionBar?.title = null
 
         if (depot.id!=null){
-            addressEmployee.text= Editable.Factory.getInstance().newEditable(prefs[K.ADDRESS,""])
+            locationNewDepot.text= Editable.Factory.getInstance().newEditable(prefs[K.ADDRESS,""])
             priceTextView.text=formatRupiah.format(depot.price?.toDouble())
             totalPriceTextView.text= formatRupiah.format(depot.price?.toDouble())
         }
@@ -255,12 +255,12 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
                 val view = layoutInflater.inflate(R.layout.depot_make_order,null,false)
 
                 val quantity = view.findViewById<EditText>(R.id.orderQuantity)
-                val location = view.findViewById<EditText>(R.id.orderLocation)
+                val location = view.findViewById<EditText>(R.id.typenotification)
                 val desc = view.findViewById<EditText>(R.id.noteOrder)
                 val price = view.findViewById<TextView>(R.id.priceOrder)
 
                 quantity.text=qtyEditText.text
-                location.text=addressEmployee.text
+                location.text=locationNewDepot.text
                 desc.text=note.text
                 price.text=totalPriceTextView.text
                 AlertDialog.Builder(this).setTitle("Information Pemesanan").setView(view).setPositiveButton("ORDER") { _, _->
@@ -306,7 +306,7 @@ class DepotActivity : BaseActivity(), ImageListener, View.OnClickListener, DateP
         order.time = System.currentTimeMillis()
         order.quantity = (qtyEditText.text.toString()).toInt()
         order.price = (order.quantity!! * 4000).toString()
-        order.location = addressEmployee.text.toString().trim()
+        order.location = locationNewDepot.text.toString().trim()
         order.description = note.text.toString().trim()
         order.description = note.text.toString().trim()
         order.status = K.ONREQUEST

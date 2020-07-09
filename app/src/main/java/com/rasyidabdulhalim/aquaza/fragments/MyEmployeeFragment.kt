@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.Query
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.activities.AddEmployeActivity
+import com.rasyidabdulhalim.aquaza.activities.AddNotificationActivity
 import com.rasyidabdulhalim.aquaza.activities.DepotActivity
 import com.rasyidabdulhalim.aquaza.adapters.EmployeeAdapter
 import com.rasyidabdulhalim.aquaza.callbacks.EmployeCallBack
@@ -167,8 +168,8 @@ class MyEmployeeFragment : BaseFragment(), EmployeCallBack {
                 }!!.show()
             }
             R.id.image -> {
-                val i = Intent(activity, AddEmployeActivity::class.java)
-                i.putExtra(K.USERS, employee)
+                val i = Intent(activity, AddNotificationActivity::class.java)
+                i.putExtra(K.USER, employee)
                 startActivity(i)
                 AppUtils.animateFadein(activity!!)
             }

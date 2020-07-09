@@ -23,8 +23,8 @@ import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.filter.Filter
 import kotlinx.android.synthetic.main.activity_add_depot.*
-import kotlinx.android.synthetic.main.activity_add_depot.addressEmployee
-import kotlinx.android.synthetic.main.activity_add_depot.buttonEmployee
+import kotlinx.android.synthetic.main.activity_add_depot.locationNewDepot
+import kotlinx.android.synthetic.main.activity_add_depot.buttonNotification
 import kotlinx.android.synthetic.main.activity_add_depot.toolbar
 import org.jetbrains.anko.toast
 import timber.log.Timber
@@ -57,11 +57,11 @@ class AddDepotActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         if (depot.id!=null){
             supportActionBar?.title = "Edit Data Depot"
-            depotName.text=Editable.Factory.getInstance().newEditable(depot.depotName)
-            addressEmployee.text=Editable.Factory.getInstance().newEditable(depot.location)
+            nameNewDepot.text=Editable.Factory.getInstance().newEditable(depot.depotName)
+            locationNewDepot.text=Editable.Factory.getInstance().newEditable(depot.location)
             phone.text=Editable.Factory.getInstance().newEditable(depot.phone)
             price.text=Editable.Factory.getInstance().newEditable(depot.price.toString())
-            desc.text=Editable.Factory.getInstance().newEditable(depot.description)
+            message.text=Editable.Factory.getInstance().newEditable(depot.description)
         }else{
             supportActionBar?.title = "Add New Depot"
         }
@@ -74,7 +74,7 @@ class AddDepotActivity : BaseActivity() {
         addPhoto.setDrawable(AppUtils.setDrawable(this, Ionicons.Icon.ion_android_camera, R.color.colorPrimary, 15))
         addPhoto.setOnClickListener { pickPhotos() }
 
-        buttonEmployee.setOnClickListener { addDepot() }
+        buttonNotification.setOnClickListener { addDepot() }
     }
 
     // Pick photos from gallery
@@ -125,7 +125,7 @@ class AddDepotActivity : BaseActivity() {
             return
         }
 
-        if(!AppUtils.validated(depotName, addressEmployee, price, desc)) {
+        if(!AppUtils.validated(nameNewDepot, locationNewDepot, price, message)) {
             toast("Please fill all fields!")
             return
         }
@@ -196,10 +196,10 @@ class AddDepotActivity : BaseActivity() {
         depot.sellerId = getUid()
         depot.sellerName = prefs[K.NAME]
         depot.time = System.currentTimeMillis()
-        depot.depotName=depotName.text.toString().trim()
+        depot.depotName=nameNewDepot.text.toString().trim()
         depot.price = price.text.toString().trim()
-        depot.location = addressEmployee.text.toString().trim()
-        depot.description = desc.text.toString().trim()
+        depot.location = locationNewDepot.text.toString().trim()
+        depot.description = message.text.toString().trim()
         depot.phone=phone.text.toString().trim()
         depot.status="OPEN"
         getFirestore().collection(K.DEPOTS).document(KEY).set(depot)

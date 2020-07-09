@@ -136,7 +136,7 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
                 .build()
 
         val default = SecondaryDrawerItem().withIdentifier(0).withName("Home").withIcon(Ionicons.Icon.ion_ios_home)
-        val orders = SecondaryDrawerItem().withIdentifier(1).withName("Jadwalkan Pemesanan").withIcon(Ionicons.Icon.ion_ios_cart)
+        //val orders = SecondaryDrawerItem().withIdentifier(1).withName("Jadwalkan Pemesanan").withIcon(Ionicons.Icon.ion_ios_cart)
         val watchlist = SecondaryDrawerItem().withIdentifier(4).withName("Depot Langganan").withIcon(Ionicons.Icon.ion_star)
         val sales = SecondaryDrawerItem().withIdentifier(5).withName("Order Reports").withIcon(Ionicons.Icon.ion_android_list)
         val settings = SecondaryDrawerItem().withIdentifier(6).withName("Settings").withIcon(Ionicons.Icon.ion_ios_gear)
@@ -145,10 +145,10 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
         drawer = DrawerBuilder().withActivity(this)
                 .withToolbar(toolbar)
                 .withAccountHeader(accountHeader)
-                .addDrawerItems(default, DividerDrawerItem(), orders, sales, watchlist, DividerDrawerItem(), settings, exit)
+                .addDrawerItems(default, DividerDrawerItem(),sales, watchlist, DividerDrawerItem(), settings, exit)
                 .withOnDrawerItemClickListener { _, _, drawerItem ->
                     when(drawerItem) {
-                        orders -> launchActivity(SettingsActivity::class.java)
+                        //orders -> launchActivity(SettingsActivity::class.java)
                         sales -> launchActivity(SalesActivity::class.java)
                         watchlist -> launchActivity(WatchlistActivity::class.java)
                         settings -> launchActivity(SettingsActivity::class.java)
@@ -216,7 +216,7 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
             .withOnDrawerItemClickListener { _, _, drawerItem ->
                 when(drawerItem) {
                     driverReport -> launchActivity(SalesActivity::class.java)
-                    boardEmployee -> launchActivity(SettingsActivity::class.java)
+                    boardEmployee -> launchActivity(NotificationsActivity::class.java)
                     settings -> launchActivity(SettingsActivity::class.java)
                     exit -> logOut()
                 }

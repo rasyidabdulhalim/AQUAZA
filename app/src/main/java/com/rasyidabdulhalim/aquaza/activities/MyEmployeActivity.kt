@@ -83,7 +83,7 @@ class MyEmployeActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
 
         fabPart.setOnClickListener {
             fam.close(true)
-            startActivity(Intent(this, AddEmployeActivity::class.java))
+            startActivity(Intent(this, AddNotificationActivity::class.java))
             AppUtils.animateEnterRight(this)
         }
     }

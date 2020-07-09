@@ -96,26 +96,26 @@
 
         <Button
             android:id="@+id/editEmp"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="37dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="101dp"
-            android:layout_marginTop="-5dp"
-            android:layout_marginEnd="4dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/rounded_button"
             android:text="Edit"
             android:onClick="@{(v) -> callback.onClick(v, data)}"
             />
 
         <Button
             android:id="@+id/PecatEmp"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="37dp"
             android:layout_below="@+id/editEmp"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="75dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/rounded_button"
             android:text="Pecat"
             android:onClick="@{(v) -> callback.onClick(v, data)}"
             />

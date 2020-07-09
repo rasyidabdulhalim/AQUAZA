@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.view.MenuItem
@@ -23,18 +22,16 @@ import com.rasyidabdulhalim.aquaza.commoners.BaseActivity
 import com.rasyidabdulhalim.aquaza.commoners.K
 import com.rasyidabdulhalim.aquaza.models.User
 import com.rasyidabdulhalim.aquaza.utils.*
-import com.rasyidabdulhalim.aquaza.utils.PreferenceHelper.set
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.filter.Filter
 import kotlinx.android.synthetic.main.activity_add_employee.*
-import kotlinx.android.synthetic.main.activity_add_employee.addressEmployee
-import kotlinx.android.synthetic.main.activity_add_employee.buttonEmployee
+import kotlinx.android.synthetic.main.activity_add_employee.locationNewDepot
+import kotlinx.android.synthetic.main.activity_add_employee.buttonNotification
 import kotlinx.android.synthetic.main.activity_add_employee.confirmPasswordEmployee
 import kotlinx.android.synthetic.main.activity_add_employee.emailEmployee
 import kotlinx.android.synthetic.main.activity_add_employee.nameEmployee
 import kotlinx.android.synthetic.main.activity_add_employee.phoneEmployee
-import kotlinx.android.synthetic.main.auth_register_fragment.*
 import org.jetbrains.anko.toast
 import timber.log.Timber
 import kotlin.collections.mutableListOf
@@ -74,11 +71,11 @@ class AddEmployeActivity : BaseActivity() {
                 Editable.Factory.getInstance().newEditable(employee.phone.toString())
             emailEmployee.text =
                 Editable.Factory.getInstance().newEditable(employee.email.toString())
-            addressEmployee.text =
+            locationNewDepot.text =
                 Editable.Factory.getInstance().newEditable(employee.address.toString())
             passwordEmployee.setVisibility(View.GONE)
             confirmPasswordEmployee.setVisibility(View.GONE)
-            buttonEmployee.setText("Simpan Perubahan")
+            buttonNotification.setText("Simpan Perubahan")
 
             KEY = employee.id.toString()
 
@@ -96,7 +93,7 @@ class AddEmployeActivity : BaseActivity() {
                 18
             )
         )
-        addressEmployee.setDrawable(
+        locationNewDepot.setDrawable(
             setDrawable(
                 this,
                 Ionicons.Icon.ion_ios_navigate_outline,
@@ -152,7 +149,7 @@ class AddEmployeActivity : BaseActivity() {
         )
         addPhoto.setOnClickListener { pickPhotos() }
 
-        buttonEmployee.setOnClickListener { validatedData() }
+        buttonNotification.setOnClickListener { validatedData() }
     }
 
     // Pick photos from gallery
@@ -212,7 +209,7 @@ class AddEmployeActivity : BaseActivity() {
         }
 
         if (employee.id != null) {
-            if (!AppUtils.validated(nameEmployee, phoneEmployee, addressEmployee, emailEmployee)) {
+            if (!AppUtils.validated(nameEmployee, phoneEmployee, locationNewDepot, emailEmployee)) {
                 toast("Please fill all fields!")
                 return
             }else{
@@ -220,7 +217,7 @@ class AddEmployeActivity : BaseActivity() {
                 uploadImages()
             }
         } else {
-            if (!AppUtils.validated(nameEmployee,phoneEmployee,addressEmployee,emailEmployee,passwordEmployee,confirmPasswordEmployee)) {
+            if (!AppUtils.validated(nameEmployee,phoneEmployee,locationNewDepot,emailEmployee,passwordEmployee,confirmPasswordEmployee)) {
                 toast("Please fill all fields!")
                 return
             }else{
@@ -236,19 +233,19 @@ class AddEmployeActivity : BaseActivity() {
                             try {
                                 throw task.exception!!
                             } catch (weakPassword: FirebaseAuthWeakPasswordException) {
-                                buttonEmployee.revertAnimation()
+                                buttonNotification.revertAnimation()
                                 confirmPasswordEmployee.error = "Please enter a stronger password"
 
                             } catch (userExists: FirebaseAuthUserCollisionException) {
-                                buttonEmployee.revertAnimation()
+                                buttonNotification.revertAnimation()
                                 toast("Account already exists. Please log in.")
 
                             } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
-                                buttonEmployee.revertAnimation()
+                                buttonNotification.revertAnimation()
                                 emailEmployee.error = "Incorrect email format"
 
                             } catch (e: Exception) {
-                                buttonEmployee.revertAnimation()
+                                buttonNotification.revertAnimation()
                                 Timber.e("signingIn: Failure - $e}")
                                 toast("Error signing up. Please try again.")
                             }
@@ -292,7 +289,7 @@ class AddEmployeActivity : BaseActivity() {
         employee.id = KEY
         employee.name = nameEmployee.text.toString()
         employee.phone = phoneEmployee.text.toString()
-        employee.address = addressEmployee.text.toString()
+        employee.address = locationNewDepot.text.toString()
         employee.email = emailEmployee.text.toString()
         employee.status = statusEmployee.selectedItem.toString()
         employee.mydepot = depotType.selectedItem.toString()
