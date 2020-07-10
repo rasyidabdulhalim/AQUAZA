@@ -1,125 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.AuthLoginFragment"
-    android:background="@color/white"
-    android:fillViewport="true">
+    android:background="@drawable/intro_background"
+    android:fillViewport="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".fragments.AuthLoginFragment">
 
-    <RelativeLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/intro_screen_title_text_marginTop"
+        android:text="@string/app_name"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/intro_screen_title_text_size"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/intro_screen_image_marginTop"
+        android:contentDescription="@string/image_contentDescription"
+        android:src="@drawable/ic_task_image" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/lets_get_started_text_marginTop"
+        android:text="@string/let_s_get_started_text"
+        android:textColor="@color/primary_text_color"
+        android:textSize="@dimen/lets_get_started_text_size" />
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/intro_text_marginStartEnd"
+        android:layout_marginTop="@dimen/intro_text_marginTop"
+        android:layout_marginEnd="@dimen/intro_text_marginStartEnd"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/intro_text_line_spacing_extra"
+        android:text="@string/intro_text_description"
+        android:textColor="@color/secondary_text_color"
+        android:textSize="@dimen/intro_text_size" />
 
-        <ImageView
-            android:id="@+id/loginIcon"
-            android:layout_width="105dp"
-            android:layout_height="116dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            android:contentDescription="@string/image"
-            android:src="@mipmap/ic_launcher" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/loginEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/wire_drawable"
+            android:drawablePadding="10dp"
+            android:hint="@string/email_address"
+            android:inputType="textEmailAddress"
+            android:padding="15dp"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/loginPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/wire_drawable"
+            android:drawablePadding="10dp"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:padding="15dp"
+            android:textSize="13sp" />
+
+        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_solid"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            app:spinning_bar_color="@color/white"
+            app:spinning_bar_padding="2dp"
+            app:spinning_bar_width="4dp" />
+
+        <TextView
+            android:id="@+id/loginForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/forgot_password"
+            android:textColor="@color/secondaryText"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/loginIcon"
-            android:layout_marginTop="5dp"
-            android:textSize="20sp"
-            android:text="@string/app_name"
-            android:textColor="@color/textGray"
-            android:textStyle="bold"/>
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:text="@string/not_a_member_yet"
+            android:textColor="@color/secondaryText"
+            android:textSize="13sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
-            android:orientation="vertical"
-            android:layout_centerInParent="true">
-
-            <EditText
-                android:id="@+id/loginEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:background="@drawable/wire_drawable"
-                android:drawablePadding="10dp"
-                android:hint="@string/email_address"
-                android:textSize="13sp"
-                android:inputType="textEmailAddress"/>
-
-            <EditText
-                android:id="@+id/loginPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/wire_drawable"
-                android:drawablePadding="10dp"
-                android:hint="@string/password"
-                android:textSize="13sp"
-                android:inputType="textPassword"/>
-
-            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                android:id="@+id/loginButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_solid"
-                android:text="@string/login"
-                android:textColor="@color/white"
-                app:spinning_bar_color="@color/white"
-                app:spinning_bar_width="4dp"
-                app:spinning_bar_padding="2dp"
-                android:layout_gravity="center_horizontal"/>
-
-            <TextView
-                android:id="@+id/loginForgotPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/forgot_password"
-                android:textSize="13sp"
-                android:textColor="@color/secondaryText"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/loginRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:padding="5dp"
-            android:layout_marginBottom="20dp">
+            android:text="@string/register"
+            android:textColor="@color/colorAccent"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/not_a_member_yet"
-                android:textColor="@color/secondaryText"
-                android:textSize="13sp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"/>
-
-            <TextView
-                android:id="@+id/loginRegister"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/register"
-                android:textStyle="bold"
-                android:textSize="15sp"
-                android:textColor="@color/colorAccent"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</ScrollView>
+    </LinearLayout>
+</LinearLayout>

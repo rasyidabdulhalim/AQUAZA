@@ -48,7 +48,6 @@
     <string name="quantity">Quantity</string>
     <string name="no_chats">No chats added yet</string>
     <string name="no_messages_added_yet">No messages added yet</string>
-    <string name="firstname">First name</string>
     <string name="addressEmployee">Address</string>
     <string name="no_orders">Belum Ada Pesanan</string>
     <string name="total_online_drivers">Total Online Drivers : </string>
@@ -71,5 +70,10 @@
         <item name="shift1">Shift I</item>
         <item name="shift2">Shift II</item>
     </string-array>
+
+    <string name="image_contentDescription">image</string>
+    <string name="let_s_get_started_text">Let\'s Get started</string>
+    <string name="intro_text_description">Collaborate and Plan Together Across Multiple Devices on ProMan’s Minimalist Interface.</string>
+
 
 </resources>

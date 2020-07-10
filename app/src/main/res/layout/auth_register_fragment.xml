@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.AuthRegisterFragment"
-    android:background="@color/white"
+    android:background="@drawable/intro_background"
     android:fillViewport="true">
 
     <LinearLayout
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_below="@id/loginIcon"
+            android:layout_below="@id/toolbar"
             android:layout_marginTop="10dp"
             android:textSize="20sp"
             android:text="@string/sign_up"
@@ -57,7 +57,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/wire_drawable"
                 android:drawablePadding="10dp"
-                android:hint="@string/firstname"
+                android:hint="Your Name..."
                 android:textSize="13sp"
                 android:inputType="text"/>
 
