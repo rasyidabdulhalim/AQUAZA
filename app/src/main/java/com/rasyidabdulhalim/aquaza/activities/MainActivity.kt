@@ -1,23 +1,38 @@
 package com.rasyidabdulhalim.aquaza.activities
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.view.View
+import android.widget.ImageView
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessaging
+import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.ionicons_typeface_library.Ionicons
+import com.mikepenz.materialdrawer.AccountHeader.OnAccountHeaderListener
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
+import com.mikepenz.materialdrawer.model.interfaces.IProfile
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader
+import com.mikepenz.materialdrawer.util.DrawerImageLoader
+import com.mikepenz.materialdrawer.util.DrawerUIUtils
 import com.rasyidabdulhalim.aquaza.R
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils
 import com.rasyidabdulhalim.aquaza.commoners.AppUtils.setDrawable
@@ -127,6 +142,20 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
     }
 
     private fun setupDrawer() {
+        //initialize and create the image loader logic
+        DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
+            override fun set(imageView: ImageView, uri: Uri?, placeholder: Drawable?) {
+                Glide.with(imageView.getContext())
+                    .load(uri)
+                    .apply(RequestOptions().placeholder(placeholder))
+                    .into(imageView)
+            }
+
+            override fun cancel(imageView: ImageView) {
+                Glide.with(imageView.getContext()).clear(imageView)
+            }
+
+        })
         val accountHeader = AccountHeaderBuilder().withActivity(this)
             .withSelectionListEnabled(false)
             .withHeaderBackground(R.drawable.bg_drawer)
@@ -134,7 +163,7 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
                 ProfileDrawerItem()
                     .withName(prefs[K.NAME, ""])
                     .withEmail(prefs[K.PHONE, ""])
-                    .withIcon(R.drawable.app_logo)
+                    .withIcon(prefs[K.AVATAR, ""])
             )
             .build()
 
@@ -346,5 +375,4 @@ class MainActivity : BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
             Handler().postDelayed({ doubleBackToExit = false }, 1500)
         }
     }
-
 }

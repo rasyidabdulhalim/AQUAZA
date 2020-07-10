@@ -312,7 +312,6 @@ class AuthRegisterFragment : BaseFragment() {
                 imageSelected = true
                 val resultUri = result.uri
                 Timber.e("Avatar: $resultUri")
-
                 avatarEmploye?.loadUrl(resultUri.toString())
                 imageUri = resultUri
 
