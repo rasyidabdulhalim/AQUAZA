@@ -19,6 +19,8 @@
     <dimen name="font_body_size">14sp</dimen>
     <dimen name="font_body_s_size">12sp</dimen>
 
+    <dimen name="splash_screen_title_text_size">70sp</dimen>
+
     <!-- Utils -->
     <dimen name="space_4">4dp</dimen>
     <dimen name="space_8">8dp</dimen>
@@ -35,7 +37,6 @@
     <dimen name="avatar">35dp</dimen>
     <dimen name="notif_padding_v">10dp</dimen>
     <dimen name="notif_padding_h">10dp</dimen>
-    <dimen name="small_padding">5dp</dimen>
 
 
 </resources>

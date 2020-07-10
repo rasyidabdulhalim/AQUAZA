@@ -24,7 +24,7 @@
         android:theme="@style/MyMaterialTheme">
 
         <activity
-            android:name=".activities.AuthActivity"
+            android:name=".activities.SplashActivity"
             android:configChanges="orientation"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustPan">
@@ -119,6 +119,11 @@
             android:screenOrientation="fullSensor" />
         <activity
             android:name=".activities.MapActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleInstance"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".activities.AuthActivity"
             android:configChanges="orientation"
             android:launchMode="singleInstance"
             android:screenOrientation="fullSensor" />

@@ -45,7 +45,6 @@
     <string name="asking_price">Asking price</string>
     <string name="location">Location</string>
     <string name="no_cars_uploaded_yet">No cars added yet</string>
-    <string name="no_cars_posted_yet">No cars posted yet</string>
     <string name="quantity">Quantity</string>
     <string name="no_chats">No chats added yet</string>
     <string name="no_messages_added_yet">No messages added yet</string>
@@ -56,7 +55,6 @@
     <string name="need_location">Enable GPS SERVICE</string>
     <string name="location_content">This app wants to change your device settings use GPS,Wi-Fi and cell networks for your location</string>
     <string name="empty_requestKonsumen">Permintaan Berlangganan Konsumen Belum Ada</string>
-    <string name="status_noKonsumen">Belum Ada Konsumen yang Berlangganan</string>
     <string name="no_notification">Pemberitahuan Belum ada</string>
 
     <string-array name="status">
